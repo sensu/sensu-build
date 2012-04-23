@@ -1,0 +1,10 @@
+{
+  "checks": {
+    "test": {
+      "handler": "default",
+      "command": "echo 'Im OK'; exit 0",
+      "standalone": true,
+      "interval": 60
+    }
+  }  
+}

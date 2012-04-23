@@ -1,0 +1,39 @@
+/var/log/sensu/sensu-client.log {
+    rotate 7
+    daily
+    missingok
+    notifempty
+    sharedscripts
+    copytruncate
+    compress
+}
+
+/var/log/sensu/sensu-server.log {
+    rotate 7
+    daily
+    missingok
+    notifempty
+    sharedscripts
+    copytruncate
+    compress
+}
+
+/var/log/sensu/sensu-api.log {
+    rotate 7
+    daily
+    missingok
+    notifempty
+    sharedscripts
+    copytruncate
+    compress
+}
+
+/var/log/sensu/sensu-dashboard.log {
+    rotate 7
+    daily
+    missingok
+    notifempty
+    sharedscripts
+    copytruncate
+    compress
+}

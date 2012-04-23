@@ -1,0 +1,13 @@
+.vagrant*
+Attic
+*.tar.gz
+*.rpm
+*.deb
+*.gem
+tmp
+logs
+
+# YARD artifacts
+.yardoc
+_yardoc
+doc/

@@ -1,0 +1,13 @@
+# Install package - add user accounts
+if [ $1 -eq 1 ]; then
+  # create sensu group
+  if ! getent group sensu >/dev/null; then
+          /usr/sbin/groupadd -r sensu
+  fi
+
+  # create sensu user
+  if ! getent passwd sensu >/dev/null; then
+        /usr/sbin/useradd -r -g sensu -d /opt/sensu \
+            -s /bin/false -c "Sensu Monitoring Framework" sensu
+  fi
+fi

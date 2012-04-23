@@ -1,0 +1,45 @@
+#!/bin/sh
+# postinst script for sensu
+#
+
+set -e
+
+# summary of how this script can be called and ordering:
+#  http://www.debian.org/doc/debian-policy/ch-maintainerscripts.html
+#  http://www.proulx.com/~bob/debian/hints/DpkgScriptOrder
+
+create_sensu_user_group() {
+    # create sensu group
+    if ! getent group sensu >/dev/null; then
+            addgroup --system sensu
+    fi
+
+    # create sensu user
+    if ! getent passwd sensu >/dev/null; then
+            adduser --system --ingroup sensu --home /opt/sensu \
+                    --no-create-home --gecos "Sensu Monitoring Framework" \
+                    --disabled-login sensu
+    fi    
+}
+
+chown_sensu_dirs() {
+    chown sensu:sensu /etc/sensu
+    chown sensu:sensu /var/log/sensu    
+}
+
+case "$1" in
+    configure)
+        create_sensu_user_group
+        chown_sensu_dirs
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+exit 0

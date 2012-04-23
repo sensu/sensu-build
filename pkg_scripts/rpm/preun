@@ -1,0 +1,10 @@
+# Delete package - stop the server
+if [ $1 -eq 0 ]; then
+  /etc/init.d/sensu-server stop
+  /etc/init.d/sensu-api stop
+  /etc/init.d/sensu-client stop
+  /etc/init.d/sensu-dashboard stop
+  
+  /usr/sbin/userdel sensu
+  /usr/sbin/groupdel sensu
+fi

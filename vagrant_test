@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo $*
+
+echo "$* 1 omg here is a lot of output.. lorem ipsum blah blah asfdasdfasd fasdf "
+echo "$* 2 omg here is a lot of output.. lorem ipsum blah blah asfdasdfasd fasdf "
+echo "$* 3 omg here is a lot of output.. lorem ipsum blah blah asfdasdfasd fasdf "
+echo "$* 4 omg here is a lot of output.. lorem ipsum blah blah asfdasdfasd fasdf "
+echo "$* 5 omg here is a lot of output.. lorem ipsum blah blah asfdasdfasd fasdf "
+echo "$* 6 omg here is a lot of output.. lorem ipsum blah blah asfdasdfasd fasdf "
+
+sleep 1.2
+exit 0

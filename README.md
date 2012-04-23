@@ -38,13 +38,13 @@ $ export BUILD_NUMBER=20        # could also use the jenkins build number
 $ ./para-vagrant.sh
 ```
 
-The `para-vagrant.sh` scrip twill boot the VM's sequentially then run the 
+The `para-vagrant.sh` script will boot the VM's sequentially then run the 
 Vagrant provision process (build) in parallel on each VM.
 
 VM's are booted sequentially to avoid any VirtualBox kernel panics.
 
-The provisioning concurrency can be controlled by setting `$MAX_PROCS` at
-the top of the `para-vagrant.sh` script.
+The concurrency can be controlled by setting `$MAX_PROCS` at the top of the
+`para-vagrant.sh` script.
 
 Detailed Logs of each provision process will be generated in the `logs/` 
 directory.
@@ -73,6 +73,21 @@ physical).
 ```
 $ ./build.sh <SENSU_VERSION> <BUILD_NUMBER>
 ```
+
+The build script will try to install some platform specific packages that 
+are typically not installed on minimal systems such as our Vagrant images.
+
+Rake can also be called directly if you're sure the system has all of the
+necessary OS packages installed:
+
+```
+$ rake SENSU_VERSION=<sensu_version> BUILD_NUMBER=<build_number>
+```
+
+It's good to do a `rake clean` before building, but it's not necessary. Bunchr
+will try to be smart and not re-run parts of the build process that have already
+succeeded. Nonetheless, a clean should probably be done before an official
+build.
 
 Known Issues
 -------------

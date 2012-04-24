@@ -223,6 +223,7 @@ restart() {
     stop
 
     while [ $count -lt $max_wait ]; do
+        count=$((count + 1))
         status &> /dev/null
         if [ $? -eq 0 ]; then
             # still running

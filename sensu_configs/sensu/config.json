@@ -19,5 +19,24 @@
     "port": 8080,
     "user": "admin",
     "password": "secret"
+  },
+  "client": {
+    "name": "localhost",
+    "address": "127.0.0.1",
+    "subscriptions": [ "test" ]
+  },
+  "checks": {
+    "test": {
+      "handler": "default",
+      "command": "echo 'Im OK'; exit 0",
+      "standalone": true,
+      "interval": 60
+    }
+  },
+  "handlers": {
+    "default": {
+      "type": "pipe",
+      "command": "/etc/sensu/handlers/default"
+    }
   }
 }

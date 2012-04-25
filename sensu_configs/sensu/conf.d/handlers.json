@@ -1,8 +1,0 @@
-{
-  "handlers": {
-    "default": {
-      "type": "pipe",
-      "command": "/etc/sensu/handlers/default"
-    }
-  }
-}

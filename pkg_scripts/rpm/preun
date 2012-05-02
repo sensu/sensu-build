@@ -4,7 +4,13 @@ if [ $1 -eq 0 ]; then
   /etc/init.d/sensu-api stop
   /etc/init.d/sensu-client stop
   /etc/init.d/sensu-dashboard stop
+
+  if getent passwd sensu >/dev/null; then
+      /usr/sbin/userdel sensu
+  fi  
   
-  /usr/sbin/userdel sensu
-  /usr/sbin/groupdel sensu
+  if getent group sensu >/dev/null; then
+      /usr/sbin/groupdel sensu
+  fi
+
 fi

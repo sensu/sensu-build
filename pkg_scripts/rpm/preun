@@ -5,11 +5,11 @@ if [ $1 -eq 0 ]; then
   /etc/init.d/sensu-client stop
   /etc/init.d/sensu-dashboard stop
 
-  if ! getent passwd sensu >/dev/null; then
+  if getent passwd sensu >/dev/null; then
       /usr/sbin/userdel sensu
   fi  
   
-  if ! getent group sensu >/dev/null; then
+  if getent group sensu >/dev/null; then
       /usr/sbin/groupdel sensu
   fi
 

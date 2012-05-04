@@ -1,10 +1,5 @@
 #!/bin/sh
 
-if [ -z $1 ] || [ -z $2 ]; then
-    echo "Usage: $0 SENSU_VERSION BUILD_NUMBER"
-    exit 1
-fi
-
 system=unknown
 if [ -f /etc/redhat-release ]; then
     system=redhat
@@ -53,4 +48,4 @@ esac
 
 ## run Rakefile to build packages
 rake clean
-rake SENSU_VERSION=$1 BUILD_NUMBER=$2
+rake

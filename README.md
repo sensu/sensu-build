@@ -33,7 +33,8 @@ There are multiple ways to run the builders:
 ### Build packages on all supported platforms.
 
 ```
-$ export SENSU_VERSION=0.9.5
+$ export SENSU_GIT_REF=v0.9.5   # any valid tag in the sensu.git repo. Will also 
+                                # be used as the 'version' in the .rpm/.deb's.
 $ export BUILD_NUMBER=20        # could also use the jenkins build number
 $ ./para-vagrant.sh
 ```
@@ -51,7 +52,7 @@ directory.
 
 ### Build packages on a single platform, from outside the VM.
 
-Make sure `SENSU_VERSION` and `BUILD_NUMBER` are exported in the environment.
+Make sure `SENSU_GIT_REF` and `BUILD_NUMBER` are exported in the environment.
 
 ```
 $ vagrant up <BOX_NAME>
@@ -70,8 +71,10 @@ $ vagrant up <BOX_NAME> --no-provision
 The builds can also be run without Vagrant, directly on a system (vm or
 physical).
 
+Make sure `SENSU_GIT_REF` and `BUILD_NUMBER` are exported in the environment.
+
 ```
-$ ./build.sh <SENSU_VERSION> <BUILD_NUMBER>
+$ ./build.sh
 ```
 
 The build script will try to install some platform specific packages that 
@@ -81,7 +84,7 @@ Rake can also be called directly if you're sure the system has all of the
 necessary OS packages installed:
 
 ```
-$ rake SENSU_VERSION=<sensu_version> BUILD_NUMBER=<build_number>
+$ rake
 ```
 
 It's good to do a `rake clean` before building, but it's not necessary. Bunchr

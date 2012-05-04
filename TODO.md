@@ -24,3 +24,16 @@ x	TODO: create a gem out of Bunchr, upload to rubygems
 x	TODO: refactor and rename directory after Bunchr is gemified
 	TODO: DRY up Package class' build define_'s ?
 	TODO: refactor Package class, don't rebuild a package if it already exists.. (??)
+
+Support building by git tags
+----------------------------
+
+	add support for selecting git ref. pull ref from the environment (SENSU_GIT_REF):
+		sensu.rake recipe
+		Vagrantfile
+		build.sh
+
+	remove SENSU_VERSION from environment and replace with automated
+	way to determine Sensu::VERSION. Might have to do a clone
+	of sensu git repo at the very beginning of the Rakefile and load the
+	lib to find the version. ugly, but possible?

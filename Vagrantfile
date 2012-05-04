@@ -1,14 +1,14 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+if ENV['SENSU_GIT_REF'].nil?
+  raise "Must set env var 'SENSU_GIT_REF'"
+end
 
 if ENV['BUILD_NUMBER'].nil?
   raise "Must set env var 'BUILD_NUMBER'"
 end
 
-if ENV['SENSU_VERSION'].nil?
-  raise "Must set env var 'SENSU_VERSION'"
-end
 
 build_boxes = {
   :centos_5_64    => 'http://vagrant.sensuapp.org/centos-5-x86_64.box',
@@ -39,9 +39,9 @@ Vagrant::Config.run do |vagrant|
       config.vm.customize ['modifyvm', :id, '--memory', '640']
       config.vm.customize ['modifyvm', :id, '--cpus', '1']
       config.vm.provision :shell do |shell|
-        shell.inline = "cd /vagrant && \
-                        ./build.sh #{ENV['SENSU_VERSION']} #{ENV['BUILD_NUMBER']} \
-                        && shutdown -h now"
+        shell.inline = "export SENSU_GIT_REF=#{ENV['SENSU_GIT_REF']} ; \
+                        export BUILD_NUMBER=#{ENV['BUILD_NUMBER']} ; \
+                        cd /vagrant && ./build.sh && shutdown -h now"
       end      
     end
   end

@@ -40,7 +40,6 @@ pidfile=${PIDFILE-/var/run/sensu/$prog.pid}
 options=${OPTIONS}
 
 cd $sensu_home
-export PATH=$PATH:/etc/sensu/plugins:/usr/local/sbin:/usr/local/bin
 
 ## 
 ## Set platform specific bits here.
@@ -112,6 +111,8 @@ if [ "$system" = "debian" ]; then
     }
 fi
 # TODO: support other platforms in the future: suse, gentoo, arch, slackware, etc
+
+export PATH=$PATH:/etc/sensu/plugins:/usr/local/sbin:/usr/local/bin
 
 ensure_pid_dir () {
     pid_dir=`dirname ${pidfile}`

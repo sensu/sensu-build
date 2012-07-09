@@ -22,7 +22,7 @@ Bunchr::Software.new do |t|
   unless File.directory?("#{install_prefix}/lib")
     t.build_commands << "mkdir #{install_prefix}/lib"
   end
-  
+
   t.build_commands << "./configure --prefix=#{install_prefix}"
   t.build_commands << "make"
 

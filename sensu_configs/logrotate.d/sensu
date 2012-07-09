@@ -6,6 +6,9 @@
     sharedscripts
     copytruncate
     compress
+    postrotate
+        kill -USR2 `cat /var/run/sensu/sensu-client.pid`
+    endscript
 }
 
 /var/log/sensu/sensu-server.log {
@@ -16,6 +19,9 @@
     sharedscripts
     copytruncate
     compress
+    postrotate
+        kill -USR2 `cat /var/run/sensu/sensu-server.pid`
+    endscript
 }
 
 /var/log/sensu/sensu-api.log {
@@ -26,6 +32,9 @@
     sharedscripts
     copytruncate
     compress
+    postrotate
+        kill -USR2 `cat /var/run/sensu/sensu-api.pid`
+    endscript
 }
 
 /var/log/sensu/sensu-dashboard.log {
@@ -36,4 +45,7 @@
     sharedscripts
     copytruncate
     compress
+    postrotate
+        kill -USR2 `cat /var/run/sensu/sensu-dashboard.pid`
+    endscript
 }

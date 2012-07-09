@@ -5,12 +5,25 @@ Bunchr.install_dir = '/opt/sensu'
 
 Bunchr.load_recipes Dir['recipes/**/*.rake']
 
+
+## determine the package version from the GIT_REF. Strip leading 'v'
+if ENV['SENSU_GIT_REF'].nil?
+  raise "Please set ENV['SENSU_GIT_REF'] and re-run."
+end
+sensu_package_version = ENV['SENSU_GIT_REF'].sub(/^v/,'')
+
+## iteration will come from the jenkins $BUILD_NUMBER
+if ENV['BUILD_NUMBER'].nil?
+  raise "Please set ENV['BUILD_NUMBER'] and re-run."
+end
+sensu_package_iteration = ENV['BUILD_NUMBER']
+
 # put together all the Software objects from the *.rake recipes and bunch
 # them together into whatever packages this platform supports (tar, rpm, deb)!
 Bunchr::Packages.new do |t|
   t.name = 'sensu'
-  t.version = ENV['SENSU_VERSION'] || '0.9.5'
-  t.iteration = ENV['BUILD_NUMBER'] || '1'
+  t.version = sensu_package_version
+  t.iteration = sensu_package_iteration
 
   t.category = 'Monitoring'
   t.license  = 'MIT License'

@@ -4,8 +4,8 @@ Bunchr::Software.new do |t|
 
   install_prefix = "#{Bunchr.install_dir}/embedded"
 
-  t.download_commands << "curl -O http://zlib.net/zlib-1.2.7.tar.gz"
-  t.download_commands << "tar xfvz zlib-1.2.7.tar.gz"
+  t.download_commands << "curl -O http://zlib.net/zlib-#{t.version}.tar.gz"
+  t.download_commands << "tar xfvz zlib-#{t.version}.tar.gz"
 
   os   = t.ohai['os']
   arch = t.ohai['kernel']['machine']

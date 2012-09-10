@@ -1,0 +1,12 @@
+[Unit]
+Description=sensu dashboard
+
+[Service]
+User=sensu
+Group=sensu
+ExecStart=/opt/sensu/bin/sensu-dashboard -l /var/log/sensu/sensu-dashboard.log
+Restart=on-failure
+RestartSec=1min
+
+[Install]
+WantedBy=multi-user.target

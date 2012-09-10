@@ -1,0 +1,12 @@
+[Unit]
+Description=sensu client
+
+[Service]
+User=sensu
+Group=sensu
+ExecStart=/opt/sensu/bin/sensu-client -l /var/log/sensu/sensu-client.log
+Restart=on-failure
+RestartSec=1min
+
+[Install]
+WantedBy=multi-user.target

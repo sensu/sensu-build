@@ -30,7 +30,7 @@ Bunchr::Software.new do |t|
    "utmpset"].each do |bin|
     t.install_commands << "cp #{bin} #{install_prefix}/bin"
   end
-  t.install_commands << "echo -e \"/bin/sh -e\nPATH=#{install_path}/bin:#{install_prefix}/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin\nexec chpst -e - PATH=$PATH runsvdir -P #{service_path} 'log: .................................................................................................................................'\" > #{install_prefix}/bin/runsvdir-start"
+  t.install_commands << "echo -e \"#\!/bin/sh -e\nPATH=\"#{install_path}/bin:#{install_prefix}/bin:$PATH\"\nexec  runsvdir -P #{service_path} 'log: .................................................................................................................................'\" > #{install_prefix}/bin/runsvdir-start"
   t.install_commands << "chmod 755 #{install_prefix}/bin/runsvdir-start"
 
   CLEAN << install_prefix

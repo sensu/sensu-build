@@ -43,6 +43,7 @@ Bunchr::Packages.new do |t|
   end
 
   # we need these Bunchr::Software recipes built and installed
+  t.include_software('runit')
   t.include_software('ruby')
   t.include_software('sensu')
   t.include_software('sensu_dashboard')

@@ -50,9 +50,12 @@ Bunchr::Packages.new do |t|
   t.include_software('sensu_configs')
   t.include_software('sensu_bin_stubs')
 
-  t.files << Bunchr.install_dir    # /opt/sensu
+  t.files << Bunchr.install_dir # /opt/sensu
   t.files << '/usr/share/sensu'
   t.files << '/var/log/sensu'
+  t.files << '/etc/sensu/plugins'
+  t.files << '/etc/sensu/mutators'
+  t.files << '/etc/sensu/handlers'
 
   # all platforms are currently using init.d. This may change in the future.
   t.files << '/etc/init.d/sensu-api'
@@ -62,10 +65,8 @@ Bunchr::Packages.new do |t|
 
   # need to enumerate config files for fpm
   # these are installed from recipe/sensu_configs.rake
-  t.config_files << "/etc/sensu/handlers/default"
-  t.config_files << "/etc/sensu/conf.d/README.md"
-  t.config_files << "/etc/sensu/config.json"
-
+  t.config_files << '/etc/sensu/config.json'
+  t.config_files << '/etc/sensu/conf.d/README.md'
   t.config_files << '/etc/logrotate.d/sensu'
 
   # override (noop) the tarball tasks. we don't want them.

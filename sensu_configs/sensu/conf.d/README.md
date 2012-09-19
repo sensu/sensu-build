@@ -14,27 +14,27 @@ Examples:
 
 `/etc/sensu/conf.d/client.json`:
 
-     {
-       "client": {
-         "name": "localhost",
-         "address": "127.0.0.1",
-         "subscriptions": [
-           "test"
-         ]
-       }
-     }
+    {
+      "client": {
+        "name": "localhost",
+        "address": "127.0.0.1",
+        "subscriptions": [
+          "test"
+        ]
+      }
+    }
 
 `/etc/sensu/conf.d/graphite_handler.json`:
 
-	{
-	  "handlers": {
-            "graphite": {
-              "type": "tcp",
-              "socket": {
-                "host": "127.0.0.1",
-                "port": 2003
-              },
-              "mutator": "only_check_output"
-            }
-          }
-	}
+    {
+      "handlers": {
+        "graphite": {
+          "type": "tcp",
+          "socket": {
+            "host": "127.0.0.1",
+            "port": 2003
+          },
+          "mutator": "only_check_output"
+        }
+      }
+    }

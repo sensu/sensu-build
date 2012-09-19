@@ -15,28 +15,36 @@
     "port": 4567
   },
   "dashboard": {
-    "host": "localhost",
     "port": 8080,
     "user": "admin",
     "password": "secret"
   },
-  "client": {
-    "name": "localhost",
-    "address": "127.0.0.1",
-    "subscriptions": [ "test" ]
+  "handlers": {
+    "default": {
+      "type": "set",
+      "handlers": [
+        "stdout"
+      ]
+    },
+    "stdout": {
+      "type": "pipe",
+      "command": "cat"
+    }
   },
   "checks": {
     "test": {
-      "handler": "default",
-      "command": "echo 'Im OK'; exit 0",
-      "standalone": true,
+      "command": "echo -n OK",
+      "subscribers": [
+        "test"
+      ],
       "interval": 60
     }
   },
-  "handlers": {
-    "default": {
-      "type": "pipe",
-      "command": "/etc/sensu/handlers/default"
-    }
+  "client": {
+    "name": "localhost",
+    "address": "127.0.0.1",
+    "subscriptions": [
+      "test"
+    ]
   }
 }

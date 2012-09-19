@@ -8,19 +8,21 @@ However, you may also break this monolithic config file up into smaller
 pieces which often helps with config management systems such as Puppet or Chef.
 
 Place JSON snippets in the `/etc/sensu/conf.d` directory. Files must have
-a `.json` suffix. Examples:
+a `.json` suffix.
+
+Examples:
 
 `/etc/sensu/conf.d/client.json`:
 
-	{
-	  "client": {
-	    "name": "localhost",
-	    "address": "127.0.0.1",
-	    "subscriptions": [
-              "test"
-            ]
-	  }
-	}
+     {
+       "client": {
+         "name": "localhost",
+         "address": "127.0.0.1",
+         "subscriptions": [
+           "test"
+         ]
+       }
+     }
 
 `/etc/sensu/conf.d/graphite_handler.json`:
 

@@ -1,26 +1,14 @@
-Sensu conf.d JSON snippets
---------------------------
+Configuration Snippets
+----------------------
 
-The Sensu package installs a single `/etc/sensu/config.json` file that
-contains examples of all config stanzas needed by a minimal Sensu
-installation.
+The Sensu package creates a single `/etc/sensu/config.json` file that
+contains example config stanzas required for a minimal Sensu installation.
 
 However, you may also break this monolithic config file up into smaller
 pieces which often helps with config management systems such as Puppet or Chef.
 
-Place any JSON snippets in this `/etc/sensu/conf.d` directory. Files must
-have .json suffix. Examples:
-
-`/etc/sensu/conf.d/handler_default.json`:
-
-	{
-	  "handlers": {
-	    "default": {
-	      "type": "pipe",
-	      "command": "/etc/sensu/handlers/default"
-	    }
-	  }
-	}
+Place JSON snippets in the `/etc/sensu/conf.d` directory. Files must have
+a `.json` suffix. Examples:
 
 `/etc/sensu/conf.d/client.json`:
 
@@ -28,6 +16,23 @@ have .json suffix. Examples:
 	  "client": {
 	    "name": "localhost",
 	    "address": "127.0.0.1",
-	    "subscriptions": [ "test" ]
+	    "subscriptions": [
+              "test"
+            ]
 	  }
+	}
+
+`/etc/sensu/conf.d/graphite_handler.json`:
+
+	{
+	  "handlers": {
+            "graphite": {
+              "type": "tcp",
+              "socket": {
+                "host": "127.0.0.1",
+                "port": 2003
+              },
+              "mutator": "only_check_output"
+            }
+          }
 	}

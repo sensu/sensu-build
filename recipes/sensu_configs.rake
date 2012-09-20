@@ -26,6 +26,10 @@ Bunchr::Software.new do |t|
 
   t.install_commands << "mkdir /var/log/sensu"
 
+  %w[plugins mutators handlers].each do |dir|
+    t.install_commands << "mkdir /etc/sensu/#{dir}"
+  end
+
   CLEAN << "/var/log/sensu"
   CLEAN << "/etc/sensu"
   CLEAN << "/etc/init.d/sensu-*"

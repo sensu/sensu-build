@@ -35,6 +35,7 @@ Bunchr::Software.new do |t|
 
   CLEAN << "/var/log/sensu"
   CLEAN << "/etc/sensu"
+  CLEAN << "/etc/default/sensu"
   CLEAN << "/etc/init.d/sensu-*"
   CLEAN << "/usr/share/sensu"
 end

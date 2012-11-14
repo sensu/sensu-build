@@ -38,6 +38,7 @@ exec=${EXEC-/opt/sensu/bin/sensu-api}
 logfile=${LOGFILE-/var/log/sensu/$prog.log}
 pidfile=${PIDFILE-/var/run/sensu/$prog.pid}
 options=${OPTIONS}
+ORIG_PATH=$PATH
 
 cd $sensu_home
 
@@ -111,8 +112,7 @@ if [ "$system" = "debian" ]; then
     }
 fi
 # TODO: support other platforms in the future: suse, gentoo, arch, slackware, etc
-
-export PATH=$PATH:/etc/sensu/plugins:/usr/local/sbin:/usr/local/bin
+export PATH=$PATH:/opt/sensu/embedded/bin:$ORIG_PATH:/etc/sensu/plugins:/usr/local/sbin:/usr/local/bin
 
 ensure_pid_dir () {
     pid_dir=`dirname ${pidfile}`

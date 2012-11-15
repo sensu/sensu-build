@@ -112,11 +112,21 @@ if [ "$system" = "debian" ]; then
 fi
 # TODO: support other platforms in the future: suse, gentoo, arch, slackware, etc
 
-export PATH=$PATH:/etc/sensu/plugins:/usr/local/sbin:/usr/local/bin
+EMBEDDED_RUBY=false
+
+if [ -f /etc/default/sensu ]; then
+    . /etc/default/sensu
+fi
+
+if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
+    export PATH=/opt/sensu/embedded/bin:$PATH:/etc/sensu/plugins:/etc/sensu/handlers
+else
+    export PATH=$PATH:/etc/sensu/plugins:/etc/sensu/handlers
+fi
 
 ensure_pid_dir () {
     pid_dir=`dirname ${pidfile}`
-    if [ ! -d ${pid_dir} ] ; then
+    if [ ! -d ${pid_dir} ]; then
         mkdir -p ${pid_dir}
         chown -R ${user} ${pid_dir}
         chmod 755 ${pid_dir}

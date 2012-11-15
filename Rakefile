@@ -57,6 +57,8 @@ Bunchr::Packages.new do |t|
   t.files << '/etc/sensu/mutators'
   t.files << '/etc/sensu/handlers'
 
+  t.files << '/etc/default/sensu'
+
   # all platforms are currently using init.d. This may change in the future.
   t.files << '/etc/init.d/sensu-api'
   t.files << '/etc/init.d/sensu-client'

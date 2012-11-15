@@ -6,12 +6,15 @@ Bunchr::Software.new do |t|
   t.work_dir = Dir.pwd
 
   t.install_commands << "rm -rf /etc/sensu"
+  t.install_commands << "rm -rf /etc/default/sensu"
   t.install_commands << "rm -rf /etc/init.d/sensu-*"
   t.install_commands << "rm -rf /usr/share/sensu"
   t.install_commands << "rm -rf /var/log/sensu"
 
   t.install_commands << "cp -rf ./sensu_configs/sensu /etc/sensu"
   t.install_commands << "cp -f ./sensu_configs/logrotate.d/sensu /etc/logrotate.d/sensu"
+
+  t.install_commands << "cp -f ./sensu_configs/default/sensu /etc/default/sensu"
 
   t.install_commands << "cp -f ./sensu_configs/init.d/sensu-api /etc/init.d/sensu-api"
   t.install_commands << "cp -f ./sensu_configs/init.d/sensu-server /etc/init.d/sensu-server"
@@ -32,6 +35,7 @@ Bunchr::Software.new do |t|
 
   CLEAN << "/var/log/sensu"
   CLEAN << "/etc/sensu"
+  CLEAN << "/etc/default/sensu"
   CLEAN << "/etc/init.d/sensu-*"
   CLEAN << "/usr/share/sensu"
 end

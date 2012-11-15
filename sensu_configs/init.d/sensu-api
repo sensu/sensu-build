@@ -31,8 +31,6 @@ fi
 
 prog="sensu-api"
 
-ORIG_PATH=$PATH
-
 user=${SENSU_USER-sensu}
 sensu_home=${SENSU_HOME-/opt/sensu}
 config=${CONFIG-/etc/sensu/config.json}
@@ -121,9 +119,9 @@ if [ -f /etc/default/sensu ]; then
 fi
 
 if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
-    export PATH=/opt/sensu/embedded/bin:$ORIG_PATH:/etc/sensu/plugins:/etc/sensu/handlers
+    export PATH=/opt/sensu/embedded/bin:$PATH:/etc/sensu/plugins:/etc/sensu/handlers
 else
-    export PATH=$ORIG_PATH:/etc/sensu/plugins:/etc/sensu/handlers
+    export PATH=$PATH:/etc/sensu/plugins:/etc/sensu/handlers
 fi
 
 ensure_pid_dir () {

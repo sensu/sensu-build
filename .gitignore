@@ -4,6 +4,8 @@ Attic
 *.rpm
 *.deb
 *.gem
+\#*
+*~
 tmp
 logs
 

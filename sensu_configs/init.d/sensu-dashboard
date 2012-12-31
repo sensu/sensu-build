@@ -110,6 +110,34 @@ if [ "$system" = "debian" ]; then
         log_end_msg 1
     }
 fi
+
+if [ "$system" = "suse" ]; then
+    ## source platform specific external scripts
+    . /lib/lsb/init-functions
+    [ -r /etc/default/$prog ] && . /etc/default/$prog
+
+    ## set or override platform specific variables
+    lockfile=${LOCKFILE-/var/lock/subsys/$prog}
+
+    ## set or override platform specific functions
+    start_daemon() {
+        startproc -s -u $1 -p $2 $3 $4
+    }
+    echo_ok() {
+        log_success_msg 
+    }
+    echo_fail() {
+        log_failure_msg
+    }
+
+   log_daemon_msg() {
+        echo -n $"$1"
+    }
+
+    log_action_msg() {
+        echo $@
+    }
+fi
 # TODO: support other platforms in the future: suse, gentoo, arch, slackware, etc
 
 EMBEDDED_RUBY=false

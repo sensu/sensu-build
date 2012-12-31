@@ -40,6 +40,11 @@ case "$system" in
         gem install bunchr --no-rdoc --no-ri
     ;;
 
+    suse)
+        zypper --non-interactive install git-core curl make gcc gcc-c++
+        gem install rake bunchr --no-rdoc --no-ri
+    ;;
+
     *)
         echo "WARNING: I don't recognize system [$system]. Going to try to" \
              "build without installing any dependencies anyway."

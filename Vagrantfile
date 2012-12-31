@@ -11,12 +11,12 @@ end
 
 
 build_boxes = {
-  :centos_5_64    => 'http://vagrant.sensuapp.org/centos-5-x86_64.box',
-  :centos_5_32    => 'http://vagrant.sensuapp.org/centos-5-i386.box',
+  #:centos_5_64    => 'http://vagrant.sensuapp.org/centos-5-x86_64.box',
+  #:centos_5_32    => 'http://vagrant.sensuapp.org/centos-5-i386.box',
   # :centos_6_64    => 'http://vagrant.sensuapp.org/centos-6-x86_64.box',
   # :centos_6_32    => 'http://vagrant.sensuapp.org/centos-6-i386.box',
-  :ubuntu_1004_32 => 'http://vagrant.sensuapp.org/ubuntu-1004-i386.box',
-  :ubuntu_1004_64 => 'http://vagrant.sensuapp.org/ubuntu-1004-amd64.box',
+  #:ubuntu_1004_32 => 'http://vagrant.sensuapp.org/ubuntu-1004-i386.box',
+  #:ubuntu_1004_64 => 'http://vagrant.sensuapp.org/ubuntu-1004-amd64.box',
   # :ubuntu_1104_32 => 'http://vagrant.sensuapp.org/ubuntu-1104-i386.box',
   # :ubuntu_1104_64 => 'http://vagrant.sensuapp.org/ubuntu-1104-amd64.box',
   # :ubuntu_1110_32 => 'http://vagrant.sensuapp.org/ubuntu-1110-i386.box',
@@ -24,7 +24,8 @@ build_boxes = {
   # :debian_6_32    => 'http://vagrant.sensuapp.org/debian-6-i386.box',
   # :debian_6_64    => 'http://vagrant.sensuapp.org/debian-6-amd64.box',
   # :debian_5_32    => '',
-  # :debian_5_64    => ''
+  # :debian_5_64    => '',
+  :sles_11sp2_64    => ''
 }
 
 Vagrant::Config.run do |vagrant|

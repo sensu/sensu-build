@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+require File.join(File.dirname(__FILE__), 'vagrant_patches')
+
 if ENV['SENSU_GIT_REF'].nil?
   raise "Must set env var 'SENSU_GIT_REF'"
 end
@@ -25,7 +27,8 @@ build_boxes = {
   # :debian_6_64    => 'http://vagrant.sensuapp.org/debian-6-amd64.box',
   # :debian_5_32    => '',
   # :debian_5_64    => '',
-  :sles_11sp2_64    => ''
+  # :opensuse_1201_64 => '',
+  :sles_11sp2_64     => ''
 }
 
 Vagrant::Config.run do |vagrant|

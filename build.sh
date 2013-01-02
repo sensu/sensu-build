@@ -41,7 +41,7 @@ case "$system" in
     ;;
 
     suse)
-        zypper --non-interactive install git-core curl make gcc gcc-c++
+        zypper --non-interactive install git-core curl m4 make gcc gcc-c++
         gem install rake bunchr --no-rdoc --no-ri
     ;;
 

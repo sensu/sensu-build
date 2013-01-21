@@ -1,7 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# See: https://github.com/mitchellh/vagrant/pull/1283, hopefully integrated in 1.1.0
+# TODO remove this patch after Vagrant v1.1.0 is released - it should have a similar patch
+# (see https://github.com/mitchellh/vagrant/pull/1283)
+
 if Gem::Version.new(Vagrant::VERSION) < Gem::Version.new('1.1.0') 
 
   module Vagrant

@@ -36,7 +36,7 @@ Bunchr::Packages.new do |t|
     t.scripts[:after_install]  = 'pkg_scripts/deb/postinst'
     t.scripts[:before_remove]  = 'pkg_scripts/deb/prerm'
     t.scripts[:after_remove]   = 'pkg_scripts/deb/postrm'
-  when 'rhel', 'fedora'
+  when 'rhel', 'fedora', 'suse'
     t.scripts[:before_install] = 'pkg_scripts/rpm/pre'
     t.scripts[:after_install]  = 'pkg_scripts/rpm/post'
     t.scripts[:before_remove]  = 'pkg_scripts/rpm/preun'

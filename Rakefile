@@ -67,7 +67,7 @@ Bunchr::Packages.new do |t|
 
   # need to enumerate config files for fpm
   # these are installed from recipe/sensu_configs.rake
-  t.config_files << '/etc/sensu/config.json'
+  t.config_files << '/etc/sensu/config.json.sample'
   t.config_files << '/etc/sensu/conf.d/README.md'
   t.config_files << '/etc/logrotate.d/sensu'
 

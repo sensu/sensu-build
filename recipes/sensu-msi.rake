@@ -1,17 +1,28 @@
 Bunchr::Software.new do |t|
-  t.name = 'ruby-windows'
-  t.version = '1.9.3-p374'
+  t.name = 'sensu-msi'
 
-  install_prefix = File.join(Bunchr.install_dir, 'embedded')
+  t.version = ENV['SENSU_VERSION']
 
-  windows_ruby_build = "ruby-#{t.version}-i386-mingw32"
+  build_iteration = ENV['BUILD_NUMBER']
 
-  t.download_commands << "curl -O http://rubyforge.org/frs/download.php/76707/#{windows_ruby_build}.7z"
-  t.download_commands << "7z.exe x #{windows_ruby_build}.7z"
+  t.depends_on('sensu')
 
-  t.work_dir = windows_ruby_build
+  heat_cmd = "heat.exe dir \"#{Bunchr.install_dir}\" -nologo -srd"
+  heat_cmd << " -gg -cg SensuDir -dr SENSULOCATION -var var.SensuSourceDir -out Sensu-Files.wxs"
+  t.build_commands << heat_cmd
 
-  t.install_commands << "robocopy . #{install_prefix}\\ /MIR"
+  msi_dir = File.join(Bunchr.install_dir, 'msi')
+
+  assets = File.expand_path(File.join('..', File.dirname(__FILE__), 'assets', 'msi'))
+  t.build_commands << "xcopy #{assets} msi /I /Y"
+
+  candle_cmd = "candle.exe -nologo -out ."
+  candle_cmd << " -dSensuSourceDir=\"#{Bunchr.install_dir}\" Sensu-Files.wxs Sensu.wxs"
+  t.build_commands << candle_cmd
+
+  light_cmd = "light.exe -nologo -ext WixUIExtension -cultures:en-us"
+  light_cmd << " -loc Sensu-en-us.wxl Sensu-Files.wixobj Sensu.wixobj"
+  light_cmd << " -out #{Bunchr.install_dir}\\sensu-#{t.version}-#{build_iteration}.msi"
 
   CLEAN << install_prefix
 end

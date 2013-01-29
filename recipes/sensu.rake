@@ -10,5 +10,5 @@ Bunchr::Software.new do |t|
 
   t.install_commands << "#{gem_bin} install sensu -v #{t.version} --no-ri --no-rdoc"
 
-  CLEAN << install_prefix
+  CLEAN << Bunchr.install_dir
 end

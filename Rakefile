@@ -7,10 +7,10 @@ Bunchr.load_recipes Dir['recipes/**/*.rake']
 
 
 ## determine the package version from the GIT_REF. Strip leading 'v'
-if ENV['SENSU_GIT_REF'].nil?
-  raise "Please set ENV['SENSU_GIT_REF'] and re-run."
+if ENV['SENSU_VERSION'].nil?
+  raise "Please set ENV['SENSU_VERSION'] and re-run."
 end
-sensu_package_version = ENV['SENSU_GIT_REF'].sub(/^v/,'')
+sensu_package_version = ENV['SENSU_VERSION']
 
 ## iteration will come from the jenkins $BUILD_NUMBER
 if ENV['BUILD_NUMBER'].nil?
@@ -43,12 +43,16 @@ Bunchr::Packages.new do |t|
   end
 
   # we need these Bunchr::Software recipes built and installed
-  t.include_software('ruby')
-  t.include_software('sensu')
-  t.include_software('sensu_dashboard')
-  t.include_software('sensu_plugin')
-  t.include_software('sensu_configs')
-  t.include_software('sensu_bin_stubs')
+  if t.ohai.platform_family == 'windows'
+    t.include_software('sensu_msi')
+  else
+    t.include_software('ruby')
+    t.include_software('sensu')
+    t.include_software('sensu_dashboard')
+    t.include_software('sensu_plugin')
+    t.include_software('sensu_configs')
+    t.include_software('sensu_bin_stubs')
+  end
 
   t.files << Bunchr.install_dir # /opt/sensu
   t.files << '/usr/share/sensu'

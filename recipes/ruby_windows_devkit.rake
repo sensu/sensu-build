@@ -1,8 +1,8 @@
 Bunchr::Software.new do |t|
-  t.name = 'ruby-windows-devkit'
+  t.name = 'ruby_windows_devkit'
   t.version = '4.5.2-20111229-1559'
 
-  t.depends_on('ruby-windows')
+  t.depends_on('ruby_windows')
 
   install_prefix = File.join(Bunchr.install_dir, 'embedded')
 

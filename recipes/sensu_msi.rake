@@ -2,7 +2,7 @@ require 'erb'
 require 'fileutils'
 
 Bunchr::Software.new do |t|
-  t.name = 'sensu-msi'
+  t.name = 'sensu_msi'
 
   t.version = ENV['SENSU_VERSION']
 

@@ -1,5 +1,5 @@
 Bunchr::Software.new do |t|
-  t.name = 'ruby-windows'
+  t.name = 'ruby_windows'
   t.version = '1.9.3-p374'
 
   install_prefix = File.join(Bunchr.install_dir, 'embedded')

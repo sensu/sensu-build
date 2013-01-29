@@ -1,4 +1,5 @@
 require 'bunchr'
+require 'fileutils'
 
 if ENV['SENSU_VERSION'].nil?
   raise "Please set ENV['SENSU_VERSION'] and re-run."
@@ -8,9 +9,6 @@ end
 if ENV['BUILD_NUMBER'].nil?
   raise "Please set ENV['BUILD_NUMBER'] and re-run."
 end
-
-Bunchr.build_dir = '/tmp/build'
-Bunchr.install_dir = '/opt/sensu'
 
 Bunchr.load_recipes Dir['recipes/**/*.rake']
 
@@ -33,6 +31,9 @@ Bunchr::Packages.new do |t|
 
     t.include_software('sensu_msi')
   else
+    Bunchr.build_dir = '/tmp/build'
+    Bunchr.install_dir = '/opt/sensu'
+
     case t.ohai.platform_family
     when 'debian'
       t.scripts[:after_install]  = 'pkg_scripts/deb/postinst'

@@ -1,5 +1,4 @@
 require 'erb'
-require 'fileutils'
 
 Bunchr::Software.new do |t|
   t.name = 'sensu_msi'
@@ -8,16 +7,16 @@ Bunchr::Software.new do |t|
 
   build_iteration = ENV['BUILD_NUMBER']
 
+  t.depends_on('ruby_windows_devkit')
   t.depends_on('sensu')
 
-  t.work_dir = File.join(Bunchr.build_dir, t.name)
-
-  assets = File.join(Dir.pwd, 'sensu_configs', 'msi')
-
+  t.work_dir = "#{Bunchr.build_dir}\\#{t.name}"
   FileUtils.mkdir_p(t.work_dir)
-  FileUtils.cp_r(File.join(assets, 'files', '.'), t.work_dir)
 
-  File.open(File.join(assets, 'templates', 'Sensu-Config.wxi.erb')) do |file|
+  assets = "#{Dir.pwd}\\sensu_configs\\msi"
+  FileUtils.cp_r("#{assets}\\files\\.", t.work_dir)
+
+  File.open("#{assets}\\templates\\Sensu-Config.wxi.erb") do |file|
     versions = t.version.split("-").first.split(".")
     @major_version = versions[0]
     @minor_version = versions[1]
@@ -27,12 +26,12 @@ Bunchr::Software.new do |t|
     @guid = '29B5AA66-46B3-4676-8D67-2F3FB31CC549'
 
     erb = ERB.new(file.read)
-    File.open(File.join(t.work_dir, 'Sensu-Config.wxi'), 'w') do |file|
+    File.open("#{t.work_dir}\\Sensu-Config.wxi", 'w') do |file|
       file.write(erb.result(binding))
     end
   end
 
-  install_prefix = "#{Bunchr.install_dir}"
+  install_prefix = Bunchr.install_dir
 
   heat_cmd = "heat.exe dir \"#{install_prefix}\" -nologo -srd"
   heat_cmd << " -gg -cg SensuDir -dr SENSULOCATION -var var.SensuSourceDir -out Sensu-Files.wxs"

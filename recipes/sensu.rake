@@ -8,7 +8,7 @@ Bunchr::Software.new do |t|
 
   gem_bin = File.join(Bunchr.install_dir, 'embedded', 'bin', 'gem')
 
-  t.install_commands << "#{gem_bin} install sensu -v #{t.version} --no-ri --no-rdoc"
+  t.download_commands << "#{gem_bin} install sensu -v #{t.version} --no-ri --no-rdoc"
 
   CLEAN << Bunchr.install_dir
 end

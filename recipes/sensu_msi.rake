@@ -13,7 +13,7 @@ Bunchr::Software.new do |t|
   FileUtils.mkdir_p(t.work_dir)
 
   assets = "#{Dir.pwd}\\sensu_configs\\msi"
-  FileUtils.cp_r("#{assets}\\files\\.", t.work_dir)
+  FileUtils.cp_r("#{assets}\\files/.", t.work_dir)
 
   File.open("#{assets}\\templates\\Sensu-Config.wxi.erb") do |file|
     versions = t.version.split("-").first.split(".")

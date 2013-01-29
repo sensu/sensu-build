@@ -10,7 +10,6 @@ Bunchr::Software.new do |t|
   t.depends_on('ruby_windows_devkit')
   t.depends_on('sensu')
 
-  t.work_dir = "#{Bunchr.build_dir}\\#{t.name}"
   FileUtils.mkdir_p(t.work_dir)
 
   assets = "#{Dir.pwd}\\sensu_configs\\msi"

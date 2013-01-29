@@ -6,10 +6,7 @@ Bunchr::Software.new do |t|
 
   devkit_exe = "DevKit-tdm-32-#{t.version}-sfx.exe"
 
-  t.download_commands << "curl -O http://cloud.github.com/downloads/oneclick/rubyinstaller/#{devkit_exe}"
-
-  t.work_dir = "#{Bunchr.build_dir}\\#{t.name}"
-  FileUtils.mkdir_p(t.work_dir)
+  t.download_commands << "wget -P #{t.work_dir} http://cloud.github.com/downloads/oneclick/rubyinstaller/#{devkit_exe}"
 
   install_prefix = "#{Bunchr.install_dir}\\embedded"
 

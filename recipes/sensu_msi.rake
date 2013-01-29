@@ -13,7 +13,7 @@ Bunchr::Software.new do |t|
   FileUtils.mkdir_p(t.work_dir)
 
   assets = "#{Dir.pwd}\\sensu_configs\\msi"
-  FileUtils.cp_r("#{assets}\\files/.", t.work_dir)
+  FileUtils.cp_r("#{assets}\\files\\.", t.work_dir)
 
   File.open("#{assets}\\templates\\Sensu-Config.wxi.erb") do |file|
     versions = t.version.split("-").first.split(".")
@@ -36,7 +36,7 @@ Bunchr::Software.new do |t|
   heat_cmd << " -gg -cg SensuDir -dr SENSULOCATION -var var.SensuSourceDir -out Sensu-Files.wxs"
   t.build_commands << heat_cmd
 
-  candle_cmd = "candle.exe -nologo -out ."
+  candle_cmd = "candle.exe -nologo -out .\\"
   candle_cmd << " -dSensuSourceDir=\"#{install_prefix}\" Sensu-Files.wxs Sensu.wxs"
   t.build_commands << candle_cmd
 

@@ -42,7 +42,7 @@ Bunchr::Software.new do |t|
 
   light_cmd = "light.exe -nologo -ext WixUIExtension -cultures:en-us"
   light_cmd << " -loc Sensu-en-us.wxl Sensu-Files.wixobj Sensu.wixobj"
-  light_cmd << " -out #{install_prefix}\\sensu-#{t.version}-#{build_iteration}.msi"
+  light_cmd << " -out #{Bunchr.build_dir}\\sensu-#{t.version}-#{build_iteration}.msi"
   t.build_commands << light_cmd
 
   CLEAN << install_prefix

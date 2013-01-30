@@ -25,7 +25,10 @@ Bunchr::Packages.new do |t|
   t.url      = 'https://github.com/sonian/sensu'
   t.description = 'A monitoring framework that aims to be simple, malleable, and scalable.'
 
-  if t.ohai.platform_family == 'windows'
+  platform_family = t.ohai.platform_family
+
+  case platform_family
+  when 'windows'
     Bunchr.build_dir = 'C:\build'
     Bunchr.install_dir = 'C:\opt\sensu'
 
@@ -34,7 +37,7 @@ Bunchr::Packages.new do |t|
     Bunchr.build_dir = '/tmp/build'
     Bunchr.install_dir = '/opt/sensu'
 
-    case t.ohai.platform_family
+    case platform_family
     when 'debian'
       t.scripts[:after_install]  = 'pkg_scripts/deb/postinst'
       t.scripts[:before_remove]  = 'pkg_scripts/deb/prerm'

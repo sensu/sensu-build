@@ -32,6 +32,10 @@ Bunchr::Software.new do |t|
 
   install_prefix = Bunchr.install_dir
 
+  t.build_commands << "mkdir #{install_prefix}\\bin"
+  t.build_commands << "xcopy winsw-1.9-bin.exe #{install_prefix}\\bin\\sensu-client.exe"
+  t.build_commands << "xcopy sensu-client.xml #{install_prefix}\\bin\\"
+
   heat_cmd = "heat.exe dir \"#{install_prefix}\" -nologo -srd"
   heat_cmd << " -gg -cg SensuDir -dr SENSULOCATION -var var.SensuSourceDir -out Sensu-Files.wxs"
   t.build_commands << heat_cmd

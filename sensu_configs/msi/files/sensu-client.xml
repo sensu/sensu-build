@@ -1,0 +1,10 @@
+<!--
+  Windows service definition for Sensu
+-->
+<service>
+  <id>sensu-client</id>
+  <name>Sensu Client</name>
+  <description>This service runs a Sensu client</description>
+  <executable>C:\opt\sensu\embedded\bin\ruby</executable>
+  <arguments>C:\opt\sensu\embedded\bin\sensu-client -l C:\opt\sensu\sensu-client.log</arguments>
+</service>

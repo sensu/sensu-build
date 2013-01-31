@@ -3,8 +3,8 @@
 
 require File.join(File.dirname(__FILE__), 'vagrant_patches')
 
-if ENV['SENSU_GIT_REF'].nil?
-  raise "Must set env var 'SENSU_GIT_REF'"
+if ENV['SENSU_VERSION'].nil?
+  raise "Must set env var 'SENSU_VERSION'"
 end
 
 if ENV['BUILD_NUMBER'].nil?
@@ -43,7 +43,7 @@ Vagrant::Config.run do |vagrant|
       config.vm.customize ['modifyvm', :id, '--memory', '640']
       config.vm.customize ['modifyvm', :id, '--cpus', '1']
       config.vm.provision :shell do |shell|
-        shell.inline = "export SENSU_GIT_REF=#{ENV['SENSU_GIT_REF']} ; \
+        shell.inline = "export SENSU_VERSION=#{ENV['SENSU_VERSION']} ; \
                         export BUILD_NUMBER=#{ENV['BUILD_NUMBER']} ; \
                         cd /vagrant && ./build.sh && shutdown -h now"
       end      

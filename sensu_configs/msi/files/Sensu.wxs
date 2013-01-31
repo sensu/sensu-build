@@ -52,7 +52,7 @@
     <!--
       UI Stuff
     -->
-    <Icon Id="oc.ico" SourceFile="assets\sensu_16x16.ico"/>
+    <Icon Id="sensu.ico" SourceFile="assets\sensu_16x16.ico"/>
     <Property Id="ARPPRODUCTICON" Value="sensu.ico" />
     <Property Id="ARPHELPLINK" Value="https://github.com/sensu/sensu/issues" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />

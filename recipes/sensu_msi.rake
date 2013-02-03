@@ -13,20 +13,23 @@ Bunchr::Software.new do |t|
   FileUtils.mkdir_p(t.work_dir)
 
   assets = "#{Dir.pwd}\\sensu_configs\\msi"
-  FileUtils.cp_r("#{assets}\\files\\.", t.work_dir)
 
-  File.open("#{assets}\\templates\\Sensu-Config.wxi.erb") do |file|
-    versions = t.version.split("-").first.split(".")
-    @major_version = versions[0]
-    @minor_version = versions[1]
-    @micro_version = versions[2]
-    @build_version = build_iteration
+  if t.ohai['os'] == 'windows'
+    FileUtils.cp_r("#{assets}\\files\\.", t.work_dir)
 
-    @guid = '29B5AA66-46B3-4676-8D67-2F3FB31CC549'
+    File.open("#{assets}\\templates\\Sensu-Config.wxi.erb") do |file|
+      versions = t.version.split("-").first.split(".")
+      @major_version = versions[0]
+      @minor_version = versions[1]
+      @micro_version = versions[2]
+      @build_version = build_iteration
 
-    erb = ERB.new(file.read)
-    File.open("#{t.work_dir}\\Sensu-Config.wxi", 'w') do |file|
-      file.write(erb.result(binding))
+      @guid = '29B5AA66-46B3-4676-8D67-2F3FB31CC549'
+
+      erb = ERB.new(file.read)
+      File.open("#{t.work_dir}\\Sensu-Config.wxi", 'w') do |file|
+        file.write(erb.result(binding))
+      end
     end
   end
 

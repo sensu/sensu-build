@@ -27,7 +27,10 @@ elif [ -f /etc/slackware-version ]; then
     system=slackware
 elif [ -f /etc/lfs-release ]; then
     system=lfs
+elif [ -f /etc/system-release ]; then
+    system=redhat
 fi
+
 
 prog="sensu-api"
 

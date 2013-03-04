@@ -66,6 +66,7 @@ Bunchr::Packages.new do |t|
 
     # all linux platforms are currently using init.d
     # this may change in the future.
+    t.files << '/etc/init.d/sensu-service'
     t.files << '/etc/init.d/sensu-api'
     t.files << '/etc/init.d/sensu-client'
     t.files << '/etc/init.d/sensu-server'

@@ -1,6 +1,6 @@
 Bunchr::Software.new do |t|
   t.name = 'ruby'
-  t.version = '1.9.3-p125'
+  t.version = '2.0.0-p0'
 
   t.depends_on('autoconf')
   t.depends_on('zlib')
@@ -12,8 +12,8 @@ Bunchr::Software.new do |t|
   os   = t.ohai['os']
   arch = t.ohai['kernel']['machine']
 
-  t.download_commands << "curl -O http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p125.tar.gz"
-  t.download_commands << "tar xfvz ruby-1.9.3-p125.tar.gz"
+  t.download_commands << "curl -O http://ftp.ruby-lang.org/pub/ruby/2.0/ruby-#{t.version}.tar.gz"
+  t.download_commands << "tar xfvz ruby-#{t.version}.tar.gz"
 
   if os == 'darwin' && arch == 'x86_64'
     t.build_environment['LDFLAGS'] = "-arch x86_64 -R#{install_prefix}/lib -L#{install_prefix}/lib -I#{install_prefix}/include"

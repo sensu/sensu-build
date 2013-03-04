@@ -16,6 +16,7 @@ Bunchr::Software.new do |t|
 
   t.install_commands << "cp -f ./sensu_configs/default/sensu /etc/default/sensu"
 
+  t.install_commands << "cp -f ./sensu_configs/init.d/sensu-service /etc/init.d/sensu-service"
   t.install_commands << "cp -f ./sensu_configs/init.d/sensu-api /etc/init.d/sensu-api"
   t.install_commands << "cp -f ./sensu_configs/init.d/sensu-server /etc/init.d/sensu-server"
   t.install_commands << "cp -f ./sensu_configs/init.d/sensu-client /etc/init.d/sensu-client"

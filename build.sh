@@ -27,22 +27,27 @@ gpgcheck=0
 EOF
 }
 
+install_bunchr() {
+    gem install bunchr --no-rdoc --no-ri
+}
+
 ## install platform specific build dependencies
 case "$system" in
     redhat)
+        yum clean all
         install_epel
         yum -y install git rpm-build curl
-        gem install bunchr --no-rdoc --no-ri
+        install_bunchr
     ;;
 
     debian)
         apt-get -y install git-core curl m4 g++ make gcc
-        gem install bunchr --no-rdoc --no-ri
+        install_bunchr
     ;;
 
     suse)
         zypper --non-interactive install git-core curl m4 make gcc gcc-c++
-        gem install rake bunchr --no-rdoc --no-ri
+        install_bunchr
     ;;
 
     *)

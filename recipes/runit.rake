@@ -1,3 +1,5 @@
+require 'erb'
+
 Bunchr::Software.new do |t|
   t.name = 'runit'
   t.version = '2.1.1'
@@ -44,11 +46,17 @@ Bunchr::Software.new do |t|
   t.install_commands << "chmod 0755 #{install_prefix}/bin/sensu-ctl"
 
   ["client","server","api","dashboard"].each do |sv|
+    FileUtils.mkdir_p("#{sv_path}/sensu-#{sv}/supervise")
+    File.open("#{scripts_dir}/sensu-sv-run.sh.erb") do |template|
+      @sv = sv
+      erb = ERB.new(template.read)
+      File.open("#{sv_path}/sensu-#{sv}/run", 'w') do |file|
+        file.write(erb.result(binding))
+      end
+    end
     t.install_commands << "mkdir -p #{sv_path}/sensu-#{sv}/log/main"
-    t.install_commands << "cp -f #{scripts_dir}/sensu-#{sv}-run.sh #{sv_path}/sensu-#{sv}/run"
-    t.install_commands << "cp -f #{scripts_dir}/sensu-log.sh #{sv_path}/sensu-#{sv}/log/run"
+    t.install_commands << "cp -f #{scripts_dir}/sensu-sv-log.sh #{sv_path}/sensu-#{sv}/log/run"
     t.install_commands << "chmod 0755 #{sv_path}/sensu-#{sv}/run #{sv_path}/sensu-#{sv}/log/run"
-    t.install_commands << "mkdir #{sv_path}/sensu-#{sv}/supervise"
   end
 
   CLEAN << install_prefix

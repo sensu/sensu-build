@@ -30,7 +30,7 @@ Bunchr::Software.new do |t|
 
   t.install_commands << "mkdir /var/log/sensu"
 
-  %w[plugins mutators handlers extensions].each do |dir|
+  %w[plugins mutators handlers extensions services].each do |dir|
     t.install_commands << "mkdir /etc/sensu/#{dir}"
   end
 

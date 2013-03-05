@@ -29,7 +29,7 @@ def service_list
 end
 
 def get_all_services_files
-  Dir["/opt/sensu/embedded/sv/*"]
+  Dir["/opt/sensu/sv/*"]
 end
 
 def get_all_services
@@ -37,7 +37,7 @@ def get_all_services
 end
 
 def service_enabled?(service_name)
-  File.symlink?("/etc/sensu/services/#{service_name}")
+  File.symlink?("/opt/sensu/service/#{service_name}")
 end
 
 def run_sv_command(sv_cmd, service=nil)
@@ -56,7 +56,7 @@ def run_sv_command(sv_cmd, service=nil)
 end
 
 def tail(service='*')
-  system("tail -f /etc/sensu/services/#{service}/log/main/current")
+  system("tail -f /opt/sensu/service/#{service}/log/main/current")
 end
 
 def sv_command_list

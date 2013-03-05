@@ -6,9 +6,9 @@ Bunchr::Software.new do |t|
   md5 = "8fa53ea8f71d88da9503f62793336bc3"
 
   install_path = Bunchr.install_dir
-  service_path = '/etc/sensu/services'
+  service_path = File.join(install_path, 'service')
+  sv_path = File.join(install_path, 'sv')
   install_prefix = File.join(install_path, "embedded")
-  sv_path = File.join(install_prefix, 'sv')
   gem_bin = File.join(install_prefix, 'bin', 'gem')
   scripts_dir = File.join(Dir.pwd,'runit_scripts')
 

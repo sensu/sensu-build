@@ -63,7 +63,6 @@ Bunchr::Packages.new do |t|
     t.files << '/etc/sensu/mutators'
     t.files << '/etc/sensu/handlers'
     t.files << '/etc/sensu/extensions'
-    t.files << '/etc/sensu/services'
 
     t.files << '/etc/default/sensu'
 

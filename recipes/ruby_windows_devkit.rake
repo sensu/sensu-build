@@ -1,12 +1,12 @@
 Bunchr::Software.new do |t|
   t.name = 'ruby_windows_devkit'
-  t.version = '4.5.2-20111229-1559'
+  t.version = '4.7.2-20130224-1151'
 
   t.depends_on('ruby_windows')
 
-  devkit_exe = "DevKit-tdm-32-#{t.version}-sfx.exe"
+  devkit_exe = "DevKit-mingw64-32-#{t.version}-sfx.exe"
 
-  t.download_commands << "wget -P #{t.work_dir} http://cloud.github.com/downloads/oneclick/rubyinstaller/#{devkit_exe}"
+  t.download_commands << "wget -P #{t.work_dir} http://rubyforge.org/frs/download.php/76805/#{devkit_exe}"
 
   install_prefix = "#{Bunchr.install_dir}\\embedded"
 

@@ -19,12 +19,13 @@ create_sensu_user_group() {
             adduser --system --ingroup sensu --home /opt/sensu \
                     --no-create-home --gecos "Sensu Monitoring Framework" \
                     --disabled-login sensu
-    fi    
+    fi
 }
 
 chown_sensu_dirs() {
     chown sensu:sensu /etc/sensu
-    chown sensu:sensu /var/log/sensu    
+    chown sensu:sensu /var/log/sensu
+    chown -R sensu:sensu /opt/sensu/sv
 }
 
 case "$1" in

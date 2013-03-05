@@ -12,3 +12,4 @@ fi
 # Change permissions
 chown sensu:sensu /etc/sensu
 chown sensu:sensu /var/log/sensu
+chown -R sensu:sensu /opt/sensu/sv

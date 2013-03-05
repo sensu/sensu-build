@@ -49,6 +49,7 @@ Bunchr::Packages.new do |t|
     end
 
     t.include_software('ruby')
+    t.include_software('runit')
     t.include_software('sensu')
     t.include_software('sensu_dashboard')
     t.include_software('sensu_plugin')

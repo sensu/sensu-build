@@ -13,7 +13,7 @@ Bunchr::Software.new do |t|
   scripts_dir = File.join(Dir.pwd,'runit_scripts')
 
   t.download_commands << "curl -O http://smarden.org/runit/runit-#{t.version}.tar.gz"
-  t.download_commands << "test \"$(md5sum runit-#{t.version}.tar.gz|awk '{print $1}')\" == #{md5}"
+  t.download_commands << "test \"$(md5sum runit-#{t.version}.tar.gz|awk '{print $1}')\" = #{md5}"
   t.download_commands << "tar zxvf runit-#{t.version}.tar.gz"
 
   os   = t.ohai['os']

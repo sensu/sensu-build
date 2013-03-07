@@ -28,10 +28,16 @@ chown_sensu_dirs() {
     chown -R sensu:sensu /opt/sensu/sv
 }
 
+link_sensu_ctl()
+{
+    ln -s /opt/sensu/bin/sensu-ctl /usr/bin/sensu-ctl
+}
+
 case "$1" in
     configure)
         create_sensu_user_group
         chown_sensu_dirs
+        link_sensu_ctl
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

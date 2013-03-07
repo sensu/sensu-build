@@ -9,7 +9,7 @@ PLUGINS_DIR=/etc/sensu/plugins
 HANDLERS_DIR=/etc/sensu/handlers
 LOG_DIR=/var/log/sensu
 PID_DIR=/var/run/sensu
-USER=sensu
+SENSU_USER=sensu
 
 if [ -f /etc/default/sensu ]; then
     . /etc/default/sensu
@@ -25,4 +25,4 @@ else
 fi
 
 exec 2>&1
-exec $SENSU_HOME/embedded/bin/chpst -u $USER $SENSU_HOME/embedded/bin/$prog $options
+exec $SENSU_HOME/embedded/bin/chpst -u $SENSU_USER $SENSU_HOME/bin/$prog $options

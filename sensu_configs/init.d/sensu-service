@@ -50,13 +50,13 @@ exec=/opt/sensu/bin/$prog
 pidfile=$PID_DIR/$prog.pid
 logfile=$LOG_DIR/$prog.log
 
-options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile $OPTIONS"
-
 if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
-    export PATH=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+    path=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
 else
-    export PATH=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+    path=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
 fi
+
+options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile $OPTIONS"
 
 cd /opt/sensu
 
@@ -157,13 +157,17 @@ if [ "$system" = "suse" ]; then
 fi
 # TODO: support other platforms in the future: gentoo, arch, slackware, etc
 
-ensure_pid_dir () {
+ensure_pid_dir() {
     pid_dir=`dirname ${pidfile}`
     if [ ! -d ${pid_dir} ]; then
         mkdir -p ${pid_dir}
         chown -R ${user} ${pid_dir}
         chmod 755 ${pid_dir}
     fi
+}
+
+set_sensu_path() {
+    export PATH=$path
 }
 
 start() {
@@ -179,6 +183,7 @@ start() {
         exit 0
     fi
 
+    set_sensu_path
     ensure_pid_dir
     start_daemon $user $pidfile $exec "$options"
     retval=$?

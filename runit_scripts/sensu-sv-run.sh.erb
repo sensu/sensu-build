@@ -18,10 +18,9 @@ fi
 prog="sensu-<%= @sv %>"
 options="-c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -l $LOG_DIR/$prog.log $OPTIONS"
 
-# At this point $PATH should include $SENSU_HOME/embedded/bin (being set in sensu-runsvdir), but
-# $ORIGINAL_PATH should not.
+# $ORIGINAL_PATH is set by sensu-runsvdir
 if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
-    export PATH=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+    export PATH=$SENSU_HOME/embedded/bin:$ORIGINAL_PATH:$PLUGINS_DIR:$HANDLERS_DIR
 else
     export PATH=$ORIGINAL_PATH:$PLUGINS_DIR:$HANDLERS_DIR
 fi

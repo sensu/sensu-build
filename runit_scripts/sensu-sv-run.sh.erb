@@ -1,0 +1,28 @@
+#!/bin/bash
+
+EMBEDDED_RUBY=false
+SENSU_HOME=/opt/sensu
+CONFIG_FILE=/etc/sensu/config.json
+CONFIG_DIR=/etc/sensu/conf.d
+EXTENSION_DIR=/etc/sensu/extensions
+PLUGINS_DIR=/etc/sensu/plugins
+HANDLERS_DIR=/etc/sensu/handlers
+LOG_DIR=/var/log/sensu
+SENSU_USER=sensu
+
+if [ -f /etc/default/sensu ]; then
+    . /etc/default/sensu
+fi
+
+prog="sensu-<%= @sv %>"
+options="-c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -l $LOG_DIR/$prog.log $OPTIONS"
+
+# $ORIGINAL_PATH is set by sensu-runsvdir
+if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
+    export PATH=$SENSU_HOME/embedded/bin:$ORIGINAL_PATH:$PLUGINS_DIR:$HANDLERS_DIR
+else
+    export PATH=$ORIGINAL_PATH:$PLUGINS_DIR:$HANDLERS_DIR
+fi
+
+exec 2>&1
+exec $SENSU_HOME/embedded/bin/chpst -u $SENSU_USER $SENSU_HOME/bin/$prog $options

@@ -21,6 +21,8 @@ stop_sensu_services() {
             fi
         fi
     done
+
+    # send sensu-runsvdir a hup to stop itself and supervised services
     if [ -f "/etc/init/sensu-runsvdir.conf" ]; then
         reload sensu-runsvdir || true
     fi

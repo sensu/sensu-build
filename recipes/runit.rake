@@ -40,8 +40,10 @@ Bunchr::Software.new do |t|
   t.install_commands << "cp -f #{scripts_dir}/sensu-runsvdir.sh #{install_prefix}/bin/sensu-runsvdir"
   t.install_commands << "chmod 755 #{install_prefix}/bin/sensu-runsvdir"
 
-  # need systemu for sensu-ctl
+  # need ohai and systemu for sensu-ctl
+  t.install_commands << "#{gem_bin} install ohai -v 6.16.0 --no-ri --no-rdoc"
   t.install_commands << "#{gem_bin} install systemu -v 2.5.2 --no-ri --no-rdoc"
+
   t.install_commands << "cp -f #{scripts_dir}/sensu-ctl.rb #{install_prefix}/bin/sensu-ctl"
   t.install_commands << "chmod 0755 #{install_prefix}/bin/sensu-ctl"
 

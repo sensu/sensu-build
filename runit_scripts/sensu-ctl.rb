@@ -32,8 +32,20 @@ def service_enabled?(service_name)
   File.symlink?("/opt/sensu/service/#{service_name}")
 end
 
+def enable_service(service_name)
+  unless service_enabled?(service_name)
+    File.symlink("/opt/sensu/sv/#{service_name}", "/opt/sensu/service/#{service_name}")
+  end
+end
+
+def disable_service(service_name)
+  if service_enabled?(service_name)
+    File.delete("/opt/sensu/service/#{service_name}")
+  end
+end
+
 def sv_command_list
-  ["status","up","down","once","pause","cont","hup","alarm","interrupt","quit","1","2","term","kill","start","stop","restart","shutdown","force-stop","force-reload","force-restart","force-shutdown","check"]
+  %w[status up down once pause cont hup alarm interrupt quit 1 2 term kill start stop restart shutdown force-stop force-reload force-restart force-shutdown check]
 end
 
 def run_sv_command(sv_cmd, service=nil)
@@ -64,8 +76,8 @@ def run_command(cmd, retries=1, output=true)
   while retries > 0 do
     status, stdout, stderr = systemu(cmd)
     if output
-      puts stdout
-      puts stderr
+      puts stdout unless stdout.empty?
+      puts stderr unless stderr.empty?
     end
     return true if status.exitstatus == 0
     sleep 1
@@ -179,6 +191,10 @@ else
   elsif get_all_services.include?(ARGV[0])
     if sv_command_list.include?(ARGV[1])
       run_sv_command(ARGV[1], ARGV[0])
+    elsif ARGV[1] == "enable"
+      enable_service(ARGV[0])
+    elsif ARGV[1] == "disable"
+      disable_service(ARGV[0])
     elsif ARGV[1] == "tail"
       tail(ARGV[0])
     end

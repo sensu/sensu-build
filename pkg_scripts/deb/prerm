@@ -28,7 +28,7 @@ stop_sensu_services() {
     fi
     if [ -f "/etc/inittab" ]; then
         if grep -q sensu-runsvdir /etc/inittab; then
-            sed '/sensu-runsvdir/d' /etc/inittab > /etc/inittab
+            sed "/sensu-runsvdir/d" /etc/inittab > /etc/inittab
             init q
             pkill -HUP -f /opt/sensu/embedded/bin/runsvdir || true
         fi

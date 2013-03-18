@@ -1,7 +1,7 @@
 Configuration Snippets
 ----------------------
 
-The Sensu package creates a single `/etc/sensu/config.json` file that
+The Sensu package creates a `/etc/sensu/config.json.example` file that
 contains example config stanzas required for a minimal Sensu installation.
 
 However, you may also break this monolithic config file up into smaller

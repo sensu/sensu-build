@@ -106,7 +106,7 @@ def setup_runsvdir_upstart
 end
 
 def setup_runsvdir_sysvinit
-  sv_dir_line = "SV:123456:respawn:/opt/sensu/embedded/bin/sensu-runsvdir"
+  sv_dir_line = "SR:2345:respawn:/opt/sensu/embedded/bin/sensu-runsvdir"
   unless run_command("grep '#{sv_dir_line}' /etc/inittab")
     if run_command("echo '#{sv_dir_line}' >> /etc/inittab")
       run_command("init q")
@@ -149,8 +149,8 @@ def help
   # Would show the status of all services
   $ #{$0} status
 
-  # Would show only the status of sensu-api
-  $ #{$0} sensu-api status
+  # Would show only the status of sensu-client
+  $ #{$0} sensu-client status
 
 service-list
     List all the services (enabled services appear with a *.)
@@ -158,6 +158,10 @@ status
     Show the status of all the services.
 tail
     Watch the service logs of all enabled services.
+enable
+    Enable services, and start them if they are down.
+disable
+    Disable services, and stop them if they are running.
 start
     Start services if they are down, and restart them if they stop.
 stop

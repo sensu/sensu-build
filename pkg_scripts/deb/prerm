@@ -26,6 +26,13 @@ stop_sensu_services() {
     if [ -f "/etc/init/sensu-runsvdir.conf" ]; then
         reload sensu-runsvdir || true
     fi
+    if [ -f "/etc/inittab" ]; then
+        if grep -q sensu-runsvdir /etc/inittab; then
+            sed '/sensu-runsvdir/d' /etc/inittab > /etc/inittab
+            init q
+            pkill -HUP sensu-runsvdir || true
+        fi
+    fi
 }
 
 case "$1" in

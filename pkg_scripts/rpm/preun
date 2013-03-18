@@ -10,6 +10,13 @@ if [ $1 -eq 0 ]; then
             /etc/init.d/$service stop || true
             rm /etc/init.d/$service
         fi
+        if [ -f "/etc/inittab" ]; then
+            if grep -q sensu-runsvdir /etc/inittab; then
+                sed '/sensu-runsvdir/d' /etc/inittab > /etc/inittab
+                init q
+                pkill -HUP sensu-runsvdir || true
+            fi
+        fi
     done
 
     # Delete sensu user

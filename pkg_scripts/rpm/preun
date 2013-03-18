@@ -14,7 +14,7 @@ if [ $1 -eq 0 ]; then
             if grep -q sensu-runsvdir /etc/inittab; then
                 sed '/sensu-runsvdir/d' /etc/inittab > /etc/inittab
                 init q
-                pkill -HUP sensu-runsvdir || true
+                pkill -HUP -f /opt/sensu/embedded/bin/runsvdir || true
             fi
         fi
     done

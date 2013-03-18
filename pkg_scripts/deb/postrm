@@ -23,23 +23,14 @@ purge_sensu_services() {
 }
 
 purge_sensu_files() {
-    if [ -d /etc/sensu ]; then
-        rm -r /etc/sensu
-    fi
-    if [ -d /usr/share/sensu ]; then
+    if [ -d "/usr/share/sensu" ]; then
         rm -r /usr/share/sensu
-    fi
-    if [ -d /var/log/sensu ]; then
-        rm -r /var/log/sensu
-    fi
-    if [ -d /opt/sensu ]; then
-        rm -r /opt/sensu
     fi
 }
 
 purge_sensu_user_group() {
     if getent passwd sensu >/dev/null; then
-        deluser --force sensu
+        deluser --force --remove-home sensu
     fi
     if getent group sensu >/dev/null; then
         delgroup --force sensu

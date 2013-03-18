@@ -34,4 +34,9 @@ if [ $1 -eq 0 ]; then
     if getent group sensu >/dev/null; then
         /usr/sbin/groupdel -f sensu
     fi
+
+    # Remove sensu share files
+    if [ -d "/usr/share/sensu" ]; then
+        rm -r /usr/share/sensu
+    fi
 fi

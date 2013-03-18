@@ -13,9 +13,9 @@ Bunchr::Software.new do |t|
 
   t.install_commands << "cp -rf ./sensu_configs/sensu /etc/sensu"
 
-  t.install_commands << "cp -f ./sensu_configs/default/sensu /etc/default/sensu"
+  t.install_commands << "cp -f ./sensu_configs/default/* /etc/default/"
 
-  t.install_commands << "cp -f ./sensu_configs/logrotate.d/sensu /etc/logrotate.d/sensu"
+  t.install_commands << "cp -f ./sensu_configs/logrotate.d/* /etc/logrotate.d/"
 
   t.install_commands << "cp -f ./sensu_configs/init.d/* /etc/init.d/"
 

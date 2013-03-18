@@ -1,17 +1,18 @@
 # On first install, register the init scripts but disable services.
 # User should choose the services they want to run after install
 if [ $1 -eq 1 ]; then
-	/sbin/chkconfig --add sensu-server
-	/sbin/chkconfig sensu-server off
-	/sbin/chkconfig --add sensu-api
-	/sbin/chkconfig sensu-api off
-	/sbin/chkconfig --add sensu-client
-	/sbin/chkconfig sensu-client off
+    sensu_services="sensu-client sensu-server sensu-api sensu-dashboard"
+
+    for service in $sensu_services; do
+        /sbin/chkconfig --add $service
+        /sbin/chkconfig $service off
+    done
 fi
 
 # Change permissions
 chown sensu:sensu /etc/sensu
 chown sensu:sensu /var/log/sensu
 chown -R sensu:sensu /opt/sensu/sv
+
 # Put sensu-ctl in common path
 ln -s /opt/sensu/bin/sensu-ctl /usr/bin/sensu-ctl

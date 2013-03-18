@@ -1,16 +1,24 @@
-# Delete package - stop the server
+# Uninstall package - stop services and remove user
 if [ $1 -eq 0 ]; then
-  /etc/init.d/sensu-server stop
-  /etc/init.d/sensu-api stop
-  /etc/init.d/sensu-client stop
-  /etc/init.d/sensu-dashboard stop
+    sensu_services="sensu-client sensu-server sensu-api sensu-dashboard"
 
-  if getent passwd sensu >/dev/null; then
-      /usr/sbin/userdel sensu
-  fi  
-  
-  if getent group sensu >/dev/null; then
-      /usr/sbin/groupdel sensu
-  fi
+    # Disable and stop sensu services
+    for service in $sensu_services; do
+        /sbin/chkconfig $service off
+        /sbin/chkconfig --del $service
+        if [ -f "/etc/init.d/$service" ]; then
+            /etc/init.d/$service stop || true
+            rm /etc/init.d/$service
+        fi
+    done
 
+    # Delete sensu user
+    if getent passwd sensu >/dev/null; then
+        /usr/sbin/userdel sensu
+    fi
+
+    # Delete sensu group
+    if getent group sensu >/dev/null; then
+        /usr/sbin/groupdel sensu
+    fi
 fi

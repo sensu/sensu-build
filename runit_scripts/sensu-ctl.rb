@@ -111,7 +111,7 @@ def configure
   case ohai.platform
   when "ubuntu"
     setup_runsvdir_upstart
-  when "redhat","centos","rhel","scientific"
+  when "redhat", "centos", "rhel", "scientific"
     if ohai.platform_version =~ /^6/
       setup_runsvdir_upstart
     else

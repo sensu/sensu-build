@@ -19,9 +19,8 @@ Bunchr::Software.new do |t|
 
   t.install_commands << "cp -f ./sensu_configs/init.d/* /etc/init.d/"
 
-  t.install_commands << "mkdir /usr/share/sensu/init.d"
-  t.install_commands << "cp -f ./sensu_configs/init.d/* /usr/share/sensu/init.d/"
-
+  t.install_commands << "mkdir /usr/share/sensu"
+  t.install_commands << "cp -rf ./sensu_configs/init.d /usr/share/sensu/"
   t.install_commands << "cp -rf ./sensu_configs/upstart /usr/share/sensu/"
   t.install_commands << "cp -rf ./sensu_configs/systemd /usr/share/sensu/"
 

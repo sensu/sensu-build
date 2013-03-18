@@ -80,7 +80,7 @@ def setup_failed(msg)
 end
 
 def setup_runsvdir_upstart
-  if run_command("cp /usr/share/sensu/init/sensu-runsvdir.conf /etc/init/")
+  if run_command("cp /usr/share/sensu/upstart/sensu-runsvdir.conf /etc/init/")
     if run_command("initctl status sensu-runsvdir", 10)
       if run_command("initctl status sensu-runsvdir | grep stop")
         run_command("initctl start sensu-runsvdir", 10)

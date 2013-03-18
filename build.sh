@@ -36,7 +36,7 @@ case "$system" in
     redhat)
         yum clean all
         install_epel
-        yum -y install git rpm-build curl
+        yum -y install git rpm-build curl m4 make gcc gcc-c++
         install_bunchr
     ;;
 

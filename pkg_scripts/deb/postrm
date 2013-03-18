@@ -17,6 +17,9 @@ purge_sensu_services() {
             rm /etc/init.d/$service
         fi
     done
+    if [ -f "/etc/init/sensu-runsvdir.conf" ]; then
+        rm /etc/init/sensu-runsvdir.conf
+    fi
 }
 
 purge_sensu_files() {

@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for sensu
+# postrm script for sensu
 #
 
 set -e
@@ -8,21 +8,30 @@ set -e
 #  http://www.debian.org/doc/debian-policy/ch-maintainerscripts.html
 #  http://www.proulx.com/~bob/debian/hints/DpkgScriptOrder
 
-sensu_services="sensu-api sensu-client sensu-dashboard sensu-server"
-
-purge_sensu_files() {
-    if [ -d /var/log/sensu ]; then
-        rm -r /var/log/sensu
-    fi
-    if [ -d /etc/sensu ]; then
-        rm -r /etc/sensu
-    fi
-}
+sensu_services="sensu-client sensu-server sensu-api sensu-dashboard"
 
 purge_sensu_services() {
     for service in $sensu_services; do
         update-rc.d $service remove >/dev/null || true
+        if [ -f "/etc/init.d/$service" ]; then
+            rm /etc/init.d/$service
+        fi
     done
+}
+
+purge_sensu_files() {
+    if [ -d /etc/sensu ]; then
+        rm -r /etc/sensu
+    fi
+    if [ -d /usr/share/sensu ]; then
+        rm -r /usr/share/sensu
+    fi
+    if [ -d /var/log/sensu ]; then
+        rm -r /var/log/sensu
+    fi
+    if [ -d /opt/sensu ]; then
+        rm -r /opt/sensu
+    fi
 }
 
 purge_sensu_user_group() {
@@ -36,18 +45,18 @@ purge_sensu_user_group() {
 
 case "$1" in
     purge)
-        purge_sensu_files
         purge_sensu_services
+        purge_sensu_files
         purge_sensu_user_group
-    ;;
+        ;;
 
     remove|upgrade|abort-upgrade|abort-remove|abort-deconfigure)
-    ;;
+        ;;
 
     *)
         echo "postinst called with unknown argument \`$1'" >&2
         exit 1
-    ;;
+        ;;
 esac
 
 exit 0

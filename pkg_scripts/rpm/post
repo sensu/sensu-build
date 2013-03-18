@@ -13,6 +13,3 @@ fi
 chown sensu:sensu /etc/sensu
 chown sensu:sensu /var/log/sensu
 chown -R sensu:sensu /opt/sensu/sv
-
-# Put sensu-ctl in common path
-ln -s /opt/sensu/bin/sensu-ctl /usr/bin/sensu-ctl

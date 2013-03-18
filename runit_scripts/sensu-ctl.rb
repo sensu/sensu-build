@@ -106,7 +106,7 @@ def setup_runsvdir_upstart
 end
 
 def setup_runsvdir_sysvinit
-  sv_dir_line = "SR:2345:respawn:/opt/sensu/embedded/bin/sensu-runsvdir"
+  sv_dir_line = "SR:123456:respawn:/opt/sensu/embedded/bin/sensu-runsvdir"
   unless run_command("grep '#{sv_dir_line}' /etc/inittab")
     if run_command("echo '#{sv_dir_line}' >> /etc/inittab")
       run_command("init q")
@@ -134,6 +134,10 @@ def configure
   end
   puts "done"
   exit
+end
+
+def configured?
+  run_command("pgrep -f /opt/sensu/embedded/bin/runsvdir")
 end
 
 def tail(service='*')
@@ -187,6 +191,8 @@ when "service-list"
   service_list
 when "configure", "reconfigure"
   configure
+when "configured", "configured?"
+  configured?
 when "tail"
   tail
 else

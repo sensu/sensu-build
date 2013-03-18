@@ -39,10 +39,10 @@ purge_sensu_files() {
 
 purge_sensu_user_group() {
     if getent passwd sensu >/dev/null; then
-        deluser sensu
+        deluser --force sensu
     fi
     if getent group sensu >/dev/null; then
-        delgroup sensu
+        delgroup --force sensu
     fi
 }
 

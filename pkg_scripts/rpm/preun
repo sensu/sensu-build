@@ -21,11 +21,11 @@ if [ $1 -eq 0 ]; then
 
     # Delete sensu user
     if getent passwd sensu >/dev/null; then
-        /usr/sbin/userdel sensu
+        /usr/sbin/userdel -f sensu
     fi
 
     # Delete sensu group
     if getent group sensu >/dev/null; then
-        /usr/sbin/groupdel sensu
+        /usr/sbin/groupdel -f sensu
     fi
 fi

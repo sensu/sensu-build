@@ -11,14 +11,14 @@ set -e
 create_sensu_user_group() {
     # create sensu group
     if ! getent group sensu >/dev/null; then
-            addgroup --system sensu
+        addgroup --system sensu
     fi
 
     # create sensu user
     if ! getent passwd sensu >/dev/null; then
-            adduser --system --ingroup sensu --home /opt/sensu \
-                    --no-create-home --gecos "Sensu Monitoring Framework" \
-                    --disabled-login sensu
+        adduser --system --ingroup sensu --home /opt/sensu \
+            --no-create-home --gecos "Sensu Monitoring Framework" \
+            --disabled-login sensu
     fi
 }
 
@@ -38,15 +38,15 @@ case "$1" in
         create_sensu_user_group
         chown_sensu_dirs
         link_sensu_ctl
-    ;;
+        ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
-    ;;
+        ;;
 
     *)
         echo "postinst called with unknown argument \`$1'" >&2
         exit 1
-    ;;
+        ;;
 esac
 
 exit 0

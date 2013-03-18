@@ -1,6 +1,6 @@
 #!/opt/sensu/embedded/bin/ruby
 #
-# Author:: Adam Jacob (<adam@opscode.com>)
+# Authors:: Adam Jacob (<adam@opscode.com>), Sean Porter (<portertech@gmail.com>)
 # Copyright:: Copyright (c) 2011 Opscode, Inc.
 # License:: Apache License, Version 2.0
 #
@@ -17,16 +17,8 @@
 # limitations under the License.
 #
 
-require 'systemu'
-
-def service_list
-  get_all_services.each do |service_name|
-    print "#{service_name}"
-    print "*" if service_enabled?(service_name)
-    print "\n"
-  end
-  exit 0
-end
+require "ohai"
+require "systemu"
 
 def get_all_services_files
   Dir["/opt/sensu/sv/*"]
@@ -38,6 +30,22 @@ end
 
 def service_enabled?(service_name)
   File.symlink?("/opt/sensu/service/#{service_name}")
+end
+
+def enable_service(service_name)
+  unless service_enabled?(service_name)
+    File.symlink("/opt/sensu/sv/#{service_name}", "/opt/sensu/service/#{service_name}")
+  end
+end
+
+def disable_service(service_name)
+  if service_enabled?(service_name)
+    File.delete("/opt/sensu/service/#{service_name}")
+  end
+end
+
+def sv_command_list
+  %w[status up down once pause cont hup alarm interrupt quit 1 2 term kill start stop restart shutdown force-stop force-reload force-restart force-shutdown check]
 end
 
 def run_sv_command(sv_cmd, service=nil)
@@ -55,12 +63,85 @@ def run_sv_command(sv_cmd, service=nil)
   exit exit_status
 end
 
-def tail(service='*')
-  system("tail -f /opt/sensu/service/#{service}/log/main/current")
+def service_list
+  get_all_services.each do |service_name|
+    print "#{service_name}"
+    print "*" if service_enabled?(service_name)
+    print "\n"
+  end
+  exit 0
 end
 
-def sv_command_list
-  ["status","up","down","once","pause","cont","hup","alarm","interrupt","quit","1","2","term","kill","start","stop","restart","shutdown","force-stop","force-reload","force-restart","force-shutdown","check"]
+def run_command(cmd, retries=1, output=true)
+  while retries > 0 do
+    status, stdout, stderr = systemu(cmd)
+    if output
+      puts stdout unless stdout.empty?
+      puts stderr unless stderr.empty?
+    end
+    return true if status.exitstatus == 0
+    sleep 1
+    retries -= 1
+  end
+  false
+end
+
+def setup_failed(msg)
+  puts msg
+  exit 2
+end
+
+def setup_runsvdir_upstart
+  if run_command("cp /usr/share/sensu/upstart/sensu-runsvdir.conf /etc/init/")
+    if run_command("initctl status sensu-runsvdir", 10)
+      if run_command("initctl status sensu-runsvdir | grep stop")
+        run_command("initctl start sensu-runsvdir", 10)
+      end
+    else
+      setup_failed("failed to find sensu-runsvdir job")
+    end
+  else
+    setup_failed("failed to create /etc/init/sensu-runsvdir.conf")
+  end
+end
+
+def setup_runsvdir_sysvinit
+  sv_dir_line = "SR:123456:respawn:/opt/sensu/embedded/bin/sensu-runsvdir"
+  unless run_command("grep '#{sv_dir_line}' /etc/inittab")
+    if run_command("echo '#{sv_dir_line}' >> /etc/inittab")
+      run_command("init q")
+    else
+      setup_failed("failed to add sensu-runsvdir to inittab")
+    end
+  end
+end
+
+def configure
+  ohai = Ohai::System.new
+  ohai.require_plugin("os")
+  ohai.require_plugin("platform")
+  case ohai.platform
+  when "ubuntu"
+    setup_runsvdir_upstart
+  when "redhat", "centos", "rhel", "scientific"
+    if ohai.platform_version =~ /^6/
+      setup_runsvdir_upstart
+    else
+      setup_runsvdir_sysvinit
+    end
+  else
+    setup_runsvdir_sysvinit
+  end
+  puts "done"
+  exit
+end
+
+def configured?
+  run_command("pgrep -f /opt/sensu/embedded/bin/runsvdir")
+end
+
+def tail(service='*')
+  system("tail -f /opt/sensu/service/#{service}/log/main/current")
 end
 
 def help
@@ -72,8 +153,8 @@ def help
   # Would show the status of all services
   $ #{$0} status
 
-  # Would show only the status of sensu-api
-  $ #{$0} sensu-api status
+  # Would show only the status of sensu-client
+  $ #{$0} sensu-client status
 
 service-list
     List all the services (enabled services appear with a *.)
@@ -81,6 +162,10 @@ status
     Show the status of all the services.
 tail
     Watch the service logs of all enabled services.
+enable
+    Enable services, and start them if they are down.
+disable
+    Disable services, and stop them if they are running.
 start
     Start services if they are down, and restart them if they stop.
 stop
@@ -104,8 +189,10 @@ end
 case ARGV[0]
 when "service-list"
   service_list
-when "reconfigure"
-  reconfigure
+when "configure", "reconfigure"
+  configure
+when "configured", "configured?"
+  configured?
 when "tail"
   tail
 else
@@ -114,6 +201,10 @@ else
   elsif get_all_services.include?(ARGV[0])
     if sv_command_list.include?(ARGV[1])
       run_sv_command(ARGV[1], ARGV[0])
+    elsif ARGV[1] == "enable"
+      enable_service(ARGV[0])
+    elsif ARGV[1] == "disable"
+      disable_service(ARGV[0])
     elsif ARGV[1] == "tail"
       tail(ARGV[0])
     end
@@ -121,4 +212,3 @@ else
     help
   end
 end
-

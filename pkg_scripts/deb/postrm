@@ -26,11 +26,14 @@ purge_sensu_files() {
     if [ -d "/usr/share/sensu" ]; then
         rm -r /usr/share/sensu
     fi
+    if [ -d "/opt/sensu" ]; then
+        rm -r /opt/sensu
+    fi
 }
 
 purge_sensu_user_group() {
     if getent passwd sensu >/dev/null; then
-        deluser --force --remove-home sensu
+        deluser --force sensu
     fi
     if getent group sensu >/dev/null; then
         delgroup --force sensu

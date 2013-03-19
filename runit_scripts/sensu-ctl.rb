@@ -80,8 +80,8 @@ def run_command(cmd, retries=1, output=true)
       puts stderr unless stderr.empty?
     end
     return true if status.exitstatus == 0
-    sleep 1
     retries -= 1
+    sleep 1 unless retries == 0
   end
   false
 end
@@ -132,12 +132,18 @@ def configure
   else
     setup_runsvdir_sysvinit
   end
-  puts "done"
-  exit
+  puts "sensu runit configured"
+  exit 0
 end
 
 def configured?
-  run_command("pgrep -f /opt/sensu/embedded/bin/runsvdir")
+  if run_command("pgrep -f /opt/sensu/embedded/bin/runsvdir", 1, false)
+    puts "sensu runit configured"
+    exit 0
+  else
+    puts "sensu runit not configured"
+    exit 1
+  end
 end
 
 def tail(service='*')
@@ -147,8 +153,8 @@ end
 def help
   puts "#{$0}: command (subcommand)"
   puts <<-EOH
-  All commands except "service-list" can be prepended
-  with a service name, and will only apply to that service.
+  All commands except "configure" and "service-list" can be
+  prepended with a service name, and will only apply to that service.
 
   # Would show the status of all services
   $ #{$0} status
@@ -156,6 +162,8 @@ def help
   # Would show only the status of sensu-client
   $ #{$0} sensu-client status
 
+configure
+    Configure sensu runit (runsvdir)
 service-list
     List all the services (enabled services appear with a *.)
 status

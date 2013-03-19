@@ -46,6 +46,7 @@ Bunchr::Packages.new do |t|
       t.scripts[:before_install] = 'pkg_scripts/rpm/pre'
       t.scripts[:after_install]  = 'pkg_scripts/rpm/post'
       t.scripts[:before_remove]  = 'pkg_scripts/rpm/preun'
+      t.scripts[:after_remove]   = 'pkg_scripts/rpm/postun'
     end
 
     t.include_software('ruby')

@@ -24,13 +24,17 @@ stop_sensu_services() {
 
     # send sensu-runsvdir a hup to stop itself and supervised services
     if [ -f "/etc/init/sensu-runsvdir.conf" ]; then
-        reload sensu-runsvdir || pkill -HUP -f /opt/sensu/embedded/bin/runsvdir || true
+        reload sensu-runsvdir || true
+        sleep 1
+        pkill -HUP -f /opt/sensu/embedded/bin/runsvdir || true
+        sleep 3
     fi
     if [ -f "/etc/inittab" ]; then
         if grep -q sensu-runsvdir /etc/inittab; then
             sed "/sensu-runsvdir/d" /etc/inittab > /etc/inittab
             init q
             pkill -HUP -f /opt/sensu/embedded/bin/runsvdir || true
+            sleep 3
         fi
     fi
 }

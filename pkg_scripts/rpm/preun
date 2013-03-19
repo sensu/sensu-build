@@ -1,4 +1,4 @@
-# Uninstall package - stop services and remove user
+# Uninstall package - stop services
 if [ $1 -eq 0 ]; then
     sensu_services="sensu-client sensu-server sensu-api sensu-dashboard"
 
@@ -8,14 +8,12 @@ if [ $1 -eq 0 ]; then
         chkconfig --del $service
         if [ -f "/etc/init.d/$service" ]; then
             /etc/init.d/$service stop || true
-            rm /etc/init.d/$service
         fi
     done
 
     # send sensu-runsvdir a hup to stop itself and supervised services
     if [ -f "/etc/init/sensu-runsvdir.conf" ]; then
-        reload sensu-runsvdir || true
-        rm /etc/init/sensu-runsvdir.conf
+        reload sensu-runsvdir || pkill -HUP -f /opt/sensu/embedded/bin/runsvdir || true
     fi
     if [ -f "/etc/inittab" ]; then
         if grep -q sensu-runsvdir /etc/inittab; then
@@ -23,20 +21,5 @@ if [ $1 -eq 0 ]; then
             init q
             pkill -HUP -f /opt/sensu/embedded/bin/runsvdir || true
         fi
-    fi
-
-    # Delete sensu user
-    if getent passwd sensu >/dev/null; then
-        userdel -f sensu
-    fi
-
-    # Delete sensu group
-    if getent group sensu >/dev/null; then
-        groupdel -f sensu
-    fi
-
-    # Remove sensu share files
-    if [ -d "/usr/share/sensu" ]; then
-        rm -r /usr/share/sensu
     fi
 fi

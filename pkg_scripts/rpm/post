@@ -4,8 +4,8 @@ if [ $1 -eq 1 ]; then
     sensu_services="sensu-client sensu-server sensu-api sensu-dashboard"
 
     for service in $sensu_services; do
-        /sbin/chkconfig --add $service
-        /sbin/chkconfig $service off
+        chkconfig --add $service
+        chkconfig $service off
     done
 fi
 

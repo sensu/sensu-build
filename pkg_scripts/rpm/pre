@@ -2,12 +2,12 @@
 if [ $1 -eq 1 ]; then
     # Create sensu group
     if ! getent group sensu >/dev/null; then
-        /usr/sbin/groupadd -r sensu
+        groupadd -r sensu
     fi
 
     # Create sensu user
     if ! getent passwd sensu >/dev/null; then
-        /usr/sbin/useradd -r -g sensu -d /opt/sensu \
+        useradd -r -g sensu -d /opt/sensu \
             -s /bin/false -c "Sensu Monitoring Framework" sensu
     fi
 fi

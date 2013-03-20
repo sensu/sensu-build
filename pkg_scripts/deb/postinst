@@ -11,14 +11,13 @@ set -e
 create_sensu_user_group() {
     # create sensu group
     if ! getent group sensu >/dev/null; then
-        addgroup --system sensu
+        groupadd -r sensu
     fi
 
     # create sensu user
     if ! getent passwd sensu >/dev/null; then
-        adduser --system --ingroup sensu --home /opt/sensu \
-            --no-create-home --gecos "Sensu Monitoring Framework" \
-            --disabled-login sensu
+        useradd -r -g sensu -d /opt/sensu \
+            -s /bin/false -c "Sensu Monitoring Framework" sensu
     fi
 }
 

@@ -1,0 +1,32 @@
+# Uninstall package - delete files and user
+if [ $1 -eq 0 ]; then
+    sensu_services="sensu-client sensu-server sensu-api sensu-dashboard"
+
+    # Delete service scripts
+    for service in $sensu_services; do
+        if [ -f "/etc/init.d/$service" ]; then
+            rm /etc/init.d/$service
+        fi
+    done
+    if [ -f "/etc/init/sensu-runsvdir.conf" ]; then
+        rm /etc/init/sensu-runsvdir.conf
+    fi
+
+    # Delete sensu files
+    if [ -d "/usr/share/sensu" ]; then
+        rm -r /usr/share/sensu
+    fi
+    if [ -d "/opt/sensu" ]; then
+        rm -r /opt/sensu
+    fi
+
+    # Delete sensu user
+    if getent passwd sensu >/dev/null; then
+        userdel -f sensu
+    fi
+
+    # Delete sensu group
+    if getent group sensu >/dev/null; then
+        groupdel -f sensu
+    fi
+fi

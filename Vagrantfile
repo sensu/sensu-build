@@ -27,6 +27,7 @@ build_boxes = {
   # :debian_6_64    => 'http://vagrant.sensuapp.org/debian-6-amd64.box',
   # :fedora_17_32 => 'http://vagrant.sensuapp.org/fedora-17-i386.box',
   # :fedora_17_64 => 'http://vagrant.sensuapp.org/fedora-17-x86_64.box',
+  :fedora_17_x86_64 => 'http://vagrant.sensuapp.org/fedora-17-x86_64.box',
   # :debian_5_32    => '',
   # :debian_5_64    => '',
   # :opensuse_1201_64 => '',

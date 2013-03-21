@@ -20,11 +20,17 @@ stop_sensu_services() {
                 /etc/init.d/$service stop || true
             fi
         fi
+        if [ -L "/opt/sensu/service/$service" ]; then
+            rm /opt/sensu/service/$service
+        fi
     done
 
-    # send sensu-runsvdir a hup to stop itself and supervised services
+    # some time for sensu services to stop
+    sleep 6
+
+    # stop sensu runsvdir (if configured)
     if [ -f "/etc/init/sensu-runsvdir.conf" ]; then
-        reload sensu-runsvdir || true
+        stop sensu-runsvdir || true
     fi
     if [ -f "/etc/inittab" ]; then
         if grep -q sensu-runsvdir /etc/inittab; then

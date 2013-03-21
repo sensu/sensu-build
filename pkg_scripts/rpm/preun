@@ -1,21 +1,25 @@
-# Uninstall package - stop services and remove user
+# Uninstall package - stop services
 if [ $1 -eq 0 ]; then
     sensu_services="sensu-client sensu-server sensu-api sensu-dashboard"
 
     # Disable and stop sensu services
     for service in $sensu_services; do
-        /sbin/chkconfig $service off
-        /sbin/chkconfig --del $service
+        chkconfig $service off
+        chkconfig --del $service
         if [ -f "/etc/init.d/$service" ]; then
             /etc/init.d/$service stop || true
-            rm /etc/init.d/$service
+        fi
+        if [ -L "/opt/sensu/service/$service" ]; then
+            rm /opt/sensu/service/$service
         fi
     done
 
-    # send sensu-runsvdir a hup to stop itself and supervised services
+    # some time for sensu services to stop
+    sleep 6
+
+    # stop sensu runsvdir (if configured)
     if [ -f "/etc/init/sensu-runsvdir.conf" ]; then
-        reload sensu-runsvdir || true
-        rm /etc/init/sensu-runsvdir.conf
+        stop sensu-runsvdir || true
     fi
 
     # purge any service configs setup by `sensu-ctl configure`

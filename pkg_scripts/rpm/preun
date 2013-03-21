@@ -21,8 +21,6 @@ if [ $1 -eq 0 ]; then
     if [ -f "/etc/init/sensu-runsvdir.conf" ]; then
         stop sensu-runsvdir || true
     fi
-
-    # purge any service configs setup by `sensu-ctl configure`
     if [ -f "/etc/inittab" ]; then
         if grep -q sensu-runsvdir /etc/inittab; then
             sed "/sensu-runsvdir/d" /etc/inittab > /etc/inittab
@@ -32,24 +30,5 @@ if [ $1 -eq 0 ]; then
     fi
     if [ -f "/etc/systemd/system/sensu-runsvdir.service" ]; then
         systemctl stop sensu-runsvdir.service
-    fi
-    if [ -f "/etc/systemd/system/sensu-runsvdir.service" ]; then
-       rm /etc/systemd/system/sensu-runsvdir.service
-       systemctl daemon-reload
-    fi
-
-    # Delete sensu user
-    if getent passwd sensu >/dev/null; then
-        /usr/sbin/userdel -f sensu
-    fi
-
-    # Delete sensu group
-    if getent group sensu >/dev/null; then
-        /usr/sbin/groupdel -f sensu
-    fi
-
-    # Remove sensu share files
-    if [ -d "/usr/share/sensu" ]; then
-        rm -r /usr/share/sensu
     fi
 fi

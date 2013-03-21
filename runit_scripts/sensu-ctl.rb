@@ -116,6 +116,17 @@ def setup_runsvdir_sysvinit
   end
 end
 
+def setup_runsvdir_systemd
+  if run_command("cp /usr/share/sensu/systemd/sensu-runsvdir.service /etc/systemd/system/sensu-runsvdir.service")
+    run_command("systemctl daemon-reload")
+    unless run_command("systemctl start sensu-runsvdir.service")
+      setup_failed("failed to start systemd service: sensu-runsvdir.service")
+    end
+  else
+    setup_failed("failed to create systemd service: /etc/systemd/system/sensu-runsvdir.service")
+  end
+end
+
 def configure
   ohai = Ohai::System.new
   ohai.require_plugin("os")
@@ -129,6 +140,10 @@ def configure
     else
       setup_runsvdir_sysvinit
     end
+  when "fedora"
+    if ohai.platform_version.to_i > 15
+      setup_runsvdir_systemd
+    end
   else
     setup_runsvdir_sysvinit
   end
@@ -141,7 +156,7 @@ def configured?
 end
 
 def tail(service='*')
-  system("tail -f /opt/sensu/service/#{service}/log/main/current")
+  system("tail -f /var/log/sensu/#{service}.log")
 end
 
 def help

@@ -40,7 +40,7 @@ stop_sensu_services() {
         fi
     fi
     if [ -f "/etc/systemd/system/sensu-runsvdir.service" ]; then
-        systemctl stop sensu-runsvdir.service
+        systemctl stop sensu-runsvdir.service || true
     fi
 }
 

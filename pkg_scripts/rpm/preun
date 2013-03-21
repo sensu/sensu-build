@@ -29,6 +29,6 @@ if [ $1 -eq 0 ]; then
         fi
     fi
     if [ -f "/etc/systemd/system/sensu-runsvdir.service" ]; then
-        systemctl stop sensu-runsvdir.service
+        systemctl stop sensu-runsvdir.service || true
     fi
 fi

@@ -33,6 +33,9 @@ stop_sensu_services() {
             pkill -HUP -f /opt/sensu/embedded/bin/runsvdir || true
         fi
     fi
+    if [ -f "/etc/systemd/system/sensu-runsvdir.service" ]; then
+        systemctl stop sensu-runsvdir.service
+    fi
 }
 
 case "$1" in

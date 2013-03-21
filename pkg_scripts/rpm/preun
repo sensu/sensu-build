@@ -17,6 +17,8 @@ if [ $1 -eq 0 ]; then
         reload sensu-runsvdir || true
         rm /etc/init/sensu-runsvdir.conf
     fi
+
+    # purge any service configs setup by `sensu-ctl configure`
     if [ -f "/etc/inittab" ]; then
         if grep -q sensu-runsvdir /etc/inittab; then
             sed "/sensu-runsvdir/d" /etc/inittab > /etc/inittab
@@ -26,6 +28,10 @@ if [ $1 -eq 0 ]; then
     fi
     if [ -f "/etc/systemd/system/sensu-runsvdir.service" ]; then
         systemctl stop sensu-runsvdir.service
+    fi
+    if [ -f "/etc/systemd/system/sensu-runsvdir.service" ]; then
+       rm /etc/systemd/system/sensu-runsvdir.service
+       systemctl daemon-reload
     fi
 
     # Delete sensu user

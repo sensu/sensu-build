@@ -119,7 +119,7 @@ end
 def setup_runsvdir_systemd
   if run_command("cp /usr/share/sensu/systemd/sensu-runsvdir.service /etc/systemd/system/sensu-runsvdir.service")
     unless run_command("systemctl status sensu-runsvdir.service", 1, false)
-      run_command("systemctl daemon-reload")
+      run_command("systemctl --system daemon-reload")
       unless run_command("systemctl start sensu-runsvdir.service")
         setup_failed("failed to start systemd service: sensu-runsvdir.service")
       end

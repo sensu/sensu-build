@@ -11,6 +11,10 @@ if [ $1 -eq 0 ]; then
     if [ -f "/etc/init/sensu-runsvdir.conf" ]; then
         rm /etc/init/sensu-runsvdir.conf
     fi
+    if [ -f "/etc/systemd/system/sensu-runsvdir.service" ]; then
+       rm /etc/systemd/system/sensu-runsvdir.service
+       systemctl daemon-reload
+    fi
 
     # Delete sensu files
     if [ -d "/usr/share/sensu" ]; then

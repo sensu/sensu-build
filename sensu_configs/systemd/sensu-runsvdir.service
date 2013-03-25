@@ -1,0 +1,10 @@
+[Unit]
+Description=Sensu service control supervisor
+
+[Service]
+ExecStart=/opt/sensu/embedded/bin/sensu-runsvdir
+Restart=on-failure
+RestartSec=1min
+
+[Install]
+WantedBy=multi-user.target

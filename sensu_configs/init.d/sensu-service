@@ -53,9 +53,10 @@ pidfile=$PID_DIR/$prog.pid
 logfile=$LOG_DIR/$prog.log
 
 if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
-    path=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+    export PATH=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+    export GEM_PATH=/opt/sensu/embedded/lib/ruby/gems/2.0.0:$GEM_PATH
 else
-    path=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+    export PATH=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
 fi
 
 options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile $OPTIONS"
@@ -168,10 +169,6 @@ ensure_pid_dir() {
     fi
 }
 
-set_sensu_path() {
-    export PATH=$path
-}
-
 start() {
     log_daemon_msg "Starting $prog"
 
@@ -185,7 +182,6 @@ start() {
         exit 0
     fi
 
-    set_sensu_path
     ensure_pid_dir
     start_daemon $user $pidfile $exec "$options"
     retval=$?

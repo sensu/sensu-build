@@ -19,6 +19,7 @@ options="-c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -l $LOG_DIR/$prog.log 
 # $ORIGINAL_PATH is set by sensu-runsvdir
 if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
     export PATH=/opt/sensu/embedded/bin:$ORIGINAL_PATH:$PLUGINS_DIR:$HANDLERS_DIR
+    export GEM_PATH=/opt/sensu/embedded/lib/ruby/gems/2.0.0:$GEM_PATH
 else
     export PATH=$ORIGINAL_PATH:$PLUGINS_DIR:$HANDLERS_DIR
 fi

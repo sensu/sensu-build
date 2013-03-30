@@ -52,6 +52,8 @@ exec=/opt/sensu/bin/$prog
 pidfile=$PID_DIR/$prog.pid
 logfile=$LOG_DIR/$prog.log
 
+options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile $OPTIONS"
+
 if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
     export PATH=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
     export GEM_PATH=/opt/sensu/embedded/lib/ruby/gems/2.0.0:$GEM_PATH
@@ -59,7 +61,7 @@ else
     export PATH=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
 fi
 
-options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile $OPTIONS"
+export RACK_ENV=production
 
 cd /opt/sensu
 

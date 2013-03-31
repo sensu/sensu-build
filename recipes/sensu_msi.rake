@@ -12,7 +12,7 @@ Bunchr::Software.new do |t|
 
   FileUtils.mkdir_p(t.work_dir)
 
-  assets = "#{Dir.pwd}\\sensu_configs\\msi"
+  assets = "#{Dir.pwd}\\msi_assets"
 
   if t.ohai['os'] == 'windows'
     FileUtils.cp_r("#{assets}\\files\\.", t.work_dir)

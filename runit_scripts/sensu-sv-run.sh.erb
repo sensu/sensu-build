@@ -24,7 +24,5 @@ else
     export PATH=$ORIGINAL_PATH:$PLUGINS_DIR:$HANDLERS_DIR
 fi
 
-export RACK_ENV=production
-
 exec 2>&1
 exec /opt/sensu/embedded/bin/chpst -u $USER /opt/sensu/bin/$prog $options

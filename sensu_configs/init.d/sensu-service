@@ -61,8 +61,6 @@ else
     export PATH=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
 fi
 
-export RACK_ENV=production
-
 cd /opt/sensu
 
 ##

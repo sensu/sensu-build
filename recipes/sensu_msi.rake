@@ -9,10 +9,11 @@ Bunchr::Software.new do |t|
 
   t.depends_on('ruby_windows_devkit')
   t.depends_on('sensu')
+  t.depends_on('winsw')
 
   FileUtils.mkdir_p(t.work_dir)
 
-  assets = "#{Dir.pwd}\\sensu_configs\\msi"
+  assets = "#{Dir.pwd}\\msi_assets"
 
   if t.ohai['os'] == 'windows'
     FileUtils.cp_r("#{assets}\\files\\.", t.work_dir)
@@ -35,8 +36,6 @@ Bunchr::Software.new do |t|
 
   install_prefix = Bunchr.install_dir
 
-  t.build_commands << "mkdir #{install_prefix}\\bin"
-  t.build_commands << "copy winsw-1.9-bin.exe #{install_prefix}\\bin\\sensu-client.exe"
   t.build_commands << "copy sensu-client.xml #{install_prefix}\\bin\\"
 
   heat_cmd = "heat.exe dir \"#{install_prefix}\" -nologo -srd"

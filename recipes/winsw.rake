@@ -5,8 +5,8 @@ Bunchr::Software.new do |t|
 
   install_prefix = Bunchr.install_dir
 
-  t.download_commands << "wget https://github.com/kohsuke/winsw/archive/#{t.version}.zip"
-  t.download_commands << "unzip winsw-#{t.version}.zip"
+  t.download_commands << "wget --no-check-certificate https://github.com/kohsuke/winsw/archive/#{t.version}.zip"
+  t.download_commands << "unzip #{t.version}"
 
   build_cmd = "C:\\windows\\Microsoft.NET\\Framework\\v4.0.30319\\MSBuild.exe winsw.sln"
   build_cmd << " /target:Clean;Build /p:Configuration=Release /p:PostBuildEvent="

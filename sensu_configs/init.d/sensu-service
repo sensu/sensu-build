@@ -217,7 +217,7 @@ stop() {
         fi
         return $retval
     else
-        pid=$(pgrep -fl $exec | grep -v grep | grep -v bash | cut -f1 -d" ")
+        pid=$(pgrep -P1 -fl $exec | grep -v grep | grep -v bash | cut -f1 -d" ")
         if [ ! "$pid" == "" ]; then
             kill $pid
             retval=$?

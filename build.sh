@@ -41,6 +41,7 @@ case "$system" in
     ;;
 
     debian)
+        apt-get update
         apt-get -y install git-core curl m4 g++ make gcc
         install_bunchr
     ;;

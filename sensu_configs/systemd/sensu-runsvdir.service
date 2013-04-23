@@ -3,6 +3,7 @@ Description=Sensu service control supervisor
 
 [Service]
 ExecStart=/opt/sensu/embedded/bin/sensu-runsvdir
+KillMode=process
 Restart=on-failure
 RestartSec=1min
 

@@ -1,6 +1,6 @@
 Bunchr::Software.new do |t|
   t.name = 'zlib'
-  t.version = '1.2.7'
+  t.version = '1.2.8'
 
   install_prefix = "#{Bunchr.install_dir}/embedded"
 

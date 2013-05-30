@@ -124,7 +124,7 @@ if [ "$system" = "debian" ]; then
 
     ## set or override platform specific functions
     start_daemon() {
-        start-stop-daemon --start --chuid $1 --pidfile $2 --exec $3 -- $4
+        /sbin/start-stop-daemon --start --chuid $1 --pidfile $2 --exec $3 -- $4
     }
     echo_ok() {
         log_end_msg 0

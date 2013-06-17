@@ -54,14 +54,6 @@ logfile=$LOG_DIR/$prog.log
 
 options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile $OPTIONS"
 
-if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
-    path=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
-    gem_path=/opt/sensu/embedded/lib/ruby/gems/2.0.0:$GEM_PATH
-else
-    path=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
-    gem_path=$GEM_PATH
-fi
-
 cd /opt/sensu
 
 ##
@@ -171,6 +163,13 @@ ensure_pid_dir() {
 }
 
 set_sensu_paths() {
+  if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
+      path=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+      gem_path=/opt/sensu/embedded/lib/ruby/gems/2.0.0:$GEM_PATH
+  else
+      path=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+      gem_path=$GEM_PATH
+  fi
   export PATH=$path
   export GEM_PATH=$gem_path
 }

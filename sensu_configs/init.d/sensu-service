@@ -271,7 +271,11 @@ status() {
 # sometimes sensu components need a moment to shutdown, so
 # let's implement a waiting approach to restarts with a timeout
 restart() {
-    max_wait=10
+
+    if [ -z "$max_wait" ]; then
+        max_wait=10
+    fi
+
     count=0; success=0
 
     stop

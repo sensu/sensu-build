@@ -21,6 +21,7 @@ HANDLERS_DIR=/etc/sensu/handlers
 LOG_DIR=/var/log/sensu
 PID_DIR=/var/run/sensu
 USER=sensu
+SERVICE_MAX_WAIT=10
 
 if [ -f /etc/default/sensu ]; then
     . /etc/default/sensu
@@ -271,12 +272,11 @@ status() {
 # sometimes sensu components need a moment to shutdown, so
 # let's implement a waiting approach to restarts with a timeout
 restart() {
-    max_wait=10
     count=0; success=0
 
     stop
 
-    while [ $count -lt $max_wait ]; do
+    while [ $count -lt $SERVICE_MAX_WAIT ]; do
         count=$((count + 1))
         status &> /dev/null
         if [ $? -eq 0 ]; then

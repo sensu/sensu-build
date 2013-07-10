@@ -7,7 +7,7 @@
     copytruncate
     compress
     postrotate
-        /bin/kill -USR2 `cat /var/run/sensu/sensu-client.pid` &> /dev/null || true
+        /bin/kill -USR2 `cat /var/run/sensu/sensu-client.pid` &> /dev/null > /dev/null || true
     endscript
 }
 
@@ -20,7 +20,7 @@
     copytruncate
     compress
     postrotate
-        /bin/kill -USR2 `cat /var/run/sensu/sensu-server.pid` &> /dev/null || true
+        /bin/kill -USR2 `cat /var/run/sensu/sensu-server.pid` &> /dev/null > /dev/null || true
     endscript
 }
 
@@ -33,7 +33,7 @@
     copytruncate
     compress
     postrotate
-        /bin/kill -USR2 `cat /var/run/sensu/sensu-api.pid` &> /dev/null || true
+        /bin/kill -USR2 `cat /var/run/sensu/sensu-api.pid` &> /dev/null > /dev/null || true
     endscript
 }
 
@@ -46,6 +46,6 @@
     copytruncate
     compress
     postrotate
-        /bin/kill -USR2 `cat /var/run/sensu/sensu-dashboard.pid` &> /dev/null || true
+        /bin/kill -USR2 `cat /var/run/sensu/sensu-dashboard.pid` &> /dev/null > /dev/null || true
     endscript
 }

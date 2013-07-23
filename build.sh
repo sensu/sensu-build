@@ -49,6 +49,7 @@ case "$system" in
     suse)
         zypper --non-interactive install git-core curl m4 make gcc gcc-c++ ruby-rdoc rubygem-rake
         echo "export RUBYLIB=`rpm -ql rubygems|awk '/vendor.*gems$/ {gsub(/rubygems$/,"");print}'`" > /etc/profile.d/ruby.sh
+        . /etc/profile.d/ruby.sh
         gem install fpm
         install_bunchr
     ;;

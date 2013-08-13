@@ -19,6 +19,7 @@ EXTENSION_DIR=/etc/sensu/extensions
 PLUGINS_DIR=/etc/sensu/plugins
 HANDLERS_DIR=/etc/sensu/handlers
 LOG_DIR=/var/log/sensu
+LOG_LEVEL=info
 PID_DIR=/var/run/sensu
 USER=sensu
 SERVICE_MAX_WAIT=10
@@ -54,7 +55,7 @@ max_wait=$SERVICE_MAX_WAIT
 pidfile=$PID_DIR/$prog.pid
 logfile=$LOG_DIR/$prog.log
 
-options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile $OPTIONS"
+options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile -L $LOG_LEVEL $OPTIONS"
 
 if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
     path=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR

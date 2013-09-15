@@ -49,24 +49,6 @@ fi
 
 prog=sensu-$1
 
-user=$USER
-exec=/opt/sensu/bin/$prog
-max_wait=$SERVICE_MAX_WAIT
-pidfile=$PID_DIR/$prog.pid
-logfile=$LOG_DIR/$prog.log
-
-options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile -L $LOG_LEVEL $OPTIONS"
-
-if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
-    path=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
-    gem_path=/opt/sensu/embedded/lib/ruby/gems/2.0.0:$GEM_PATH
-else
-    path=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
-    gem_path=$GEM_PATH
-fi
-
-cd /opt/sensu
-
 ##
 ## Set platform specific bits here.
 ## The original platform for this script was redhat so the scripts are partial
@@ -163,6 +145,25 @@ if [ "$system" = "suse" ]; then
     }
 fi
 # TODO: support other platforms in the future: gentoo, arch, slackware, etc
+
+user=$USER
+exec=/opt/sensu/bin/$prog
+max_wait=$SERVICE_MAX_WAIT
+pidfile=$PID_DIR/$prog.pid
+logfile=$LOG_DIR/$prog.log
+
+options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile -L $LOG_LEVEL $OPTIONS"
+
+if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
+    path=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+    gem_path=/opt/sensu/embedded/lib/ruby/gems/2.0.0:$GEM_PATH
+else
+    path=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+    gem_path=$GEM_PATH
+fi
+
+cd /opt/sensu
+
 
 ensure_pid_dir() {
     pid_dir=`dirname ${pidfile}`

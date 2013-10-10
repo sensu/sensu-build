@@ -12,6 +12,8 @@
 # Description:    Sensu monitoring framework service script
 ### END INIT INFO
 
+prog=sensu-$1
+
 EMBEDDED_RUBY=false
 CONFIG_FILE=/etc/sensu/config.json
 CONFIG_DIR=/etc/sensu/conf.d
@@ -46,26 +48,6 @@ elif [ -f /etc/slackware-version ]; then
 elif [ -f /etc/lfs-release ]; then
     system=lfs
 fi
-
-prog=sensu-$1
-
-user=$USER
-exec=/opt/sensu/bin/$prog
-max_wait=$SERVICE_MAX_WAIT
-pidfile=$PID_DIR/$prog.pid
-logfile=$LOG_DIR/$prog.log
-
-options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile -L $LOG_LEVEL $OPTIONS"
-
-if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
-    path=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
-    gem_path=/opt/sensu/embedded/lib/ruby/gems/2.0.0:$GEM_PATH
-else
-    path=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
-    gem_path=$GEM_PATH
-fi
-
-cd /opt/sensu
 
 ##
 ## Set platform specific bits here.
@@ -164,18 +146,30 @@ if [ "$system" = "suse" ]; then
 fi
 # TODO: support other platforms in the future: gentoo, arch, slackware, etc
 
-ensure_pid_dir() {
-    pid_dir=`dirname ${pidfile}`
-    if [ ! -d ${pid_dir} ]; then
-        mkdir -p ${pid_dir}
-        chown -R ${user} ${pid_dir}
-        chmod 755 ${pid_dir}
+cd /opt/sensu
+
+exec=/opt/sensu/bin/$prog
+
+pidfile=$PID_DIR/$prog.pid
+logfile=$LOG_DIR/$prog.log
+
+options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile -L $LOG_LEVEL $OPTIONS"
+
+ensure_dir() {
+    if [ ! -d $1 ]; then
+        mkdir -p $1
+        chown -R $2 $1
+        chmod 755 $1
     fi
 }
 
 set_sensu_paths() {
-  export PATH=$path
-  export GEM_PATH=$gem_path
+    if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
+        export PATH=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+        export GEM_PATH=/opt/sensu/embedded/lib/ruby/gems/2.0.0:$GEM_PATH
+    else
+        export PATH=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+    fi
 }
 
 start() {
@@ -192,8 +186,11 @@ start() {
     fi
 
     set_sensu_paths
-    ensure_pid_dir
-    start_daemon $user $pidfile $exec "$options"
+    ensure_dir $PID_DIR $USER
+    ensure_dir $LOG_DIR $USER
+
+    start_daemon $USER $pidfile $exec "$options"
+
     retval=$?
     sleep 1
 
@@ -278,7 +275,7 @@ restart() {
 
     stop
 
-    while [ $count -lt $max_wait ]; do
+    while [ $count -lt $SERVICE_MAX_WAIT ]; do
         count=$((count + 1))
         status &> /dev/null
         if [ $? -eq 0 ]; then

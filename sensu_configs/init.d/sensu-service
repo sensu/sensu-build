@@ -215,13 +215,13 @@ start() {
 
 # sometimes sensu components need a moment to shutdown, so
 # let's implement a waiting approach to stopping with a timeout
-stop_wait() {
+wait_for_stop() {
     count=0; success=0
     while [ $count -lt $SERVICE_MAX_WAIT ]; do
         count=$((count + 1))
         status &> /dev/null
         if [ $? -eq 0 ]; then
-                    # still running
+            # still running
             sleep 1
         else
             rm -f $pidfile
@@ -240,7 +240,7 @@ stop() {
         killproc -p $pidfile $prog
         retval=$?
         if [ $retval -eq 0 ]; then
-            stop_wait
+            wait_for_stop
         else
             echo_fail
         fi
@@ -251,7 +251,7 @@ stop() {
             kill $pid
             retval=$?
             if [ $retval -eq 0 ]; then
-                stop_wait
+                wait_for_stop
             fi
         else
             echo_fail

@@ -31,6 +31,6 @@ if [ $1 -eq 0 ]; then
 
     # Delete sensu group
     if getent group sensu >/dev/null; then
-        groupdel -f sensu
+        groupdel sensu
     fi
 fi

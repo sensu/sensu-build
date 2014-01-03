@@ -1,3 +1,0 @@
-rvm --create 1.9.3@sensu-build
-rvm use 1.9.3@sensu-build
-[[ -s .gems ]] && rvm gemset import .gems

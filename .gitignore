@@ -13,3 +13,4 @@ logs
 .yardoc
 _yardoc
 doc/
+Gemfile.lock

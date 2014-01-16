@@ -4,8 +4,8 @@ Bunchr::Software.new do |t|
 
   windows_ruby_build = "ruby-#{t.version}-i386-mingw32"
 
-  t.download_commands << "wget http://dl.bintray.com/oneclick/rubyinstaller/#{windows_ruby_build}.7z"
-  t.download_commands << "7z x #{windows_ruby_build}.7z"
+  t.download_commands << "wget http://dl.bintray.com/oneclick/rubyinstaller/#{windows_ruby_build}.7z?direct"
+  t.download_commands << "7z x #{windows_ruby_build}.7z*"
 
   t.work_dir = windows_ruby_build
 

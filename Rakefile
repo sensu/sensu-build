@@ -56,6 +56,7 @@ Bunchr::Packages.new do |t|
     t.include_software('sensu_plugin')
     t.include_software('sensu_configs')
     t.include_software('sensu_bin_stubs')
+    t.include_software('assets')
 
     t.files << Bunchr.install_dir
     t.files << '/usr/share/sensu'

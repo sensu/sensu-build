@@ -2,6 +2,8 @@ Bunchr::Software.new do |t|
   t.name = 'openssl'
   t.version = '1.0.1'
 
+  assets_dir = "#{Dir.pwd}\\assets"
+
   install_prefix = "#{Bunchr.install_dir}/embedded"
 
   ## download_commands are executed in the +download_dir+ directory.
@@ -49,6 +51,8 @@ Bunchr::Software.new do |t|
   ## install_commands are executed in the +work_dir+ directory.
   t.install_commands << "make install"
   t.install_commands << "rm -rf #{install_prefix}/ssl/man"
+
+  t.install_commands << "cp -f #{assets_dir}/cacert.pem #{install_prefix}/ssl/cert.pem"
 
   CLEAN << install_prefix
 end

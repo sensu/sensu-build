@@ -13,12 +13,12 @@ Bunchr::Software.new do |t|
 
   FileUtils.mkdir_p(t.work_dir)
 
-  assets = "#{Dir.pwd}\\msi_assets"
+  assets_dir = "#{Dir.pwd}\\assets\\msi"
 
   if t.ohai['os'] == 'windows'
-    FileUtils.cp_r("#{assets}\\files\\.", t.work_dir)
+    FileUtils.cp_r("#{assets_dir}\\files\\.", t.work_dir)
 
-    File.open("#{assets}\\templates\\Sensu-Config.wxi.erb") do |file|
+    File.open("#{assets_dir}\\templates\\Sensu-Config.wxi.erb") do |file|
       versions = t.version.split("-").first.split(".")
       @major_version = versions[0]
       @minor_version = versions[1]

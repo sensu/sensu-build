@@ -4,6 +4,8 @@ Bunchr::Software.new do |t|
 
   t.depends_on('ruby_windows')
 
+  assets_dir = "#{Dir.pwd}\\assets"
+
   devkit_exe = "DevKit-mingw64-32-#{t.version}-sfx.exe"
 
   t.download_commands << "wget -P #{t.work_dir} http://rubyforge.org/frs/download.php/76805/#{devkit_exe}"
@@ -14,6 +16,8 @@ Bunchr::Software.new do |t|
   t.build_commands << "echo - #{install_prefix} > #{install_prefix}\\config.yml"
 
   t.install_commands << "cd #{install_prefix} && #{install_prefix}\\bin\\ruby dk.rb install"
+
+  t.install_commands << "cp -f #{assets_dir}\\cacert.pem #{install_prefix}\\ssl\\cert.pem"
 
   CLEAN << install_prefix
 end

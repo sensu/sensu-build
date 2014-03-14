@@ -2,7 +2,7 @@ Bunchr::Software.new do |t|
   t.name = 'openssl'
   t.version = '1.0.1'
 
-  assets_dir = "#{Dir.pwd}\\assets"
+  assets_dir = "#{Dir.pwd}/assets"
 
   install_prefix = "#{Bunchr.install_dir}/embedded"
 

@@ -1,14 +1,14 @@
 Bunchr::Software.new do |t|
   t.name = 'openssl'
-  t.version = '1.0.1'
+  t.version = '1.0.1g'
 
   assets_dir = "#{Dir.pwd}/assets"
 
   install_prefix = "#{Bunchr.install_dir}/embedded"
 
   ## download_commands are executed in the +download_dir+ directory.
-  t.download_commands << "curl -O http://www.openssl.org/source/openssl-1.0.1.tar.gz"
-  t.download_commands << "tar xfvz openssl-1.0.1.tar.gz"
+  t.download_commands << "curl -O http://www.openssl.org/source/openssl-#{t.version}.tar.gz"
+  t.download_commands << "tar xfvz openssl-#{t.version}.tar.gz"
 
   ## build_commands are executed in the +work_dir+ directory.
   ## If work_dir is not specified, it is assumed to be "name-version" or "name"

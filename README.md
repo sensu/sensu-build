@@ -20,6 +20,7 @@ Dependencies
 
 - Oracle VirtualBox
 - Vagrant
+- Vagrant-Omnibus (https://github.com/schisamo/vagrant-omnibus)
 - Ruby bundler
 - GNU parallel(1)
 

@@ -62,5 +62,6 @@ PLATFORMS
 
 DEPENDENCIES
   bunchr (= 0.1.5)
+  ohai (= 6.22.0)
   pleaserun (= 0.0.7)
   systemu (= 2.5.2)

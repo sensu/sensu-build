@@ -1,4 +1,5 @@
 gem 'systemu', '2.5.2'
+gem 'ohai', '6.22.0'
 gem 'bunchr', '0.1.5'
 
 require 'bunchr'

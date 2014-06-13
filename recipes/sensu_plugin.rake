@@ -3,7 +3,7 @@ Bunchr::Software.new do |t|
 
   t.version = '0.3.0'
 
-  install_prefix = "#{Bunchr.install_dir}"
+  FileUtils.mkdir_p(t.work_dir)
 
   gem_bin = File.join(Bunchr.install_dir, 'embedded', 'bin', 'gem')
 

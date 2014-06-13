@@ -14,11 +14,6 @@
     "host": "localhost",
     "port": 4567
   },
-  "dashboard": {
-    "port": 8080,
-    "user": "admin",
-    "password": "secret"
-  },
   "handlers": {
     "default": {
       "type": "set",

@@ -1,4 +1,5 @@
-.vagrant*
+.bundle
+.vagrant
 Attic
 *.tar.gz
 *.rpm
@@ -13,4 +14,3 @@ logs
 .yardoc
 _yardoc
 doc/
-Gemfile.lock

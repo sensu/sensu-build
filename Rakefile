@@ -1,5 +1,12 @@
+gem 'systemu', '2.5.2'
+gem 'bunchr', '0.1.5'
+
 require 'bunchr'
 require 'fileutils'
+
+if ENV['VAGRANT_BOX'].nil?
+  raise "You do not want to run this on your local machine!"
+end
 
 if ENV['SENSU_VERSION'].nil?
   raise "Please set ENV['SENSU_VERSION'] and re-run."
@@ -21,8 +28,8 @@ Bunchr::Packages.new do |t|
 
   t.category = 'Monitoring'
   t.license  = 'MIT License'
-  t.vendor   = 'Sonian Inc.'
-  t.url      = 'https://github.com/sonian/sensu'
+  t.vendor   = 'Heavy Water Operations, LLC.'
+  t.url      = 'https://github.com/sensu/sensu'
   t.description = 'A monitoring framework that aims to be simple, malleable, and scalable.'
 
   platform_family = t.ohai.platform_family
@@ -52,7 +59,6 @@ Bunchr::Packages.new do |t|
     t.include_software('ruby')
     t.include_software('runit')
     t.include_software('sensu')
-    t.include_software('sensu_dashboard')
     t.include_software('sensu_plugin')
     t.include_software('sensu_configs')
     t.include_software('sensu_bin_stubs')
@@ -73,7 +79,6 @@ Bunchr::Packages.new do |t|
     t.files << '/etc/init.d/sensu-api'
     t.files << '/etc/init.d/sensu-client'
     t.files << '/etc/init.d/sensu-server'
-    t.files << '/etc/init.d/sensu-dashboard'
 
     # need to enumerate config files for fpm
     # these are installed from recipe/sensu_configs.rake

@@ -2,7 +2,7 @@
 # On first install, register the init scripts but disable services.
 # User should choose the services they want to run after install
 if [ $1 -eq 1 ]; then
-    sensu_services="sensu-client sensu-server sensu-api sensu-dashboard"
+    sensu_services="sensu-client sensu-server sensu-api"
 
     for service in $sensu_services; do
         chkconfig --add $service

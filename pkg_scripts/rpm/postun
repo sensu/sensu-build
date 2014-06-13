@@ -1,6 +1,6 @@
 # Uninstall package - delete files and user
 if [ $1 -eq 0 ]; then
-    sensu_services="sensu-client sensu-server sensu-api sensu-dashboard"
+    sensu_services="sensu-client sensu-server sensu-api"
 
     # Delete service scripts
     for service in $sensu_services; do

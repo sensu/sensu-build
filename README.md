@@ -1,14 +1,14 @@
 sensu packages, build suite
 ===========================
 
-This repo contains the toolset needed to build Sensu packages for all 
+This repo contains the toolset needed to build Sensu packages for all
 currently supported platforms. The builds are 'omnibus' style packages
 that contain everything they need to run, including their own build of Ruby
-and all required gems. 
+and all required gems.
 
-The build suite relies heavily on Vagrant, Bunchr and FPM. 
+The build suite relies heavily on Vagrant, Bunchr and FPM.
 
-VM's are used to build packages native to each OS. E.g: .rpm's on CentOS, and 
+VM's are used to build packages native to each OS. E.g: .rpm's on CentOS, and
 .deb's on Ubuntu. Bunchr allows the same scripts to be used on each platform
 so builds are as consistent as possible and the build scripts easy to maintain.
 
@@ -18,11 +18,9 @@ from Veewee templates and are available at:  http://vagrant.sensuapp.org
 Dependencies
 ------------
 
-- [Bunchr](https://github.com/joemiller/bunchr)
-- A physical box to run VirtualBox
 - Oracle VirtualBox
-- Vagrant (only tested with Vagrant 1.x)
-- rake (should work on 0.8.7+ and 0.9.x)
+- Vagrant
+- Ruby bundler
 - GNU parallel(1)
 
 Usage
@@ -33,13 +31,13 @@ There are multiple ways to run the builders:
 ### Build packages on all supported platforms.
 
 ```
-$ export SENSU_VERSION=v0.9.5   # any valid tag in the sensu.git repo. Will also 
+$ export SENSU_VERSION=v0.9.5   # any valid tag in the sensu.git repo. Will also
                                 # be used as the 'version' in the .rpm/.deb's.
 $ export BUILD_NUMBER=20        # could also use the jenkins build number
 $ ./para-vagrant.sh
 ```
 
-The `para-vagrant.sh` script will boot the VM's sequentially then run the 
+The `para-vagrant.sh` script will boot the VM's sequentially then run the
 Vagrant provision process (build) in parallel on each VM.
 
 VM's are booted sequentially to avoid any VirtualBox kernel panics.
@@ -47,7 +45,7 @@ VM's are booted sequentially to avoid any VirtualBox kernel panics.
 The concurrency can be controlled by setting `$MAX_PROCS` at the top of the
 `para-vagrant.sh` script.
 
-Detailed Logs of each provision process will be generated in the `logs/` 
+Detailed Logs of each provision process will be generated in the `logs/`
 directory.
 
 ### Build packages on a single platform, from outside the VM.
@@ -77,7 +75,7 @@ Make sure `SENSU_VERSION` and `BUILD_NUMBER` are exported in the environment.
 $ ./build.sh
 ```
 
-The build script will try to install some platform specific packages that 
+The build script will try to install some platform specific packages that
 are typically not installed on minimal systems such as our Vagrant images.
 
 Rake can also be called directly if you're sure the system has all of the
@@ -97,11 +95,6 @@ Known Issues
 
 * It's not uncommon to see VirtualBox kernel panic on Mac OSX:
   https://github.com/mitchellh/vagrant/issues/797
-
-Future / TODO
--------------
-
-See `TODO.md`
 
 Acknowledgements
 ----------------

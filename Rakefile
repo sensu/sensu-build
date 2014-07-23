@@ -80,6 +80,7 @@ Bunchr::Packages.new do |t|
     t.config_files << '/etc/sensu/config.json.example'
     t.config_files << '/etc/sensu/conf.d/README.md'
     t.config_files << '/etc/logrotate.d/sensu'
+    t.config_files << '/etc/default/sensu'
   end
 end
 

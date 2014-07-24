@@ -42,7 +42,7 @@ parallel_provision() {
 ## -- main -- ##
 
 # cleanup old logs
-mkdir logs >/dev/null 2>&1 
+mkdir logs >/dev/null 2>&1
 rm -f logs/*.out.txt
 
 # start boxes sequentially to avoid vbox explosions
@@ -52,8 +52,8 @@ vagrant up --no-provision
 # but run provision tasks in parallel
 echo " ==> Beginning parallel 'vagrant provision' processes ..."
 cat <<EOF | parallel_provision
-centos_5_64
-centos_5_32
-ubuntu_1004_32
-ubuntu_1004_64
+centos_5_10_32
+centos_5_10_64
+ubuntu_10_04_32
+ubuntu_10_04_64
 EOF

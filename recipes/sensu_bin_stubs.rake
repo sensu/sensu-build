@@ -13,6 +13,5 @@ Bunchr::Software.new do |t|
   t.install_commands << "ln -s ../embedded/bin/sensu-api    #{bin_dir}/sensu-api"
   t.install_commands << "ln -s ../embedded/bin/sensu-client #{bin_dir}/sensu-client"
   t.install_commands << "ln -s ../embedded/bin/sensu-server #{bin_dir}/sensu-server"
-  t.install_commands << "ln -s ../embedded/bin/sensu-dashboard #{bin_dir}/sensu-dashboard"
   t.install_commands << "ln -s ../embedded/bin/sensu-ctl #{bin_dir}/sensu-ctl"
 end

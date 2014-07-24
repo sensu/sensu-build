@@ -8,7 +8,7 @@ set -e
 #  http://www.debian.org/doc/debian-policy/ch-maintainerscripts.html
 #  http://www.proulx.com/~bob/debian/hints/DpkgScriptOrder
 
-sensu_services="sensu-client sensu-server sensu-api sensu-dashboard"
+sensu_services="sensu-client sensu-server sensu-api"
 
 # try to stop any running sensu services (not all will be running)
 stop_sensu_services() {

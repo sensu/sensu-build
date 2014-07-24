@@ -52,8 +52,8 @@ vagrant up --no-provision
 # but run provision tasks in parallel
 echo " ==> Beginning parallel 'vagrant provision' processes ..."
 cat <<EOF | parallel_provision
-centos_5_32
-centos_5_64
-ubuntu_1204_32
-ubuntu_1204_64
+centos_5_10_32
+centos_5_10_64
+ubuntu_10_04_32
+ubuntu_10_04_64
 EOF

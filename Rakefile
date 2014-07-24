@@ -72,8 +72,6 @@ Bunchr::Packages.new do |t|
     t.files << '/etc/sensu/handlers'
     t.files << '/etc/sensu/extensions'
 
-    t.files << '/etc/default/sensu'
-
     # all linux platforms are currently using init.d
     # this may change in the future.
     t.files << '/etc/init.d/sensu-service'

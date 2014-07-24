@@ -11,10 +11,10 @@ end
 
 opscode_bento = 'http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox'
 build_boxes = {
-  :centos_5_32    => "#{opscode_bento}/opscode_centos-5.10-i386_chef-provisionerless.box",
-  :centos_5_64    => "#{opscode_bento}/opscode_centos-5.10_chef-provisionerless.box",
-  :ubuntu_1204_32 => "#{opscode_bento}/opscode_ubuntu-12.04-i386_chef-provisionerless.box",
-  :ubuntu_1204_64 => "#{opscode_bento}/opscode_ubuntu-12.04_chef-provisionerless.box"
+  :centos_5_10_32  => "#{opscode_bento}/opscode_centos-5.10-i386_chef-provisionerless.box",
+  :centos_5_10_64  => "#{opscode_bento}/opscode_centos-5.10_chef-provisionerless.box",
+  :ubuntu_10_04_32 => "#{opscode_bento}/opscode_ubuntu-10.04-i386_chef-provisionerless.box",
+  :ubuntu_10_04_64 => "#{opscode_bento}/opscode_ubuntu-10.04_chef-provisionerless.box"
 }
 
 Vagrant.configure("2") do |config|

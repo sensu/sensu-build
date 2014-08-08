@@ -41,7 +41,7 @@ case "$system" in
         ;;
 
     suse)
-        zypper --non-interactive install curl m4 make gcc gcc-c++
+        zypper --non-interactive install curl m4 make gcc gcc-c++ rpm-build
         ;;
 
     *)

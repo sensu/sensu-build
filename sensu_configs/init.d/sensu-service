@@ -102,6 +102,7 @@ fi
 if [ "$system" = "debian" ]; then
     ## source platform specific external scripts
     . /lib/lsb/init-functions
+    prog=sensu-$1
     [ -r /etc/default/$prog ] && . /etc/default/$prog
 
     ## set or override platform specific variables

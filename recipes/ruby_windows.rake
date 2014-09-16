@@ -1,6 +1,6 @@
 Bunchr::Software.new do |t|
   t.name = 'ruby_windows'
-  t.version = '2.0.0-p353'
+  t.version = '2.0.0-p481'
 
   windows_ruby_build = "ruby-#{t.version}-i386-mingw32"
 

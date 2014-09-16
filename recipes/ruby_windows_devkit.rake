@@ -8,7 +8,7 @@ Bunchr::Software.new do |t|
 
   devkit_exe = "DevKit-mingw64-32-#{t.version}-sfx.exe"
 
-  t.download_commands << "wget -P #{t.work_dir} http://rubyforge.org/frs/download.php/76805/#{devkit_exe}"
+  t.download_commands << "wget -P #{t.work_dir} http://cdn.rubyinstaller.org/archives/devkits/#{devkit_exe}"
 
   install_prefix = "#{Bunchr.install_dir}\\embedded"
 
@@ -17,6 +17,7 @@ Bunchr::Software.new do |t|
 
   t.install_commands << "cd #{install_prefix} && #{install_prefix}\\bin\\ruby dk.rb install"
 
+  t.install_commands << "mkdir #{install_prefix}\\ssl"
   t.install_commands << "cp -f #{assets_dir}\\cacert.pem #{install_prefix}\\ssl\\cert.pem"
 
   CLEAN << install_prefix

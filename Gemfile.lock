@@ -3,8 +3,6 @@ GEM
   specs:
     arr-pm (0.0.9)
       cabin (> 0)
-    atomic (1.1.16)
-    avl_tree (1.1.3)
     backports (2.6.2)
     bunchr (0.1.5)
       fpm (= 0.4.26)
@@ -14,47 +12,28 @@ GEM
     cabin (0.4.4)
       json
     clamp (0.3.1)
-    ffi (1.9.3)
     fpm (0.4.26)
       arr-pm (~> 0.0.7)
       backports (= 2.6.2)
       cabin (~> 0.4.3)
       clamp (= 0.3.1)
       json (= 1.6.6)
-    hitimes (1.2.1)
-    insist (1.0.0)
     ipaddress (0.8.0)
     json (1.6.6)
-    metriks (0.9.9.6)
-      atomic (~> 1.0)
-      avl_tree (~> 1.1.2)
-      hitimes (~> 1.1)
     mixlib-cli (1.5.0)
     mixlib-config (2.1.0)
     mixlib-log (1.6.0)
     mixlib-shellout (1.4.0)
-    mustache (0.99.5)
-    ohai (6.22.0)
+    ohai (6.18.0)
       ipaddress
       mixlib-cli
       mixlib-config
       mixlib-log
       mixlib-shellout
-      systemu (~> 2.5.2)
+      systemu
       yajl-ruby
-    pleaserun (0.0.7)
-      cabin (> 0)
-      cabin
-      clamp
-      insist
-      mustache
-      ohai (~> 6.20)
-      stud
     rake (10.3.2)
-    stud (0.0.17)
-      ffi
-      metriks
-    systemu (2.5.2)
+    systemu (2.2.0)
     yajl-ruby (1.2.1)
 
 PLATFORMS
@@ -62,6 +41,5 @@ PLATFORMS
 
 DEPENDENCIES
   bunchr (= 0.1.5)
-  ohai (= 6.22.0)
-  pleaserun (= 0.0.7)
-  systemu (= 2.5.2)
+  ohai (= 6.18.0)
+  systemu (= 2.2.0)

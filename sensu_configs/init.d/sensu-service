@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# chkconfig: 345 90 90
+# chkconfig: 345 90 01
 # description: Sensu monitoring framework service
 
 ### BEGIN INIT INFO

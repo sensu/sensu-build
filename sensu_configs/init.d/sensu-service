@@ -12,7 +12,7 @@
 # Description:    Sensu monitoring framework service script
 ### END INIT INFO
 
-prog=sensu-$1
+service=sensu-$1
 
 EMBEDDED_RUBY=false
 CONFIG_FILE=/etc/sensu/config.json
@@ -58,7 +58,7 @@ fi
 ## Each platform must implement at least the following functions:
 ##
 ##     start_daemon $user $pidfile $executable "arguments"
-##     killproc -p $pid $prog
+##     killproc -p $pid $service
 ##     log_daemon_msg $@
 ##     log_action_msg $@
 ##     log_success_msg $@
@@ -69,10 +69,10 @@ fi
 if [ "$system" = "redhat" ]; then
     ## source platform specific external scripts
     . /etc/init.d/functions
-    [ -r /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
+    [ -r /etc/sysconfig/$service ] && . /etc/sysconfig/$service
 
     ## set or override platform specific variables
-    lockfile=${LOCKFILE-/var/lock/subsys/$prog}
+    lockfile=${LOCKFILE-/var/lock/subsys/$service}
 
     ## set or override platform specific functions
     start_daemon() {
@@ -102,10 +102,10 @@ fi
 if [ "$system" = "debian" ]; then
     ## source platform specific external scripts
     . /lib/lsb/init-functions
-    [ -r /etc/default/$prog ] && . /etc/default/$prog
+    [ -r /etc/default/$service ] && . /etc/default/$service
 
     ## set or override platform specific variables
-    lockfile=${LOCKFILE-/var/lock/$prog}
+    lockfile=${LOCKFILE-/var/lock/$service}
 
     ## set or override platform specific functions
     start_daemon() {
@@ -122,10 +122,10 @@ fi
 if [ "$system" = "suse" ]; then
     ## source platform specific external scripts
     . /lib/lsb/init-functions
-    [ -r /etc/default/$prog ] && . /etc/default/$prog
+    [ -r /etc/default/$service ] && . /etc/default/$service
 
     ## set or override platform specific variables
-    lockfile=${LOCKFILE-/var/lock/subsys/$prog}
+    lockfile=${LOCKFILE-/var/lock/subsys/$service}
 
     ## set or override platform specific functions
     start_daemon() {
@@ -148,10 +148,10 @@ fi
 
 cd /opt/sensu
 
-exec=/opt/sensu/bin/$prog
+exec=/opt/sensu/bin/$service
 
-pidfile=$PID_DIR/$prog.pid
-logfile=$LOG_DIR/$prog.log
+pidfile=$PID_DIR/$service.pid
+logfile=$LOG_DIR/$service.log
 
 options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile -L $LOG_LEVEL $OPTIONS"
 
@@ -173,14 +173,14 @@ set_sensu_paths() {
 }
 
 start() {
-    log_daemon_msg "Starting $prog"
+    log_daemon_msg "Starting $service"
 
     [ -x $exec ] || exit 5
 
     status &> /dev/null
 
     if [ $? -eq 0 ]; then
-        log_action_msg "$prog is already running."
+        log_action_msg "$service is already running."
         echo_ok
         exit 0
     fi
@@ -210,10 +210,10 @@ start() {
 }
 
 stop() {
-    log_daemon_msg "Stopping $prog"
+    log_daemon_msg "Stopping $service"
 
     if [ -f $pidfile ]; then
-        killproc -p $pidfile $prog
+        killproc -p $pidfile $service
         retval=$?
         if [ $retval -eq 0 ]; then
             rm -f $pidfile
@@ -245,7 +245,7 @@ status() {
     # First try "ps"
     pid=$(pgrep -P1 -fl $exec | grep -v grep | grep -v bash | cut -f1 -d" ")
     if [ -n "$pid" ]; then
-        log_action_msg $"${prog} (pid $pid) is running..."
+        log_action_msg "$service (pid $pid) is running"
         return 0
     fi
 
@@ -253,18 +253,18 @@ status() {
     if [ -f "$pidfile" ] ; then
         read pid < "$pidfile"
         if [ -n "$pid" ]; then
-            log_action_msg $"${prog} dead but pid file exists"
+            log_action_msg "$service dead but pid file exists"
             return 1
         fi
     fi
 
     # See if $lockfile
     if [ -f "$lockfile" ]; then
-        log_action_msg $"${prog} dead but subsys locked"
+        log_action_msg "$service dead but subsys locked"
         return 2
     fi
 
-    log_action_msg $"${prog} is stopped"
+    log_action_msg "$service is stopped"
     return 3
 }
 
@@ -290,7 +290,7 @@ restart() {
     if [ $success = 1 ]; then
         start
     else
-        log_failure_msg "Timed out waiting for $prog to stop"
+        log_failure_msg "Timed out waiting for $service to stop"
         return 1
     fi
 }

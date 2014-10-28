@@ -222,6 +222,7 @@ stop() {
         else
             echo_fail
         fi
+        sleep 1
         return $retval
     else
         pid=$(pgrep -P1 -fl $exec | grep -v grep | grep -v bash | cut -f1 -d" ")
@@ -232,7 +233,11 @@ stop() {
                 rm -f $pidfile
                 rm -f $lockfile
                 echo_ok
+            else
+                echo_fail
             fi
+            sleep 1
+            return $retval
         else
             echo_fail
         fi

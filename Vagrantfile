@@ -15,8 +15,6 @@ build_boxes = {
   :centos_5_10_64  => "#{opscode_bento}/opscode_centos-5.10_chef-provisionerless.box",
   :ubuntu_10_04_32 => "#{opscode_bento}/opscode_ubuntu-10.04-i386_chef-provisionerless.box",
   :ubuntu_10_04_64 => "#{opscode_bento}/opscode_ubuntu-10.04_chef-provisionerless.box",
-  :opensuse_13_01_64 => "#{opscode_bento}/opscode_opensuse-13.1-x86_64_chef-provisionerless.box",
-  :opensuse_13_01_32 => "#{opscode_bento}/opscode_opensuse-13.1-i386_chef-provisionerless.box"
 }
 
 Vagrant.configure("2") do |config|

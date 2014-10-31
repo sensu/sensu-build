@@ -56,6 +56,4 @@ centos_5_10_32
 centos_5_10_64
 ubuntu_10_04_32
 ubuntu_10_04_64
-opensuse_13_01_64
-opensuse_13_01_32
 EOF

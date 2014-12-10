@@ -11,6 +11,7 @@ rpms=`find . -name "*.rpm"`
 for r in $rpms; do
     package_cloud push sensu/stable/el/5 $r
     package_cloud push sensu/stable/el/6 $r
+    package_cloud push sensu/stable/el/7 $r
 done
 
 echo 'done.'

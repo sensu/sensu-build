@@ -1,8 +1,10 @@
 Bunchr::Software.new do |t|
   t.name = 'ruby_windows'
-  t.version = '2.0.0-p481'
+  t.version = '2.0.0-p598'
 
   windows_ruby_build = "ruby-#{t.version}-i386-mingw32"
+
+  assets_dir = "#{Dir.pwd}\\assets"
 
   t.download_commands << "wget http://dl.bintray.com/oneclick/rubyinstaller/#{windows_ruby_build}.7z?direct"
   t.download_commands << "7z x #{windows_ruby_build}.7z*"
@@ -12,6 +14,8 @@ Bunchr::Software.new do |t|
   install_prefix = "#{Bunchr.install_dir}\\embedded"
 
   t.install_commands << "xcopy . #{install_prefix}\\ /e /y"
+  t.install_commands << "cp -f #{assets_dir}\\AddTrustExternalCARoot-2048.pem " +
+    "#{install_prefix}\\lib\\ruby\\2.0.0\\rubygems\\ssl_certs\\AddTrustExternalCARoot-2048.pem"
 
   CLEAN << install_prefix
 end

@@ -4,7 +4,6 @@
     missingok
     notifempty
     sharedscripts
-    copytruncate
     compress
     postrotate
         kill -USR2 `cat /var/run/sensu/sensu-client.pid 2> /dev/null` 2> /dev/null || true
@@ -17,7 +16,6 @@
     missingok
     notifempty
     sharedscripts
-    copytruncate
     compress
     postrotate
         kill -USR2 `cat /var/run/sensu/sensu-server.pid 2> /dev/null` 2> /dev/null || true
@@ -30,7 +28,6 @@
     missingok
     notifempty
     sharedscripts
-    copytruncate
     compress
     postrotate
         kill -USR2 `cat /var/run/sensu/sensu-api.pid 2> /dev/null` 2> /dev/null || true

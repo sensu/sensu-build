@@ -12,7 +12,7 @@
 # Description:    Sensu monitoring framework service script
 ### END INIT INFO
 
-service=sensu-$1
+sensu_service=sensu-$1
 
 EMBEDDED_RUBY=false
 CONFIG_FILE=/etc/sensu/config.json
@@ -58,7 +58,7 @@ fi
 ## Each platform must implement at least the following functions:
 ##
 ##     start_daemon $user $pidfile $executable "arguments"
-##     killproc -p $pid $service
+##     killproc -p $pid $sensu_service
 ##     log_daemon_msg $@
 ##     log_action_msg $@
 ##     log_success_msg $@
@@ -69,10 +69,10 @@ fi
 if [ "$system" = "redhat" ]; then
     ## source platform specific external scripts
     . /etc/init.d/functions
-    [ -r /etc/sysconfig/$service ] && . /etc/sysconfig/$service
+    [ -r /etc/sysconfig/$sensu_service ] && . /etc/sysconfig/$sensu_service
 
     ## set or override platform specific variables
-    lockfile=${LOCKFILE-/var/lock/subsys/$service}
+    lockfile=${LOCKFILE-/var/lock/subsys/$sensu_service}
 
     ## set or override platform specific functions
     start_daemon() {
@@ -102,10 +102,10 @@ fi
 if [ "$system" = "debian" ]; then
     ## source platform specific external scripts
     . /lib/lsb/init-functions
-    [ -r /etc/default/$service ] && . /etc/default/$service
+    [ -r /etc/default/$sensu_service ] && . /etc/default/$sensu_service
 
     ## set or override platform specific variables
-    lockfile=${LOCKFILE-/var/lock/$service}
+    lockfile=${LOCKFILE-/var/lock/$sensu_service}
 
     ## set or override platform specific functions
     start_daemon() {
@@ -122,10 +122,10 @@ fi
 if [ "$system" = "suse" ]; then
     ## source platform specific external scripts
     . /lib/lsb/init-functions
-    [ -r /etc/default/$service ] && . /etc/default/$service
+    [ -r /etc/default/$sensu_service ] && . /etc/default/$sensu_service
 
     ## set or override platform specific variables
-    lockfile=${LOCKFILE-/var/lock/subsys/$service}
+    lockfile=${LOCKFILE-/var/lock/subsys/$sensu_service}
 
     ## set or override platform specific functions
     start_daemon() {
@@ -148,10 +148,10 @@ fi
 
 cd /opt/sensu
 
-exec=/opt/sensu/bin/$service
+exec=/opt/sensu/bin/$sensu_service
 
-pidfile=$PID_DIR/$service.pid
-logfile=$LOG_DIR/$service.log
+pidfile=$PID_DIR/$sensu_service.pid
+logfile=$LOG_DIR/$sensu_service.log
 
 options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile -L $LOG_LEVEL $OPTIONS"
 
@@ -173,14 +173,14 @@ set_sensu_paths() {
 }
 
 start() {
-    log_daemon_msg "Starting $service"
+    log_daemon_msg "Starting $sensu_service"
 
     [ -x $exec ] || exit 5
 
     status &> /dev/null
 
     if [ $? -eq 0 ]; then
-        log_action_msg "$service is already running."
+        log_action_msg "$sensu_service is already running."
         echo_ok
         exit 0
     fi
@@ -210,10 +210,10 @@ start() {
 }
 
 stop() {
-    log_daemon_msg "Stopping $service"
+    log_daemon_msg "Stopping $sensu_service"
 
     if [ -f $pidfile ]; then
-        killproc -p $pidfile $service
+        killproc -p $pidfile $sensu_service
         retval=$?
         if [ $retval -eq 0 ]; then
             rm -f $pidfile
@@ -250,7 +250,7 @@ status() {
     # First try "ps"
     pid=$(pgrep -P1 -fl $exec | grep -v grep | grep -v bash | cut -f1 -d" ")
     if [ -n "$pid" ]; then
-        log_action_msg "$service (pid $pid) is running"
+        log_action_msg "$sensu_service (pid $pid) is running"
         return 0
     fi
 
@@ -258,18 +258,18 @@ status() {
     if [ -f "$pidfile" ] ; then
         read pid < "$pidfile"
         if [ -n "$pid" ]; then
-            log_action_msg "$service dead but pid file exists"
+            log_action_msg "$sensu_service dead but pid file exists"
             return 1
         fi
     fi
 
     # See if $lockfile
     if [ -f "$lockfile" ]; then
-        log_action_msg "$service dead but subsys locked"
+        log_action_msg "$sensu_service dead but subsys locked"
         return 2
     fi
 
-    log_action_msg "$service is stopped"
+    log_action_msg "$sensu_service is stopped"
     return 3
 }
 
@@ -295,7 +295,7 @@ restart() {
     if [ $success = 1 ]; then
         start
     else
-        log_failure_msg "Timed out waiting for $service to stop"
+        log_failure_msg "Timed out waiting for $sensu_service to stop"
         return 1
     fi
 }

@@ -1,38 +1,54 @@
 Bunchr::Software.new do |t|
   t.name = 'sensu_configs'
 
+  os   = t.ohai['os']
+  arch = t.ohai['kernel']['machine']
+
   # build and install commands run from t.work_dir. In this case, our
   # files are located in the same dir as the Rakefile.
   t.work_dir = Dir.pwd
 
-  t.install_commands << "rm -rf /etc/sensu"
-  t.install_commands << "rm -rf /etc/default/sensu"
-  t.install_commands << "rm -rf /etc/init.d/sensu-*"
-  t.install_commands << "rm -rf /usr/share/sensu"
-  t.install_commands << "rm -rf /var/log/sensu"
+  etc_path = "/etc"
+  share_path = "/usr/share"
+  log_path = "/var/log"
 
-  t.install_commands << "cp -rf ./sensu_configs/sensu /etc/sensu"
+  if os == "freebsd"
+    etc_path = "/usr/local/etc"
+    share_path = "/usr/local/share"
+  else
+    t.install_commands << "rm -rf #{etc_path}/default/sensu"
+    t.install_commands << "rm -rf #{etc_path}/init.d/sensu-*"
+  end
 
-  t.install_commands << "cp -f ./sensu_configs/default/* /etc/default/"
+  t.install_commands << "rm -rf #{etc_path}/sensu"
+  t.install_commands << "rm -rf #{share_path}/sensu"
+  t.install_commands << "rm -rf #{log_path}/sensu"
 
-  t.install_commands << "cp -f ./sensu_configs/logrotate.d/* /etc/logrotate.d/"
+  t.install_commands << "cp -rf ./sensu_configs/sensu #{etc_path}/sensu"
 
-  t.install_commands << "cp -f ./sensu_configs/init.d/* /etc/init.d/"
+  if os != "freebsd"
+    t.install_commands << "cp -f ./sensu_configs/default/* #{etc_path}/default/"
+    t.install_commands << "cp -f ./sensu_configs/logrotate.d/* #{etc_path}/logrotate.d/"
+    t.install_commands << "cp -f ./sensu_configs/init.d/* #{etc_path}/init.d/"
+  end
 
-  t.install_commands << "mkdir /usr/share/sensu"
-  t.install_commands << "cp -rf ./sensu_configs/init.d /usr/share/sensu/"
-  t.install_commands << "cp -rf ./sensu_configs/upstart /usr/share/sensu/"
-  t.install_commands << "cp -rf ./sensu_configs/systemd /usr/share/sensu/"
+  t.install_commands << "mkdir #{share_path}/sensu"
+  t.install_commands << "cp -rf ./sensu_configs/init.d #{share_path}/sensu/"
+  t.install_commands << "cp -rf ./sensu_configs/upstart #{share_path}/sensu/"
+  t.install_commands << "cp -rf ./sensu_configs/systemd #{share_path}/sensu/"
 
   t.install_commands << "mkdir /var/log/sensu"
 
   %w[plugins mutators handlers extensions].each do |dir|
-    t.install_commands << "mkdir /etc/sensu/#{dir}"
+    t.install_commands << "mkdir #{etc_path}/sensu/#{dir}"
   end
 
   CLEAN << "/var/log/sensu"
-  CLEAN << "/etc/sensu"
-  CLEAN << "/etc/default/sensu"
-  CLEAN << "/etc/init.d/sensu-*"
-  CLEAN << "/usr/share/sensu"
+  CLEAN << "#{etc_path}/sensu"
+  CLEAN << "#{share_path}/sensu"
+
+  if os != "freebsd"
+    CLEAN << "#{etc_path}/default/sensu"
+    CLEAN << "#{etc_path}/init.d/sensu-*"
+  end
 end

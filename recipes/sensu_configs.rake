@@ -26,7 +26,7 @@ Bunchr::Software.new do |t|
 
   t.install_commands << "cp -rf ./sensu_configs/sensu #{etc_path}/sensu"
 
-  if os != "freebsd"
+  if os == "linux"
     t.install_commands << "cp -f ./sensu_configs/default/* #{etc_path}/default/"
     t.install_commands << "cp -f ./sensu_configs/logrotate.d/* #{etc_path}/logrotate.d/"
     t.install_commands << "cp -f ./sensu_configs/init.d/* #{etc_path}/init.d/"
@@ -37,13 +37,13 @@ Bunchr::Software.new do |t|
   t.install_commands << "cp -rf ./sensu_configs/upstart #{share_path}/sensu/"
   t.install_commands << "cp -rf ./sensu_configs/systemd #{share_path}/sensu/"
 
-  t.install_commands << "mkdir /var/log/sensu"
+  t.install_commands << "mkdir #{log_path}/sensu"
 
   %w[plugins mutators handlers extensions].each do |dir|
     t.install_commands << "mkdir #{etc_path}/sensu/#{dir}"
   end
 
-  CLEAN << "/var/log/sensu"
+  CLEAN << "#{log_path}/sensu"
   CLEAN << "#{etc_path}/sensu"
   CLEAN << "#{share_path}/sensu"
 

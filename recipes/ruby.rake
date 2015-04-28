@@ -1,6 +1,6 @@
 Bunchr::Software.new do |t|
   t.name = 'ruby'
-  t.version = '2.0.0-p353'
+  t.version = '2.0.0-p645'
 
   t.depends_on('autoconf')
   t.depends_on('zlib')

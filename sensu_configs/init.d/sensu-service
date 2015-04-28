@@ -144,7 +144,6 @@ if [ "$system" = "suse" ]; then
         echo $@
     }
 fi
-# TODO: support other platforms in the future: gentoo, arch, slackware, etc
 
 cd /opt/sensu
 
@@ -172,6 +171,10 @@ set_sensu_paths() {
     fi
 }
 
+pid_pgrep() {
+    pgrep -f -u $USER " $exec "
+}
+
 start() {
     log_daemon_msg "Starting $sensu_service"
 
@@ -194,7 +197,7 @@ start() {
     retval=$?
     sleep 1
 
-    # make sure it's still running. some errors occur only after startup
+    # make sure it's still running, some errors occur only after startup.
     status &> /dev/null
     if [ $? -ne 0 ]; then
         echo_fail
@@ -225,7 +228,7 @@ stop() {
         sleep 1
         return $retval
     else
-        pid=$(pgrep -P1 -fl $exec | grep -v grep | grep -v bash | cut -f1 -d" ")
+        pid=$(pid_pgrep)
         if [ ! "$pid" == "" ]; then
             kill $pid
             retval=$?
@@ -247,14 +250,14 @@ stop() {
 status() {
     local pid
 
-    # First try "ps"
-    pid=$(pgrep -P1 -fl $exec | grep -v grep | grep -v bash | cut -f1 -d" ")
+    # try pgrep
+    pid=$(pid_pgrep)
     if [ -n "$pid" ]; then
         log_action_msg "$sensu_service (pid $pid) is running"
         return 0
     fi
 
-    # Next try "/var/run/*.pid" files
+    # try the pid file
     if [ -f "$pidfile" ] ; then
         read pid < "$pidfile"
         kill -0 $pid
@@ -267,7 +270,7 @@ status() {
         fi
     fi
 
-    # See if $lockfile
+    # check for the lock file
     if [ -f "$lockfile" ]; then
         log_action_msg "$sensu_service dead but subsys locked"
         return 2

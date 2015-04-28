@@ -279,6 +279,7 @@ status() {
 
     # try pgrep
     pid=$(pid_pgrep)
+
     if [ -n "$pid" ]; then
         log_action_msg "$sensu_service (pid $pid) is running"
         return 0

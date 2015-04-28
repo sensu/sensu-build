@@ -249,10 +249,14 @@ stop() {
 
     if [ -n "$pid" ]; then
         kill $pid
+
         retval=$?
+
         if [ $retval -eq 0 ]; then
             wait_for_stop
+
             retval=$?
+
             if [ $retval -eq 0 ]; then
                 echo_ok
             else
@@ -262,6 +266,7 @@ stop() {
         else
             echo_fail
         fi
+
         return $retval
     else
       log_action_msg "$sensu_service is stopped"
@@ -282,7 +287,9 @@ status() {
     # try the pid file
     if [ -f "$pidfile" ] ; then
         read pid < "$pidfile"
+
         kill -0 $pid
+
         if [ $? -eq 0 ]; then
           log_action_msg "$sensu_service (pid $pid) is running"
           return 0
@@ -304,7 +311,9 @@ status() {
 
 restart() {
     stop
+
     retval=$?
+
     if [ $retval -eq 0 ] || [ $retval -eq 3 ]; then
         start
     else
@@ -326,7 +335,7 @@ case "$2" in
         restart
         ;;
     *)
-        echo "Usage: $0 {client|server|api|dashboard} {start|stop|status|restart}"
+        echo "Usage: $0 {client|server|api} {start|stop|status|restart}"
         exit 2
 esac
 

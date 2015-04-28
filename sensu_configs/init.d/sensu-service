@@ -175,6 +175,28 @@ pid_pgrep() {
     pgrep -f -u $USER " $exec "
 }
 
+wait_for_stop() {
+    stopped=1; attempts=0
+
+    while [ $attempts -lt $SERVICE_MAX_WAIT ]; do
+        attempts=$((attempts + 1))
+
+        status &> /dev/null
+
+        if [ $? -eq 0 ]; then
+            # still running
+            sleep 1
+        else
+            rm -f $pidfile
+            rm -f $lockfile
+            stopped=0
+            break
+        fi
+    done
+
+    return $stopped
+}
+
 start() {
     log_daemon_msg "Starting $sensu_service"
 
@@ -215,35 +237,35 @@ start() {
 stop() {
     log_daemon_msg "Stopping $sensu_service"
 
-    if [ -f $pidfile ]; then
-        killproc -p $pidfile $sensu_service
+    # try pgrep
+    pid=$(pid_pgrep)
+
+    if [ ! -n "$pid" ]; then
+        # try the pid file
+        if [ -f "$pidfile" ] ; then
+            read pid < "$pidfile"
+        fi
+    fi
+
+    if [ -n "$pid" ]; then
+        kill $pid
         retval=$?
         if [ $retval -eq 0 ]; then
-            rm -f $pidfile
-            rm -f $lockfile
-            echo_ok
-        else
-            echo_fail
-        fi
-        sleep 1
-        return $retval
-    else
-        pid=$(pid_pgrep)
-        if [ ! "$pid" == "" ]; then
-            kill $pid
+            wait_for_stop
             retval=$?
             if [ $retval -eq 0 ]; then
-                rm -f $pidfile
-                rm -f $lockfile
                 echo_ok
             else
+                log_failure_msg "Timed out waiting for $sensu_service to stop"
                 echo_fail
             fi
-            sleep 1
-            return $retval
         else
             echo_fail
         fi
+        return $retval
+    else
+      log_action_msg "$sensu_service is stopped"
+      return 3
     fi
 }
 
@@ -280,30 +302,13 @@ status() {
     return 3
 }
 
-# sometimes sensu components need a moment to shutdown, so
-# let's implement a waiting approach to restarts with a timeout
 restart() {
-    count=0; success=0
-
     stop
-
-    while [ $count -lt $SERVICE_MAX_WAIT ]; do
-        count=$((count + 1))
-        status &> /dev/null
-        if [ $? -eq 0 ]; then
-            # still running
-            sleep 1
-        else
-            success=1
-            break
-        fi
-    done
-
-    if [ $success = 1 ]; then
+    retval=$?
+    if [ $retval -eq 0 ] || [ $retval -eq 3 ]; then
         start
     else
-        log_failure_msg "Timed out waiting for $sensu_service to stop"
-        return 1
+        return $retval
     fi
 }
 

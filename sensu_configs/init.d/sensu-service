@@ -248,7 +248,7 @@ status() {
     local pid
 
     # First try "ps"
-    pid=$(pgrep -P1 -fl $exec | grep -v grep | grep -v bash | cut -f1 -d" ")
+    pid=$(pgrep -P1 -fl " $exec " | grep -v grep | grep -v bash | cut -f1 -d" ")
     if [ -n "$pid" ]; then
         log_action_msg "$sensu_service (pid $pid) is running"
         return 0

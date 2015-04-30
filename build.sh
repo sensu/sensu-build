@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 ## utilize chef's ruby
 export PATH=/opt/chef/embedded/bin:$PATH
 

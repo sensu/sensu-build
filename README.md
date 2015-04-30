@@ -32,7 +32,7 @@ There are multiple ways to run the builders:
 ### Build packages on all supported platforms.
 
 ```
-$ export SENSU_VERSION=v0.9.5   # any valid tag in the sensu.git repo. Will also
+$ export SENSU_VERSION=0.18.0   # any valid tag in the sensu.git repo. Will also
                                 # be used as the 'version' in the .rpm/.deb's.
 $ export BUILD_NUMBER=20        # could also use the jenkins build number
 $ ./para-vagrant.sh

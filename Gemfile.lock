@@ -1,10 +1,10 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    arr-pm (0.0.9)
+    arr-pm (0.0.10)
       cabin (> 0)
     backports (2.6.2)
-    bunchr (0.1.5)
+    bunchr (0.1.6)
       fpm (= 0.4.26)
       ohai
       rake (>= 0.8.7)
@@ -23,7 +23,7 @@ GEM
     mixlib-cli (1.5.0)
     mixlib-config (2.1.0)
     mixlib-log (1.6.0)
-    mixlib-shellout (1.4.0)
+    mixlib-shellout (2.0.1)
     ohai (6.18.0)
       ipaddress
       mixlib-cli
@@ -32,7 +32,7 @@ GEM
       mixlib-shellout
       systemu
       yajl-ruby
-    rake (10.3.2)
+    rake (10.4.2)
     systemu (2.2.0)
     yajl-ruby (1.2.1)
 
@@ -40,6 +40,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bunchr (= 0.1.5)
+  bunchr (= 0.1.6)
   ohai (= 6.18.0)
   systemu (= 2.2.0)

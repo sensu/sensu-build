@@ -1,6 +1,6 @@
 gem 'systemu', '2.2.0'
 gem 'ohai', '6.18.0'
-gem 'bunchr', '0.1.5'
+gem 'bunchr', '0.1.6'
 
 require 'bunchr'
 require 'fileutils'
@@ -30,8 +30,9 @@ Bunchr::Packages.new do |t|
   t.category = 'Monitoring'
   t.license  = 'MIT License'
   t.vendor   = 'Heavy Water Operations, LLC.'
-  t.url      = 'https://github.com/sensu/sensu'
+  t.url      = 'http://sensuapp.org'
   t.description = 'A monitoring framework that aims to be simple, malleable, and scalable.'
+  t.maintainer = 'Sensu Helpdesk <helpdesk@sensuapp.com>'
 
   platform_family = t.ohai.platform_family
 

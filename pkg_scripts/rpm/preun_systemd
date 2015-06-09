@@ -1,0 +1,31 @@
+# Uninstall package - stop services
+if [ $1 -eq 0 ]; then
+    sensu_services="sensu-client sensu-server sensu-api"
+
+    # Disable and stop sensu services
+    for service in $sensu_services; do
+        /usr/bin/systemctl disable $service.service
+        /usr/bin/systemctl stop $service.service
+        if [ -L "/opt/sensu/service/$service" ]; then
+            rm /opt/sensu/service/$service
+        fi
+    done
+
+    # some time for sensu services to stop
+    sleep 6
+
+    # stop sensu runsvdir (if configured)
+    if [ -f "/etc/init/sensu-runsvdir.conf" ]; then
+        stop sensu-runsvdir || true
+    fi
+    if [ -f "/etc/inittab" ]; then
+        if grep -q sensu-runsvdir /etc/inittab; then
+            sed "/sensu-runsvdir/d" /etc/inittab > /etc/inittab
+            init q
+            pkill -HUP -f /opt/sensu/embedded/bin/runsvdir || true
+        fi
+    fi
+    if [ -f "/etc/systemd/system/sensu-runsvdir.service" ]; then
+        systemctl stop sensu-runsvdir.service || true
+    fi
+fi

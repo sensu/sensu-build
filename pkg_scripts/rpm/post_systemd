@@ -1,0 +1,18 @@
+# Install package - add services and change permissions
+# On first install, register the init scripts but disable services.
+# User should choose the services they want to run after install
+if [ $1 -eq 1 ]; then
+    /usr/bin/systemctl daemon-reload
+
+    sensu_services="sensu-client sensu-server sensu-api"
+
+    for service in $sensu_services; do
+        /usr/bin/systemctl disable $service.service
+        /usr/bin/systemctl stop $service.service
+    done
+fi
+
+# Change permissions
+chown sensu:sensu /etc/sensu
+chown sensu:sensu /var/log/sensu
+chown -R sensu:sensu /opt/sensu/sv

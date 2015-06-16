@@ -9,6 +9,7 @@ Bunchr::Software.new do |t|
 
   t.depends_on('ruby_windows_devkit')
   t.depends_on('sensu')
+  t.depends_on('sensu_plugin')
   t.depends_on('winsw')
 
   FileUtils.mkdir_p(t.work_dir)

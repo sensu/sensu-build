@@ -172,7 +172,7 @@ set_sensu_paths() {
 }
 
 pid_pgrep() {
-    pgrep -f -u $USER " $exec "
+    pgrep -f -P 1 -u $USER " $exec "
 }
 
 wait_for_stop() {

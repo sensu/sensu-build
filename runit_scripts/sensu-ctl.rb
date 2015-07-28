@@ -139,6 +139,8 @@ def configure
   when "redhat", "centos", "rhel", "scientific"
     if ohai.platform_version =~ /^6/
       setup_runsvdir_upstart
+    elsif ohai.platform_version =~ /^7/
+      setup_runsvdir_systemd
     else
       setup_runsvdir_sysvinit
     end

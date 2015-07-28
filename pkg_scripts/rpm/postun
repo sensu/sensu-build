@@ -23,6 +23,7 @@ if [ $1 -eq 0 ]; then
     if [ -d "/opt/sensu" ]; then
         rm -r /opt/sensu
     fi
+    rm -r /tmp/sensu_*_loaded_files
 
     # Delete sensu user
     if getent passwd sensu >/dev/null; then

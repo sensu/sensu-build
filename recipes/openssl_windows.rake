@@ -4,9 +4,9 @@ Bunchr::Software.new do |t|
 
   windows_openssl_build = "openssl-#{t.version}-x86-windows"
 
-  download_url = "http://dl.bintray.com/oneclick/OpenKnapsack/x86/#{windows_openssl_build}.tar.lzma"
+  download_url = "https://github.com/jaym/windows-openssl-build/releases/download/openssl-#{t.version}/#{windows_openssl_build}.tar.lzma"
 
-  t.download_commands << "wget -O #{windows_openssl_build}.tar.lzma #{download_url}"
+  t.download_commands << "wget --no-check-certificate -O #{windows_openssl_build}.tar.lzma #{download_url}"
   t.download_commands << "7z x #{windows_openssl_build}.tar.lzma"
   t.download_commands << "tar -xvf #{windows_openssl_build}.tar"
 

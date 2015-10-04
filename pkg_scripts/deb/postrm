@@ -41,7 +41,7 @@ purge_sensu_user_group() {
         userdel -f sensu
     fi
     if getent group sensu >/dev/null; then
-        groupdel -f sensu
+        groupdel sensu
     fi
 }
 

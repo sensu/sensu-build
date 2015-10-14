@@ -5,22 +5,17 @@ gem 'bunchr', '0.1.6'
 require 'bunchr'
 require 'fileutils'
 
-if ENV['VAGRANT_BOX'].nil?
-  raise "You do not want to run this on your local machine!"
-end
-
 if ENV['SENSU_VERSION'].nil?
   raise "Please set ENV['SENSU_VERSION'] and re-run."
 end
 
-## iteration will come from the jenkins $BUILD_NUMBER
 if ENV['BUILD_NUMBER'].nil?
   raise "Please set ENV['BUILD_NUMBER'] and re-run."
 end
 
 Bunchr.load_recipes Dir['recipes/**/*.rake']
 
-# put together all the Software objects from the *.rake recipes and bunch
+# Put together all the Software objects from the *.rake recipes and bunch
 # them together into whatever packages this platform supports (tar, rpm, deb)!
 Bunchr::Packages.new do |t|
   t.name = 'sensu'

@@ -2,11 +2,12 @@
 
 set -e
 
-## utilize chef's ruby
-export PATH=/opt/chef/embedded/bin:$PATH
+docker build -f dockerfiles/Debian -t sensu-build-debian .
 
-## install gem dependencies
-bundle install
-## run Rakefile to build packages
-rake clean
-rake
+docker build -f dockerfiles/CentOS -t sensu-build-centos .
+
+cwd=`pwd`
+
+docker run --rm -e "SENSU_VERSION=$SENSU_VERSION" -e "BUILD_NUMBER=$BUILD_NUMBER" -v $cwd:/sensu-build sensu-build-debian ./sensu-build/run.sh
+
+docker run --rm -e "SENSU_VERSION=$SENSU_VERSION" -e "BUILD_NUMBER=$BUILD_NUMBER" -v $cwd:/sensu-build sensu-build-centos ./sensu-build/run.sh

@@ -2,12 +2,20 @@
 
 set -e
 
-docker build -f dockerfiles/Debian -t sensu-build-debian .
+docker build -f dockerfiles/debian-i386 -t sensu-build-debian-i386 .
 
-docker build -f dockerfiles/CentOS -t sensu-build-centos .
+docker build -f dockerfiles/debian-amd64 -t sensu-build-debian-amd64 .
 
-cwd=`pwd`
+docker build -f dockerfiles/centos-x86_64 -t sensu-build-centos-x86_64 .
 
-docker run --rm -e "SENSU_VERSION=$SENSU_VERSION" -e "BUILD_NUMBER=$BUILD_NUMBER" -v $cwd:/sensu-build sensu-build-debian ./sensu-build/run.sh
+env="-e SENSU_VERSION=$SENSU_VERSION -e BUILD_NUMBER=$BUILD_NUMBER"
 
-docker run --rm -e "SENSU_VERSION=$SENSU_VERSION" -e "BUILD_NUMBER=$BUILD_NUMBER" -v $cwd:/sensu-build sensu-build-centos ./sensu-build/run.sh
+vol=`pwd`:/sensu-build
+
+run="./sensu-build/run.sh"
+
+docker run --rm $env -v $vol sensu-build-debian-i386 $run
+
+docker run --rm $env -v $vol sensu-build-debian-amd64 $run
+
+docker run --rm $env -v $vol sensu-build-centos-x86_64 $run

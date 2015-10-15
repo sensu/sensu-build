@@ -5,6 +5,8 @@ cache:
   - /tmp/assets
 script:
   - export PATH=$PATH:/home/ubuntu/bin
+  - ls -la /var/run/
+  - ls -la /home/ubuntu/bin/
   - ./build.sh
   - mv *.deb /tmp/assets
   - mv *.rpm /tmp/assets

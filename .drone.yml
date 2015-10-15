@@ -1,9 +1,10 @@
 image: bradrydzewski/base
 cache:
   - /var/run
-  - /usr/local/bin
+  - /home/ubuntu/bin
   - /tmp/assets
 script:
+  - export PATH=$PATH:/home/ubuntu/bin
   - ./build.sh
   - mv *.deb /tmp/assets
   - mv *.rpm /tmp/assets

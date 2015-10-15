@@ -1,0 +1,15 @@
+image: ubuntu:14.04
+docker:
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /usr/bin/docker:/usr/bin/docker
+cache:
+  - /tmp/assets
+script:
+  - ./build.sh
+  - mv *.deb /tmp/assets
+  - mv *.rpm /tmp/assets
+notify:
+  email:
+    recipients:
+      - portertech@hw-ops.com

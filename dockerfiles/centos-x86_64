@@ -26,3 +26,5 @@ RUN mkdir -p /usr/src/ruby \
     && rm -r /usr/src/ruby
 
 RUN gem install bundler
+
+ADD archive.tar /sensu-build

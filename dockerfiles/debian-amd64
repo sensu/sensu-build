@@ -26,3 +26,5 @@ RUN ln -s /usr/bin/gem1.9.1 /usr/bin/gem
 ENV PATH $PATH:/var/lib/gems/1.9.1/bin
 
 RUN gem install bundler
+
+ADD archive.tar /sensu-build

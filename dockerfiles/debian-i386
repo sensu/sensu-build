@@ -27,4 +27,6 @@ ENV PATH $PATH:/var/lib/gems/1.9.1/bin
 
 RUN gem install bundler
 
+ADD archive.tar /sensu-build
+
 ENTRYPOINT ["linux32"]

@@ -5,9 +5,7 @@ cache:
   - /tmp/assets
 script:
   - export PATH=$PATH:/home/ubuntu/bin
-  - ./build.sh /var/cache/drone/src/github.com/portertech/sensu-build
-  - mv *.deb /tmp/assets
-  - mv *.rpm /tmp/assets
+  - ./build.sh /var/cache/drone/src/github.com/portertech/sensu-build/tmp/assets
 notify:
   email:
     recipients:

@@ -27,4 +27,6 @@ RUN mkdir -p /usr/src/ruby \
 
 RUN gem install bundler
 
+ADD archive.tar /sensu-build
+
 ENTRYPOINT ["linux32"]

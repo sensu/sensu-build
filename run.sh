@@ -9,3 +9,9 @@ bundle install
 rake clean
 
 rake
+
+mkdir -p /tmp/assets
+
+mv *.deb /tmp/assets || true
+
+mv *.rpm /tmp/assets || true

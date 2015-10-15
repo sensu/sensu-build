@@ -9,7 +9,7 @@ bundle install
 rake clean
 rake
 
-mkdir -p /tmp/assets
+mkdir -p /tmp/assets/pkg
 
-mv *.deb /tmp/assets || true
-mv *.rpm /tmp/assets || true
+mv *.deb /tmp/assets/pkg || true
+mv *.rpm /tmp/assets/pkg || true

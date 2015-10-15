@@ -2,7 +2,7 @@
 
 set -e
 
-cd sensu-build
+[ -d sensu-build ] && cd sensu-build
 
 bundle install
 

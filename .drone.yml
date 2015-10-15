@@ -1,8 +1,7 @@
 image: bradrydzewski/base
-docker:
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - /usr/bin/docker:/usr/bin/docker
+volumes:
+  - /var/run/docker.sock:/var/run/docker.sock
+  - /usr/bin/docker:/usr/bin/docker
 cache:
   - /tmp/assets
 script:

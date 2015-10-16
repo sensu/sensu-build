@@ -16,6 +16,7 @@ Bunchr::Software.new do |t|
 
   t.install_commands << "tar -xvf #{windows_openssl_build}.tar"
   t.install_commands << "xcopy . #{install_prefix}\\ /e /y"
+  t.install_commands << "rm #{install_prefix}\\#{windows_openssl_build}.tar"
 
   CLEAN << install_prefix
 end

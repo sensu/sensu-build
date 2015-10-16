@@ -8,6 +8,7 @@ Bunchr::Software.new do |t|
   build_iteration = ENV['BUILD_NUMBER']
 
   t.depends_on('ruby_windows_devkit')
+  t.depends_on('openssl_windows')
   t.depends_on('sensu')
   t.depends_on('sensu_plugin')
   t.depends_on('winsw')

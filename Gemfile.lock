@@ -21,9 +21,9 @@ GEM
     ipaddress (0.8.0)
     json (1.6.6)
     mixlib-cli (1.5.0)
-    mixlib-config (2.1.0)
+    mixlib-config (2.2.1)
     mixlib-log (1.6.0)
-    mixlib-shellout (2.0.1)
+    mixlib-shellout (1.4.0)
     ohai (6.18.0)
       ipaddress
       mixlib-cli
@@ -41,5 +41,9 @@ PLATFORMS
 
 DEPENDENCIES
   bunchr (= 0.1.6)
+  mixlib-shellout (= 1.4.0)
   ohai (= 6.18.0)
   systemu (= 2.2.0)
+
+BUNDLED WITH
+   1.10.6

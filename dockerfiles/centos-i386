@@ -1,0 +1,32 @@
+FROM 32bit/centos:centos5
+
+RUN yum clean all
+
+RUN yum install -y epel-release
+
+RUN yum clean all
+
+RUN linux32 yum install -y curl m4 make glibc-static.i686 gcc gcc-c++ rpm-build zlib-devel openssl-devel libyaml-devel
+
+RUN mkdir -p /usr/src/autoconf \
+    && curl -L http://ftpmirror.gnu.org/autoconf/autoconf-2.69.tar.gz | tar -xzC /usr/src/autoconf --strip-components=1 \
+    && cd /usr/src/autoconf \
+    && linux32 ./configure \
+    && linux32 make \
+    && linux32 make install \
+    && rm -r /usr/src/autoconf
+
+RUN mkdir -p /usr/src/ruby \
+    && curl -L http://cache.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p551.tar.bz2 | tar -xjC /usr/src/ruby --strip-components=1 \
+    && cd /usr/src/ruby \
+    && linux32 autoconf \
+    && linux32 ./configure \
+    && linux32 make \
+    && linux32 make install \
+    && rm -r /usr/src/ruby
+
+RUN gem install bundler
+
+ADD archive.tar /sensu-build
+
+ENTRYPOINT ["linux32"]

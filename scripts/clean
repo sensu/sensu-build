@@ -1,7 +1,0 @@
-#!/bin/bash
-
-echo 'removing local packages ...'
-
-rm -f *.rpm *.gz *.deb
-
-echo 'done.'

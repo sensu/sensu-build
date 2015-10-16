@@ -1,0 +1,30 @@
+FROM debian:squeeze
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update
+
+RUN apt-get install -y locales
+
+RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
+
+RUN locale-gen en_US.UTF-8
+
+RUN update-locale LANG=en_US.UTF-8
+
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+
+RUN apt-get -y install curl m4 g++ make gcc libdata-dumper-simple-perl
+
+RUN apt-get -y install ruby1.9.1-full
+
+RUN ln -s /usr/bin/ruby1.9.1 /usr/bin/ruby
+RUN ln -s /usr/bin/gem1.9.1 /usr/bin/gem
+
+ENV PATH $PATH:/var/lib/gems/1.9.1/bin
+
+RUN gem install bundler
+
+ADD archive.tar /sensu-build

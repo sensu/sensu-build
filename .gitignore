@@ -1,7 +1,8 @@
 .bundle
 .vagrant
 Attic
-*.tar.gz
+*.tar
+*.gz
 *.rpm
 *.deb
 *.gem

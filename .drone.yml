@@ -1,0 +1,12 @@
+image: bradrydzewski/base
+cache:
+  - /var/run
+  - /home/ubuntu/bin
+  - /tmp/assets
+script:
+  - export PATH=$PATH:/home/ubuntu/bin
+  - ./build.sh /tmp/drone/github.com/portertech/sensu-build/tmp/assets
+notify:
+  email:
+    recipients:
+      - portertech@hw-ops.com

@@ -10,13 +10,16 @@ Bunchr::Software.new do |t|
 
   gem_bin = File.join(Bunchr.install_dir, 'embedded', 'bin', 'gem')
 
+  compile_options = ''
+
   if t.ohai['os'] == 'windows'
-    ssl_dir = "#{Bunchr.install_dir}\\embedded"
-  else
-    ssl_dir = File.join(Bunchr.install_dir, 'embedded')
+    install_prefix = "#{Bunchr.install_dir}\\embedded"
+
+    compile_options << " --with-ssl-dir=#{install_prefix}\\bin"
+    compile_options << " --with-opt-include=#{install_prefix}\\include"
   end
 
-  t.install_commands << "#{gem_bin} install sensu -v #{t.version} --no-ri --no-rdoc -- --with-ssl-dir=#{ssl_dir}"
+  t.install_commands << "#{gem_bin} install sensu -v #{t.version} --no-ri --no-rdoc -- #{compile_options}"
 
   CLEAN << Bunchr.install_dir
 end

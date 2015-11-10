@@ -1,1 +1,1 @@
-EMBEDDED_RUBY=false
+EMBEDDED_RUBY=true

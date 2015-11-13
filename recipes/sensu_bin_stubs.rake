@@ -16,5 +16,5 @@ Bunchr::Software.new do |t|
   t.install_commands << "ln -s ../embedded/bin/sensu-ctl #{bin_dir}/sensu-ctl"
 
   t.install_commands << "cp sensu_configs/bin/sensu-install #{bin_dir}/sensu-install"
-  t.install_commands << "chmod +x #{bin_dir}/sensu-install"
+  t.install_commands << "cp sensu_configs/bin/sensu-install /usr/bin/sensu-install"
 end

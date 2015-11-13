@@ -74,6 +74,7 @@ Bunchr::Packages.new do |t|
     t.files << '/etc/init.d/sensu-api'
     t.files << '/etc/init.d/sensu-client'
     t.files << '/etc/init.d/sensu-server'
+    t.files << '/usr/bin/sensu-install'
 
     # need to enumerate config files for fpm
     # these are installed from recipe/sensu_configs.rake

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+EMBEDDED_RUBY=true
+
+if [ -f /etc/default/sensu ]; then
+    . /etc/default/sensu
+fi
+
+if [ -f /etc/default/sensu-install ]; then
+    . /etc/default/sensu-install
+fi
+
+if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
+    export PATH=/opt/sensu/embedded/bin:$PATH
+    export GEM_PATH=/opt/sensu/embedded/lib/ruby/gems/2.2.0:$GEM_PATH
+fi
+
+/opt/sensu/embedded/bin/sensu-install $@

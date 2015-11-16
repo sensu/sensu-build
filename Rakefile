@@ -30,9 +30,12 @@ Bunchr::Packages.new do |t|
   t.maintainer = 'Sensu Helpdesk <helpdesk@sensuapp.com>'
 
   platform_family = t.ohai.platform_family
+  platform_version = t.ohai.platform_version
 
   init_strategy = \
-    if platform_family == 'rhel' && ( t.iteration.match(/el7$/) )
+    if platform_family == 'rhel' && \
+      (Gem::Version.new(platform_version) >= Gem::Version.new('7'))
+      t.iteration = "#{ENV['BUILD_NUMBER']}.el7"
       'systemd'
     else
       'init.d'

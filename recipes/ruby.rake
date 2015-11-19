@@ -15,6 +15,16 @@ Bunchr::Software.new do |t|
   t.download_commands << "curl -O http://ftp.ruby-lang.org/pub/ruby/2.3/ruby-#{t.version}.tar.gz"
   t.download_commands << "tar xfvz ruby-#{t.version}.tar.gz"
 
+  #%w(RUBYOPT BUNDLE_BIN_PATH BUNDLE_GEMFILE GEM_PATH GEM_HOME).each do |env_var|
+  #  t.build_environment[env_var] = nil
+  #end
+
+  #t.install_environment['RUBYOPT'] = "-rbundler/setup"
+  #t.install_environment['BUNDLE_BIN_PATH'] = "/home/freebsd/.rvm/gems/ruby-2.2.3/gems/bundler-1.10.6/bin/bundle"
+  #t.install_environment['BUNDLE_GEMFILE'] = "/usr/home/freebsd/sensu-build/Gemfile"
+  #t.install_environment['GEM_PATH'] = "/home/freebsd/.rvm/gems/ruby-2.2.3:/home/freebsd/.rvm/gems/ruby-2.2.3@global"
+  #t.install_environment['GEM_HOME'] = "/home/freebsd/.rvm/gems/ruby-2.2.3"
+  
   if os == 'darwin' && arch == 'x86_64'
     t.build_environment['LDFLAGS'] = "-arch x86_64 -R#{install_prefix}/lib -L#{install_prefix}/lib -I#{install_prefix}/include"
     t.build_environment['CFLAGS'] = "-arch x86_64 -m64 -L#{install_prefix}/lib -I#{install_prefix}/include"

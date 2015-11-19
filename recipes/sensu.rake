@@ -21,6 +21,7 @@ Bunchr::Software.new do |t|
     compile_options << " --with-opt-include=#{install_prefix}\\include"
   else
     t.install_commands << "#{gem_bin} update --system"
+    compile_options << " --with-ldflags=\"-Wl,-L/usr/local/lib\""
   end
 
   t.install_commands << "#{gem_bin} install sensu -v #{t.version} --platform=ruby --no-ri --no-rdoc -- #{compile_options}"

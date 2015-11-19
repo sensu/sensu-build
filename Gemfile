@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
+source 'http://localhost:8808'
 
 gem 'mixlib-shellout', '1.4.0'
-gem 'systemu', '2.2.0'
+gem 'systemu', '2.6.5'
 gem 'ohai', '6.18.0'
-gem 'bunchr', '0.1.6'
+gem 'bunchr', '0.1.10'

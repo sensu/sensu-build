@@ -1,25 +1,34 @@
 GEM
   remote: https://rubygems.org/
+  remote: http://localhost:8808/
   specs:
+    archive-tar-minitar (0.7)
     arr-pm (0.0.10)
       cabin (> 0)
-    backports (2.6.2)
-    bunchr (0.1.6)
-      fpm (= 0.4.26)
+    backports (3.6.7)
+    bunchr (0.1.10)
+      fpm (= 1.3.4)
       ohai
       rake (>= 0.8.7)
       systemu
-    cabin (0.4.4)
-      json
-    clamp (0.3.1)
-    fpm (0.4.26)
-      arr-pm (~> 0.0.7)
-      backports (= 2.6.2)
-      cabin (~> 0.4.3)
-      clamp (= 0.3.1)
-      json (= 1.6.6)
+    cabin (0.7.2)
+    childprocess (0.5.8)
+      ffi (~> 1.0, >= 1.0.11)
+    clamp (0.6.5)
+    ffi (1.9.10)
+    fpm (1.3.4)
+      archive-tar-minitar (= 0.7)
+      arr-pm (~> 0.0.9)
+      backports (>= 2.6.2)
+      cabin (>= 0.6.0)
+      childprocess
+      clamp (~> 0.6)
+      ffi
+      json (>= 1.7.7)
+      ruby-xz
+    io-like (0.3.0)
     ipaddress (0.8.0)
-    json (1.6.6)
+    json (1.8.3)
     mixlib-cli (1.5.0)
     mixlib-config (2.2.1)
     mixlib-log (1.6.0)
@@ -33,17 +42,20 @@ GEM
       systemu
       yajl-ruby
     rake (10.4.2)
-    systemu (2.2.0)
+    ruby-xz (0.2.1)
+      ffi
+      io-like
+    systemu (2.6.5)
     yajl-ruby (1.2.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  bunchr (= 0.1.6)
+  bunchr (= 0.1.10)
   mixlib-shellout (= 1.4.0)
   ohai (= 6.18.0)
-  systemu (= 2.2.0)
+  systemu (= 2.6.5)
 
 BUNDLED WITH
    1.10.6

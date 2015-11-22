@@ -72,7 +72,7 @@ Bunchr::Packages.new do |t|
       etc_path = "/usr/local/etc"
       share_path = "/usr/local/share"
     end
-    
+
     t.files << Bunchr.install_dir
     t.files << "#{share_path}/sensu"
     t.files << "#{log_path}/sensu"

@@ -197,6 +197,12 @@ wait_for_stop() {
     return $stopped
 }
 
+deregister_client() {
+    log_action_msg "Deregistering sensu-client"
+    echo "{ \"name\": \"api_call\", \"output\": \"delete\", \"process\": \"init\", \"user\": \"root\", \"status\": 1, \"handler\": \"${CLIENT_DEREGISTER_HANDLER}\"}" > \
+    /dev/tcp/localhost/3030
+}
+
 start() {
     log_daemon_msg "Starting $sensu_service"
 
@@ -235,6 +241,9 @@ start() {
 }
 
 stop() {
+    if [ "x$CLIENT_DEREGISTER_ON_STOP" = "xtrue" ]; then
+       deregister_client
+    fi
     log_daemon_msg "Stopping $sensu_service"
 
     # try pgrep

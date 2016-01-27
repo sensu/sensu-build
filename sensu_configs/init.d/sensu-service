@@ -199,7 +199,7 @@ wait_for_stop() {
 
 deregister_client() {
     log_action_msg "Deregistering sensu-client"
-    echo "{ \"name\": \"api_call\", \"output\": \"delete\", \"process\": \"init\", \"user\": \"root\", \"status\": 2, \"handler\": \"${CLIENT_DEREGISTER_HANDLER}\"}" > \
+    echo "{ \"name\": \"api_call\", \"output\": \"delete\", \"process\": \"init\", \"user\": \"root\", \"status\": 1, \"handler\": \"${CLIENT_DEREGISTER_HANDLER}\"}" > \
     /dev/tcp/localhost/3030
 }
 

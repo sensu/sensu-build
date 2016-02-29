@@ -10,8 +10,8 @@ create_sensu_user_group() {
 
     # create sensu user
     if ! getent passwd sensu >/dev/null; then
-	pw adduser sensu -g sensu -d /nonexistent \
-	   -s /usr/sbin/nologin -c "Sensu Monitoring Framework"
+        pw adduser sensu -g sensu -d /nonexistent \
+           -s /usr/sbin/nologin -c "Sensu Monitoring Framework"
     fi
 }
 
@@ -19,6 +19,7 @@ chown_sensu_dirs() {
     chown -R sensu:sensu /usr/local/etc/sensu
     chown -R sensu:sensu /var/log/sensu
     chown -R sensu:sensu /opt/sensu/sv
+    chown -R sensu:sensu /var/run/sensu
 }
 
 create_sensu_user_group

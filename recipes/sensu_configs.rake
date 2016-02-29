@@ -19,7 +19,7 @@ Bunchr::Software.new do |t|
   else
     etc_path = "/etc"
     share_path = "/usr/share"
-    
+
     t.install_commands << "rm -rf #{etc_path}/init.d/sensu-*"
     t.install_commands << "rm -rf #{etc_path}/default/sensu"
   end
@@ -36,6 +36,7 @@ Bunchr::Software.new do |t|
     t.install_commands << "cp -f ./sensu_configs/init.d/* #{etc_path}/init.d/"
   elsif os == "freebsd"
     t.install_commands << "mkdir -p #{etc_path}/default"
+    t.install_commands << "mkdir -p /var/run/sensu"
     t.install_commands << "cp -f ./sensu_configs/default/* #{etc_path}/default/"
     t.install_commands << "cp -f ./sensu_configs/rc.d/* #{etc_path}/rc.d/"
   end

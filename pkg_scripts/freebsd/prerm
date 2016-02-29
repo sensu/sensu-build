@@ -1,0 +1,24 @@
+#!/bin/sh
+
+set -e
+
+sensu_services="sensu-client sensu-server sensu-api"
+
+# try to stop any running sensu services (not all will be running)
+stop_sensu_services() {
+    for service in $sensu_services; do
+        if [ -x "/usr/local/etc/rc.d/$service" ]; then
+            /usr/local/etc/rc.d/$service stop || true
+        fi
+        if [ -L "/opt/sensu/service/$service" ]; then
+            rm /opt/sensu/service/$service
+        fi
+    done
+
+    # some time for sensu services to stop
+    sleep 6
+}
+
+stop_sensu_services
+
+exit 0

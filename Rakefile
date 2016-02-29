@@ -1,6 +1,6 @@
 gem 'systemu', '2.6.5'
 gem 'ohai', '6.18.0'
-gem 'bunchr', '0.1.10'
+gem 'bunchr', '0.1.7'
 
 require 'bunchr'
 require 'fileutils'
@@ -53,6 +53,10 @@ Bunchr::Packages.new do |t|
       t.scripts[:after_install]  = 'pkg_scripts/rpm/post'
       t.scripts[:before_remove]  = 'pkg_scripts/rpm/preun'
       t.scripts[:after_remove]   = 'pkg_scripts/rpm/postun'
+    when 'freebsd'
+      t.scripts[:after_install]  = 'pkg_scripts/freebsd/postinst'
+      t.scripts[:before_remove]  = 'pkg_scripts/freebsd/prerm'
+      t.scripts[:after_remove]   = 'pkg_scripts/freebsd/postrm'
     end
 
     t.include_software('ruby')
@@ -70,6 +74,7 @@ Bunchr::Packages.new do |t|
 
     if os == "freebsd"
       etc_path = "/usr/local/etc"
+      bin_path = "/usr/local/bin"
       share_path = "/usr/local/share"
     end
 
@@ -91,14 +96,22 @@ Bunchr::Packages.new do |t|
       t.files << "#{bin_path}/sensu-install"
     end
 
+    if os == "freebsd"
+      t.files << "#{etc_path}/rc.d/sensu-service"
+      t.files << "#{etc_path}/rc.d/sensu-api"
+      t.files << "#{etc_path}/rc.d/sensu-client"
+      t.files << "#{etc_path}/rc.d/sensu-server"
+      t.files << "#{bin_path}/sensu-install"
+    end
+
     # need to enumerate config files for fpm
     # these are installed from recipe/sensu_configs.rake
     t.config_files << "#{etc_path}/sensu/config.json.example"
     t.config_files << "#{etc_path}/sensu/conf.d/README.md"
+    t.config_files << "#{etc_path}/default/sensu"
 
     if os == "linux"
       t.config_files << "#{etc_path}/logrotate.d/sensu"
-      t.config_files << "#{etc_path}/default/sensu"
     end
   end
 end

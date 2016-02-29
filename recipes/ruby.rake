@@ -6,6 +6,8 @@ Bunchr::Software.new do |t|
   arch = t.ohai['kernel']['machine']
 
   t.depends_on('libgmp') if os == "freebsd"
+  t.depends_on('libffi') if os == "freebsd"
+  t.depends_on('libstdc++') if os == "freebsd"
   t.depends_on('autoconf')
   t.depends_on('zlib')
   t.depends_on('openssl')
@@ -29,7 +31,7 @@ Bunchr::Software.new do |t|
     t.build_environment['LDFLAGS'] = "-R#{install_prefix}/lib -L#{install_prefix}/lib -I#{install_prefix}/include"
     t.build_environment['CFLAGS'] = "-L#{install_prefix}/lib -I#{install_prefix}/include"
   elsif os == 'freebsd'
-    t.build_environment['LDFLAGS'] = "-R#{install_prefix}/lib -L#{install_prefix}/lib -I#{install_prefix}/include"
+    t.build_environment['LDFLAGS'] = "-Wl,-rpath #{install_prefix}/lib -L#{install_prefix}/lib -I#{install_prefix}/include"
     t.build_environment['CFLAGS'] = "-L#{install_prefix}/lib -I#{install_prefix}/include"
   end
 

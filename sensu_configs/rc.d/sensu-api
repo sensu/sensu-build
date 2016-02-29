@@ -1,0 +1,5 @@
+#!/bin/sh
+
+/usr/local/etc/rc.d/sensu-service api $1
+
+exit $?

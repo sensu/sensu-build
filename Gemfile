@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-source 'http://localhost:8808'
 
 gem 'mixlib-shellout', '1.4.0'
 gem 'systemu', '2.6.5'

@@ -36,7 +36,6 @@ Bunchr::Software.new do |t|
     t.install_commands << "cp -f ./sensu_configs/init.d/* #{etc_path}/init.d/"
   elsif os == "freebsd"
     t.install_commands << "mkdir -p #{etc_path}/default"
-    t.install_commands << "mkdir -p /var/run/sensu"
     t.install_commands << "cp -f ./sensu_configs/default/* #{etc_path}/default/"
     t.install_commands << "cp -f ./sensu_configs/rc.d/* #{etc_path}/rc.d/"
   end

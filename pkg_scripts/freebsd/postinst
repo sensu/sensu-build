@@ -22,7 +22,12 @@ chown_sensu_dirs() {
     chown -R sensu:sensu /var/run/sensu
 }
 
+chmod_sensu_files() {
+    chmod +x /usr/local/bin/sensu-install
+}
+
 create_sensu_user_group
 chown_sensu_dirs
+chmod_sensu_files
 
 exit 0

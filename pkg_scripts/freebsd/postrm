@@ -7,7 +7,7 @@ sensu_services="sensu-client sensu-server sensu-api"
 purge_sensu_services() {
     for service in $sensu_services; do
         if [ -f "/usr/local/etc/rc.d/$service" ]; then
-            rm /etc/init.d/$service
+            rm /usr/local/etc/rc.d/$service
         fi
     done
 }

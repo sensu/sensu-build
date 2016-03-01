@@ -18,6 +18,9 @@ PID_DIR="/var/run/sensu"
 USER="sensu"
 SERVICE_MAX_WAIT="10"
 
+eval ${name}_chroot="/"
+eval ${name}_user="$USER"
+
 defaults_file="${prefix}/etc/default/sensu"
 
 if [ -f $defaults_file ]; then
@@ -26,6 +29,13 @@ fi
 
 pidfile="${PID_DIR}/${name}.pid"
 logfile="${LOG_DIR}/${name}.log"
+
+if [ $EMBEDDED_RUBY = "true" ]; then
+    PATH=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR
+    GEM_PATH=/opt/sensu/embedded/lib/ruby/gems/2.2.0:$GEM_PATH
+else
+    PATH=$PATH:$PLUGINS_DIR
+fi
 
 command="/opt/sensu/bin/sensu-${1}"
 command_args="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile -L $LOG_LEVEL $OPTIONS"

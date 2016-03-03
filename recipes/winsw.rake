@@ -12,11 +12,11 @@ Bunchr::Software.new do |t|
   build_cmd << " /target:Clean;Build /p:Configuration=Release /p:PostBuildEvent="
   t.build_commands << build_cmd
 
-  assets_dir = "#{Dir.pwd}\\assets\\msi"
+  files_dir = "#{Dir.pwd}\\assets\\msi\\files".gsub("/", '\\')
 
   t.install_commands << "mkdir #{install_prefix}\\bin"
   t.install_commands << "copy bin\\Release\\winsw.exe #{install_prefix}\\bin\\sensu-client.exe"
-  t.install_commands << "copy #{assets_dir}\\files\\sensu-client.exe.config #{install_prefix}\\bin\\sensu-client.exe.config"
+  t.install_commands << "copy #{files_dir}\\sensu-client.exe.config #{install_prefix}\\bin\\sensu-client.exe.config"
 
   CLEAN << install_prefix
 end

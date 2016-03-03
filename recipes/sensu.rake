@@ -15,7 +15,9 @@ Bunchr::Software.new do |t|
   if t.ohai['os'] == 'windows'
     install_prefix = "#{Bunchr.install_dir}\\embedded"
 
-    compile_options << " --with-ssl-dir=#{install_prefix}"
+    compile_options << " --with-ssl-dir=#{install_prefix}\\bin"
+    compile_options << " --with-ssl-lib=#{install_prefix}\\lib"
+    compile_options << " --with-ssl-include=#{install_prefix}\\include"
     compile_options << " --with-opt-include=#{install_prefix}\\include"
   end
 

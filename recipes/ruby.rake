@@ -1,6 +1,6 @@
 Bunchr::Software.new do |t|
   t.name = 'ruby'
-  t.version = '2.2.3'
+  t.version = '2.3.0'
 
   t.depends_on('autoconf')
   t.depends_on('zlib')
@@ -12,7 +12,7 @@ Bunchr::Software.new do |t|
   os   = t.ohai['os']
   arch = t.ohai['kernel']['machine']
 
-  t.download_commands << "curl -O http://ftp.ruby-lang.org/pub/ruby/2.2/ruby-#{t.version}.tar.gz"
+  t.download_commands << "curl -O http://ftp.ruby-lang.org/pub/ruby/2.3/ruby-#{t.version}.tar.gz"
   t.download_commands << "tar xfvz ruby-#{t.version}.tar.gz"
 
   if os == 'darwin' && arch == 'x86_64'

@@ -25,7 +25,7 @@ RUN ln -s /usr/bin/gem1.9.1 /usr/bin/gem
 
 ENV PATH $PATH:/var/lib/gems/1.9.1/bin
 
-RUN gem update --system
+RUN REALLY_GEM_UPDATE_SYSTEM=1 gem update --system
 
 RUN gem install bundler --version 1.11.2
 

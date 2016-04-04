@@ -25,6 +25,8 @@ RUN mkdir -p /usr/src/ruby \
     && linux32 make install \
     && rm -r /usr/src/ruby
 
+RUN gem update --system
+
 RUN gem install bundler --version 1.11.2
 
 ADD archive.tar /sensu-build

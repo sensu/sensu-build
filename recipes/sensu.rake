@@ -21,6 +21,7 @@ Bunchr::Software.new do |t|
     compile_options << " --with-opt-include=#{install_prefix}\\include"
   end
 
+  t.install_commands << "#{gem_bin} update --system"
   t.install_commands << "#{gem_bin} install sensu -v #{t.version} --no-ri --no-rdoc -- #{compile_options}"
 
   CLEAN << Bunchr.install_dir

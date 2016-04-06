@@ -165,7 +165,7 @@ ensure_dir() {
 set_sensu_paths() {
     if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
         export PATH=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
-        export GEM_PATH=/opt/sensu/embedded/lib/ruby/gems/2.2.0:$GEM_PATH
+        export GEM_PATH=/opt/sensu/embedded/lib/ruby/gems/2.3.0:$GEM_PATH
     else
         export PATH=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
     fi

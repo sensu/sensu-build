@@ -1,4 +1,4 @@
-FROM 32bit/debian:squeeze
+FROM 32bit/debian:wheezy
 
 ENV DEBIAN_FRONTEND noninteractive
 

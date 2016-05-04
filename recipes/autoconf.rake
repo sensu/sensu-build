@@ -9,6 +9,13 @@ Bunchr::Software.new do |t|
 
   t.build_environment['LDFLAGS'] = "-R#{install_prefix}/lib -L#{install_prefix}/lib -I#{install_prefix}/include"
   t.build_environment['CFLAGS']  = "-L#{install_prefix}/lib -I#{install_prefix}/include"
+
+  arch = t.ohai['kernel']['machine']
+
+  if arch == "armv6l" || arch == "armv7l"
+    t.build_environment['CFLAGS'] = "-march=armv6 -mfloat-abi=hard -mfpu=vfp #{t.build_environment['CFLAGS']}"
+  end
+
   t.build_commands << "./configure --prefix=#{install_prefix}"
   t.build_commands << "make"
 

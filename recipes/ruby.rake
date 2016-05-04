@@ -26,6 +26,10 @@ Bunchr::Software.new do |t|
     t.build_environment['CFLAGS'] = "-L#{install_prefix}/lib -I#{install_prefix}/include"
   end
 
+  if arch == "armv6l" || arch == "armv7l"
+    t.build_environment['CFLAGS'] = "-march=armv6 -mfloat-abi=hard -mfpu=vfp #{t.build_environment['CFLAGS']}"
+  end
+
   t.build_commands << "./configure --prefix=#{install_prefix} \
                       --with-opt-dir=#{install_prefix} \
                       --enable-shared \

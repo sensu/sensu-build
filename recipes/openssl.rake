@@ -46,6 +46,11 @@ Bunchr::Software.new do |t|
                         -I#{install_prefix}/include"
   end
   t.build_environment['LD_RUN_PATH'] = "#{install_prefix}/lib"
+
+  if arch == "armv6l" || arch == "armv7l"
+    t.build_commands << "sed -i -e 's/armv7-a/armv6/g' Makefile"
+  end
+
   t.build_commands << "make"
 
   ## install_commands are executed in the +work_dir+ directory.

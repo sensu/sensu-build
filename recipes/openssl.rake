@@ -1,6 +1,6 @@
 Bunchr::Software.new do |t|
   t.name = 'openssl'
-  t.version = '1.0.1s'
+  t.version = '1.0.1t'
 
   assets_dir = "#{Dir.pwd}/assets"
 

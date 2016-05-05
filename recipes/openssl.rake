@@ -7,8 +7,9 @@ Bunchr::Software.new do |t|
   install_prefix = "#{Bunchr.install_dir}/embedded"
 
   ## download_commands are executed in the +download_dir+ directory.
-  t.download_commands << "curl -O -4 https://www.openssl.org/source/openssl-#{t.version}.tar.gz"
-  t.download_commands << "tar xfvz openssl-#{t.version}.tar.gz"
+  github_version = t.version.gsub(".", "_")
+  t.download_commands << "mkdir openssl-#{t.version}"
+  t.download_commands << "curl -L https://github.com/openssl/openssl/archive/OpenSSL_#{github_version}.tar.gz | tar -xzC openssl-#{t.version} --strip-components=1"
 
   ## build_commands are executed in the +work_dir+ directory.
   ## If work_dir is not specified, it is assumed to be "name-version" or "name"

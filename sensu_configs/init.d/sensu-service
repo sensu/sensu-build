@@ -319,13 +319,25 @@ status() {
     return 3
 }
 
+validate_config() {
+    start_daemon $USER $pidfile $exec --validate_config "$options"
+}
+
 restart() {
-    stop
+    validate_config
 
     retval=$?
 
-    if [ $retval -eq 0 ] || [ $retval -eq 3 ]; then
-        start
+    if [ $retval -eq 0 ]; then
+        stop
+
+        retval=$?
+
+        if [ $retval -eq 0 ] || [ $retval -eq 3 ]; then
+            start
+        else
+            return $retval
+        fi
     else
         return $retval
     fi
@@ -344,8 +356,11 @@ case "$2" in
     restart)
         restart
         ;;
+    validate_config)
+        validate_config
+        ;;
     *)
-        echo "Usage: $0 {client|server|api} {start|stop|status|restart}"
+        echo "Usage: $0 {client|server|api} {start|stop|status|restart|validate_config}"
         exit 2
 esac
 

@@ -319,13 +319,27 @@ status() {
     return 3
 }
 
+validate_config() {
+    validate_pidfile=$PID_DIR/$sensu_service-validate.pid
+    validate_options="--validate_config -b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $validate_pidfile $OPTIONS"
+    start_daemon $USER $validate_pidfile $exec "$validate_options"
+}
+
 restart() {
-    stop
+    validate_config
 
     retval=$?
 
-    if [ $retval -eq 0 ] || [ $retval -eq 3 ]; then
-        start
+    if [ $retval -eq 0 ]; then
+        stop
+
+        retval=$?
+
+        if [ $retval -eq 0 ] || [ $retval -eq 3 ]; then
+            start
+        else
+            return $retval
+        fi
     else
         return $retval
     fi
@@ -344,8 +358,11 @@ case "$2" in
     restart)
         restart
         ;;
+    validate_config)
+        validate_config
+        ;;
     *)
-        echo "Usage: $0 {client|server|api} {start|stop|status|restart}"
+        echo "Usage: $0 {client|server|api} {start|stop|status|restart|validate_config}"
         exit 2
 esac
 

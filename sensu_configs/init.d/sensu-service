@@ -320,7 +320,9 @@ status() {
 }
 
 validate_config() {
-    start_daemon $USER $pidfile $exec --validate_config "$options"
+    validate_pidfile=$PID_DIR/$sensu_service-validate.pid
+    validate_options="--validate_config -b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $validate_pidfile $OPTIONS"
+    start_daemon $USER $validate_pidfile $exec "$validate_options"
 }
 
 restart() {

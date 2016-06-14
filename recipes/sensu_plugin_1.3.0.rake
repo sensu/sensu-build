@@ -1,4 +1,4 @@
-VERSION=1.3.0
+VERSION="1.3.0"
 
 Bunchr::Software.new do |t|
   t.name = "sensu_plugin_#{VERSION}"

@@ -1,7 +1,8 @@
 Bunchr::Software.new do |t|
-  t.name = 'sensu_plugin'
+  version = "1.3.0"
 
-  t.version = '1.3.0'
+  t.name = "sensu_plugin_#{version}"
+  t.version = version
 
   FileUtils.mkdir_p(t.work_dir)
 

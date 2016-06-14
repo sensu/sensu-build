@@ -10,7 +10,8 @@ Bunchr::Software.new do |t|
   t.depends_on('ruby_windows_devkit')
   t.depends_on('openssl_windows')
   t.depends_on('sensu')
-  t.depends_on('sensu_plugin')
+  t.depends_on('sensu_plugin_1.2.0')
+  t.depends_on('sensu_plugin_1.3.0')
   t.depends_on('winsw')
 
   FileUtils.mkdir_p(t.work_dir)

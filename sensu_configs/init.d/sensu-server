@@ -12,6 +12,6 @@
 # Description:    Sensu monitoring framework server
 ### END INIT INFO
 
-/etc/init.d/sensu-service-wrapper server $1
+/etc/init.d/sensu-service-init server $1
 
 exit $?

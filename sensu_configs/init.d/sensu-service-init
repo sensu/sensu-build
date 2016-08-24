@@ -12,8 +12,8 @@
 # Description:    Sensu monitoring framework service script
 ### END INIT INFO
 
-short_service=$1
-sensu_service=sensu-$1
+sensu_service=$1
+service_name=sensu-$1
 
 EMBEDDED_RUBY=true
 CONFIG_FILE=/etc/sensu/config.json
@@ -59,7 +59,7 @@ fi
 ## Each platform must implement at least the following functions:
 ##
 ##     start_daemon $user $pidfile $executable "arguments"
-##     killproc -p $pid $sensu_service
+##     killproc -p $pid $service_name
 ##     log_daemon_msg $@
 ##     log_action_msg $@
 ##     log_success_msg $@
@@ -70,10 +70,10 @@ fi
 if [ "$system" = "redhat" ]; then
     ## source platform specific external scripts
     . /etc/init.d/functions
-    [ -r /etc/sysconfig/$sensu_service ] && . /etc/sysconfig/$sensu_service
+    [ -r /etc/sysconfig/$service_name ] && . /etc/sysconfig/$service_name
 
     ## set or override platform specific variables
-    lockfile=${LOCKFILE-/var/lock/subsys/$sensu_service}
+    lockfile=${LOCKFILE-/var/lock/subsys/$service_name}
 
     ## set or override platform specific functions
     start_daemon() {
@@ -103,10 +103,10 @@ fi
 if [ "$system" = "debian" ]; then
     ## source platform specific external scripts
     . /lib/lsb/init-functions
-    [ -r /etc/default/$sensu_service ] && . /etc/default/$sensu_service
+    [ -r /etc/default/$service_name ] && . /etc/default/$service_name
 
     ## set or override platform specific variables
-    lockfile=${LOCKFILE-/var/lock/$sensu_service}
+    lockfile=${LOCKFILE-/var/lock/$service_name}
 
     ## set or override platform specific functions
     start_daemon() {
@@ -123,10 +123,10 @@ fi
 if [ "$system" = "suse" ]; then
     ## source platform specific external scripts
     . /lib/lsb/init-functions
-    [ -r /etc/default/$sensu_service ] && . /etc/default/$sensu_service
+    [ -r /etc/default/$service_name ] && . /etc/default/$service_name
 
     ## set or override platform specific variables
-    lockfile=${LOCKFILE-/var/lock/subsys/$sensu_service}
+    lockfile=${LOCKFILE-/var/lock/subsys/$service_name}
 
     ## set or override platform specific functions
     start_daemon() {
@@ -150,10 +150,10 @@ cd /opt/sensu
 
 exec="/opt/sensu/bin/sensu-service"
 
-pidfile=$PID_DIR/$sensu_service.pid
-logfile=$LOG_DIR/$sensu_service.log
+pidfile=$PID_DIR/$service_name.pid
+logfile=$LOG_DIR/$service_name.log
 
-options="start $short_service fork"
+options="start $service_name fork"
 
 set_sensu_paths() {
     if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
@@ -191,14 +191,14 @@ wait_for_stop() {
 }
 
 start() {
-    log_daemon_msg "Starting $sensu_service"
+    log_daemon_msg "Starting $service_name"
 
     [ -x $exec ] || exit 5
 
     status &> /dev/null
 
     if [ $? -eq 0 ]; then
-        log_action_msg "$sensu_service is already running."
+        log_action_msg "$service_name is already running."
         echo_ok
         exit 0
     fi
@@ -224,7 +224,7 @@ start() {
 }
 
 stop() {
-    log_daemon_msg "Stopping $sensu_service"
+    log_daemon_msg "Stopping $service_name"
 
     # try pgrep
     pid=$(pid_pgrep)
@@ -249,7 +249,7 @@ stop() {
             if [ $retval -eq 0 ]; then
                 echo_ok
             else
-                log_failure_msg "Timed out waiting for $sensu_service to stop"
+                log_failure_msg "Timed out waiting for $service_name to stop"
                 echo_fail
             fi
         else
@@ -258,7 +258,7 @@ stop() {
 
         return $retval
     else
-      log_action_msg "$sensu_service is stopped"
+      log_action_msg "$service_name is stopped"
       return 3
     fi
 }
@@ -270,7 +270,7 @@ status() {
     pid=$(pid_pgrep)
 
     if [ -n "$pid" ]; then
-        log_action_msg "$sensu_service (pid $pid) is running"
+        log_action_msg "$service_name (pid $pid) is running"
         return 0
     fi
 
@@ -281,27 +281,27 @@ status() {
         kill -0 $pid
 
         if [ $? -eq 0 ]; then
-          log_action_msg "$sensu_service (pid $pid) is running"
+          log_action_msg "$service_name (pid $pid) is running"
           return 0
         else
-          log_action_msg "$sensu_service dead but pid file exists"
+          log_action_msg "$service_name dead but pid file exists"
           return 1
         fi
     fi
 
     # check for the lock file
     if [ -f "$lockfile" ]; then
-        log_action_msg "$sensu_service dead but subsys locked"
+        log_action_msg "$service_name dead but subsys locked"
         return 2
     fi
 
-    log_action_msg "$sensu_service is stopped"
+    log_action_msg "$service_name is stopped"
     return 3
 }
 
 validate_config() {
-    validate_pidfile=$PID_DIR/$sensu_service-validate.pid
-    start_daemon $USER $validate_pidfile $exec "validate $short_service fork"
+    validate_pidfile=$PID_DIR/$service_name-validate.pid
+    start_daemon $USER $validate_pidfile $exec "validate $service_name fork"
 }
 
 restart() {

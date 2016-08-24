@@ -9,11 +9,10 @@ CONFIG_DIR=/etc/sensu/conf.d
 EXTENSION_DIR=/etc/sensu/extensions
 PLUGINS_DIR=/etc/sensu/plugins
 HANDLERS_DIR=/etc/sensu/handlers
+PID_DIR=/var/run/sensu
 LOG_DIR=/var/log/sensu
 LOG_LEVEL=info
-PID_DIR=/var/run/sensu
 USER=sensu
-SERVICE_MAX_WAIT=10
 
 if [ -f /etc/default/sensu ]; then
     . /etc/default/sensu
@@ -48,112 +47,27 @@ set_sensu_paths() {
     fi
 }
 
-echo_ok() {
-    echo_success; echo
-}
-echo_fail() {
-    echo_failure; echo
-}
-log_success_msg() {
-    success $"$@"
-}
-log_failure_msg() {
-    failure $"$@"
-    echo $"$@"
-}
-log_action_msg() {
-    echo $@
-}
-
-pid_pgrep() {
-    pgrep -f -P 1 -u $USER " $svc_exec "
-}
-
-validate_config() {
+validate() {
     validate_options="--validate_config -b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR $OPTIONS"
     $svc_exec $validate_options
 }
 
-restart() {
-  validate_config
-  retval = $?
-  if [ $retval -eq 0 ]; then
-    stop
-    retval=$?
-
-    if [ $retval -eq 0 ] || [ $retval -eq 3 ]; then
-      start
-    else
-      return $retval
-    fi
-      else
-      return $retval
-    fi
-}
-
 start() {
    set_sensu_paths
-   ensure_dir $PID_DIR $LOG_DIR $USER
-
-  if [ "x$forking" = "fork" ]; then
-     $svc_exec $options
-  else
-     exec $svc_exec $options
-  fi
-}
-
-stop() {
-    pid=$(pid_pgrep)
-
-    if [ ! -n "$pid" ]; then
-        # try the pid file
-        if [ -f "$pidfile" ] ; then
-            read pid < "$pidfile"
-        fi
-    fi
-
-    if [ -n "$pid" ]; then
-        kill $pid
-
-        retval=$?
-
-        if [ $retval -eq 0 ]; then
-            wait_for_stop
-
-            retval=$?
-
-            if [ $retval -eq 0 ]; then
-                echo_ok
-            else
-                log_failure_msg "Timed out waiting for $sensu_service to stop"
-                echo_fail
-            fi
-        else
-            echo_fail
-        fi
-
-        return $retval
-    else
-        log_action_msg "$sensu_service is stopped"
-        return 3
-    fi
+   ensure_dir $PID_DIR $USER
+   ensure_dir $LOG_DIR $USER
+   exec $svc_exec $options
 }
 
 case "$action" in
   start)
       start
       ;;
-  stop)
-      stop
-      ;;
-  restart)
-      restart
-      ;;
-  validate_config)
-      validate_config
+  validate)
+      validate
       ;;
   *)
-      echo "Usage: $0 {client|server|api} {start|stop|restart}"
+      echo "Usage: $0 {start|validate} {client|server|api} [fork]"
       exit 2
 esac
 

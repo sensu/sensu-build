@@ -12,6 +12,7 @@
 # Description:    Sensu monitoring framework service script
 ### END INIT INFO
 
+short_service=$1
 sensu_service=sensu-$1
 
 EMBEDDED_RUBY=true
@@ -147,20 +148,12 @@ fi
 
 cd /opt/sensu
 
-exec=/opt/sensu/bin/$sensu_service
+exec="/opt/sensu/bin/sensu-service"
 
 pidfile=$PID_DIR/$sensu_service.pid
 logfile=$LOG_DIR/$sensu_service.log
 
-options="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile -L $LOG_LEVEL $OPTIONS"
-
-ensure_dir() {
-    if [ ! -d $1 ]; then
-        mkdir -p $1
-        chown -R $2 $1
-        chmod 755 $1
-    fi
-}
+options="start $short_service fork"
 
 set_sensu_paths() {
     if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
@@ -197,12 +190,6 @@ wait_for_stop() {
     return $stopped
 }
 
-deregister_client() {
-    log_action_msg "Deregistering sensu-client"
-    echo "{ \"name\": \"api_call\", \"output\": \"delete\", \"process\": \"init\", \"user\": \"root\", \"status\": 1, \"handler\": \"${CLIENT_DEREGISTER_HANDLER}\"}" > \
-    /dev/tcp/localhost/3030
-}
-
 start() {
     log_daemon_msg "Starting $sensu_service"
 
@@ -215,10 +202,6 @@ start() {
         echo_ok
         exit 0
     fi
-
-    set_sensu_paths
-    ensure_dir $PID_DIR $USER
-    ensure_dir $LOG_DIR $USER
 
     start_daemon $USER $pidfile $exec "$options"
 
@@ -241,9 +224,6 @@ start() {
 }
 
 stop() {
-    if [ "x$CLIENT_DEREGISTER_ON_STOP" = "xtrue" ]; then
-       deregister_client
-    fi
     log_daemon_msg "Stopping $sensu_service"
 
     # try pgrep
@@ -321,8 +301,7 @@ status() {
 
 validate_config() {
     validate_pidfile=$PID_DIR/$sensu_service-validate.pid
-    validate_options="--validate_config -b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $validate_pidfile $OPTIONS"
-    start_daemon $USER $validate_pidfile $exec "$validate_options"
+    start_daemon $USER $validate_pidfile $exec "validate $short_service fork"
 }
 
 restart() {

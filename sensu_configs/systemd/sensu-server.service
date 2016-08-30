@@ -4,7 +4,7 @@ Description=sensu server
 [Service]
 User=sensu
 Group=sensu
-ExecStart=/opt/sensu/bin/sensu-server -c /etc/sensu/config.json -d /etc/sensu/conf.d -e /etc/sensu/extensions -l /var/log/sensu/sensu-server.log
+ExecStart=/opt/sensu/bin/sensu-service start server
 KillMode=process
 Restart=on-failure
 RestartSec=1min

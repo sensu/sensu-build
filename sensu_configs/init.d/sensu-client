@@ -12,6 +12,6 @@
 # Description:    Sensu monitoring framework client
 ### END INIT INFO
 
-/etc/init.d/sensu-service client $1
+/etc/init.d/sensu-service-init client $1
 
 exit $?

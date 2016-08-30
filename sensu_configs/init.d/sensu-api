@@ -12,6 +12,6 @@
 # Description:    Sensu monitoring framework api
 ### END INIT INFO
 
-/etc/init.d/sensu-service api $1
+/etc/init.d/sensu-service-init api $1
 
 exit $?

@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+action=$1
+sensu_service=sensu-$2
+forking=$3
+
+CONFIG_FILE=/etc/sensu/config.json
+CONFIG_DIR=/etc/sensu/conf.d
+EXTENSION_DIR=/etc/sensu/extensions
+PLUGINS_DIR=/etc/sensu/plugins
+HANDLERS_DIR=/etc/sensu/handlers
+PID_DIR=/var/run/sensu
+LOG_DIR=/var/log/sensu
+LOG_LEVEL=info
+USER=sensu
+
+if [ -f /etc/default/sensu ]; then
+    . /etc/default/sensu
+fi
+
+cd /opt/sensu
+
+svc_exec="/opt/sensu/bin/$sensu_service"
+
+logfile=$LOG_DIR/$sensu_service.log
+pidfile=$PID_DIR/$sensu_service.pid
+options="-c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile -L $LOG_LEVEL $OPTIONS"
+
+if [ "x$forking" = "xfork" ]; then
+    options="-b $options"
+fi
+
+ensure_dir() {
+    if [ ! -d $1 ]; then
+        mkdir -p $1
+        chown -R $2 $1
+        chmod 755 $1
+    fi
+}
+
+set_sensu_paths() {
+    if [ "x$EMBEDDED_RUBY" = "xtrue" ]; then
+        export PATH=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+        export GEM_PATH=/opt/sensu/embedded/lib/ruby/gems/2.3.0:$GEM_PATH
+    else
+        export PATH=$PATH:$PLUGINS_DIR:$HANDLERS_DIR
+    fi
+}
+
+validate() {
+    validate_options="--validate_config -b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR $OPTIONS"
+    $svc_exec $validate_options
+}
+
+start() {
+   set_sensu_paths
+   ensure_dir $PID_DIR $USER
+   ensure_dir $LOG_DIR $USER
+   exec $svc_exec $options
+}
+
+case "$action" in
+  start)
+      start
+      ;;
+  validate)
+      validate
+      ;;
+  *)
+      echo "Usage: $0 {start|validate} {client|server|api} [fork]"
+      exit 2
+esac
+
+exit $?
+

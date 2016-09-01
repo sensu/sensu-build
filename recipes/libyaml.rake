@@ -4,10 +4,16 @@ Bunchr::Software.new do |t|
 
   install_prefix = "#{Bunchr.install_dir}/embedded"
 
+  os = t.ohai['os']
+
   t.download_commands << "curl -O http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz"
   t.download_commands << "tar xfvz yaml-0.1.4.tar.gz"
 
   t.work_dir = "yaml-#{t.version}"
+
+  if os == 'freebsd'
+    t.build_environment['CFLAGS'] = '-fPIC'
+  end
 
   t.build_commands << "./configure --prefix=#{install_prefix}"
   t.build_commands << "make"

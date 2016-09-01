@@ -1,0 +1,45 @@
+#!/bin/sh
+
+. /etc/rc.subr
+
+name="sensu_${1}"
+rcvar="${name}_enable"
+
+prefix="/usr/local"
+
+EMBEDDED_RUBY="true"
+CONFIG_FILE="${prefix}/etc/sensu/config.json"
+CONFIG_DIR="${prefix}/etc/sensu/conf.d"
+EXTENSION_DIR="${prefix}/etc/sensu/extensions"
+PLUGINS_DIR="${prefix}/etc/sensu/plugins"
+LOG_DIR="/var/log/sensu"
+LOG_LEVEL="info"
+PID_DIR="/var/run/sensu"
+USER="sensu"
+SERVICE_MAX_WAIT="10"
+
+eval ${name}_chroot="/"
+eval ${name}_user="$USER"
+
+defaults_file="${prefix}/etc/default/sensu"
+
+if [ -f $defaults_file ]; then
+    . $defaults_file
+fi
+
+pidfile="${PID_DIR}/${name}.pid"
+logfile="${LOG_DIR}/${name}.log"
+
+if [ $EMBEDDED_RUBY = "true" ]; then
+    PATH=/opt/sensu/embedded/bin:$PATH:$PLUGINS_DIR
+    GEM_PATH=/opt/sensu/embedded/lib/ruby/gems/2.2.0:$GEM_PATH
+else
+    PATH=$PATH:$PLUGINS_DIR
+fi
+
+command="/opt/sensu/bin/sensu-${1}"
+command_args="-b -c $CONFIG_FILE -d $CONFIG_DIR -e $EXTENSION_DIR -p $pidfile -l $logfile -L $LOG_LEVEL $OPTIONS"
+command_interpreter="/opt/sensu/embedded/bin/ruby"
+
+load_rc_config $name
+run_rc_command $2

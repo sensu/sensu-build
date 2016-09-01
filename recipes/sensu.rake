@@ -12,13 +12,17 @@ Bunchr::Software.new do |t|
 
   compile_options = ''
 
-  if t.ohai['os'] == 'windows'
+  os = t.ohai['os']
+
+  if os == 'windows'
     install_prefix = "#{Bunchr.install_dir}\\embedded"
 
     compile_options << " --with-ssl-dir=#{install_prefix}\\bin"
     compile_options << " --with-ssl-lib=#{install_prefix}\\lib"
     compile_options << " --with-ssl-include=#{install_prefix}\\include"
     compile_options << " --with-opt-include=#{install_prefix}\\include"
+  elsif os == "freebsd"
+    compile_options << " --with-ldflags=\"-Wl,-L/usr/local/lib\""
   else
     t.install_commands << "#{gem_bin} update --system"
   end

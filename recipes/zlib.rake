@@ -20,7 +20,7 @@ Bunchr::Software.new do |t|
 
   # gcc will error if the lib dir doesn't exist, at least on some linux platforms
   unless File.directory?("#{install_prefix}/lib")
-    t.build_commands << "mkdir #{install_prefix}/lib"
+    t.build_commands << "mkdir -p #{install_prefix}/lib"
   end
 
   t.build_commands << "./configure --prefix=#{install_prefix}"

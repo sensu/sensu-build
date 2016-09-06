@@ -1,6 +1,6 @@
 gem 'systemu', '2.6.5'
 gem 'ohai', '6.18.0'
-gem 'bunchr', '0.1.7'
+gem 'bunchr', '0.1.8'
 
 require 'bunchr'
 require 'fileutils'

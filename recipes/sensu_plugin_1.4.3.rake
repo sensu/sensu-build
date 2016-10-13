@@ -1,5 +1,5 @@
 Bunchr::Software.new do |t|
-  version = "1.4.2"
+  version = "1.4.3"
 
   t.name = "sensu_plugin_#{version}"
   t.version = version

@@ -1,7 +1,7 @@
 Sensu packages, build suite
 ===========================
 
-This repo contains the toolset needed to build Sensu packages for all
+This repo contains the tool set needed to build Sensu packages for all
 currently supported platforms. The builds are 'omnibus' style packages
 that contain everything they need to run, including their own build of
 Ruby and all required gems.

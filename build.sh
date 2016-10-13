@@ -6,7 +6,7 @@ set -e
 
 commit=`git rev-parse HEAD`
 
-if [ $(git describe --exact-match $commit) ]; then
+if [ $(git describe --tags --exact-match $commit) ]; then
     echo 'Found build tag for commit.'
     echo 'Building packages ...'
 

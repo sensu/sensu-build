@@ -17,8 +17,6 @@ Bunchr::Software.new do |t|
 
   t.install_commands << "cp -f ./sensu_configs/logrotate.d/* /etc/logrotate.d/"
 
-  t.install_commands << "cp -f ./sensu_configs/init.d/* /etc/init.d/"
-
   t.install_commands << "mkdir /usr/share/sensu"
   t.install_commands << "cp -rf ./sensu_configs/init.d /usr/share/sensu/"
   t.install_commands << "cp -rf ./sensu_configs/upstart /usr/share/sensu/"
@@ -33,6 +31,5 @@ Bunchr::Software.new do |t|
   CLEAN << "/var/log/sensu"
   CLEAN << "/etc/sensu"
   CLEAN << "/etc/default/sensu"
-  CLEAN << "/etc/init.d/sensu-*"
   CLEAN << "/usr/share/sensu"
 end

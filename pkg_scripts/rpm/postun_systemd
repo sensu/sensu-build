@@ -1,0 +1,24 @@
+# Uninstall package - delete files and user
+if [ $1 -eq 0 ]; then
+    sensu_services="sensu-client sensu-server sensu-api"
+
+    /usr/bin/systemctl daemon-reload
+
+    # Delete sensu files
+    if [ -d "/usr/share/sensu" ]; then
+        rm -r /usr/share/sensu
+    fi
+    if [ -d "/opt/sensu" ]; then
+        rm -r /opt/sensu
+    fi
+
+    # Delete sensu user
+    if getent passwd sensu >/dev/null; then
+        userdel -f sensu
+    fi
+
+    # Delete sensu group
+    if getent group sensu >/dev/null; then
+        groupdel sensu
+    fi
+fi

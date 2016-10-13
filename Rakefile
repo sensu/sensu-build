@@ -30,6 +30,16 @@ Bunchr::Packages.new do |t|
   t.maintainer = 'Sensu Helpdesk <helpdesk@sensuapp.com>'
 
   platform_family = t.ohai.platform_family
+  platform_version = t.ohai.platform_version
+
+  init_strategy = \
+    if platform_family == 'rhel' && \
+      (Gem::Version.new(platform_version) >= Gem::Version.new('7'))
+      t.iteration = "#{ENV['BUILD_NUMBER']}.el7"
+      'systemd'
+    else
+      'init.d'
+    end
 
   case platform_family
   when 'windows'
@@ -48,9 +58,16 @@ Bunchr::Packages.new do |t|
       t.scripts[:after_remove]   = 'pkg_scripts/deb/postrm'
     when 'rhel', 'fedora', 'suse'
       t.scripts[:before_install] = 'pkg_scripts/rpm/pre'
-      t.scripts[:after_install]  = 'pkg_scripts/rpm/post'
-      t.scripts[:before_remove]  = 'pkg_scripts/rpm/preun'
-      t.scripts[:after_remove]   = 'pkg_scripts/rpm/postun'
+      case init_strategy
+      when 'init.d'
+        t.scripts[:after_install]  = 'pkg_scripts/rpm/post_init'
+        t.scripts[:before_remove]  = 'pkg_scripts/rpm/preun_init'
+        t.scripts[:after_remove]   = 'pkg_scripts/rpm/postun_init'
+      when 'systemd'
+        t.scripts[:after_install]  = 'pkg_scripts/rpm/post_systemd'
+        t.scripts[:before_remove]  = 'pkg_scripts/rpm/preun_systemd'
+        t.scripts[:after_remove]   = 'pkg_scripts/rpm/postun_systemd'
+      end
     end
 
     t.include_software('ruby')
@@ -63,19 +80,27 @@ Bunchr::Packages.new do |t|
 
     t.files << Bunchr.install_dir
     t.files << '/usr/share/sensu'
+    t.files << '/usr/bin/sensu-install'
     t.files << '/var/log/sensu'
     t.files << '/etc/sensu/plugins'
     t.files << '/etc/sensu/mutators'
     t.files << '/etc/sensu/handlers'
     t.files << '/etc/sensu/extensions'
 
-    # all linux platforms are currently using init.d
-    # this may change in the future.
-    t.files << '/etc/init.d/sensu-service'
-    t.files << '/etc/init.d/sensu-api'
-    t.files << '/etc/init.d/sensu-client'
-    t.files << '/etc/init.d/sensu-server'
-    t.files << '/usr/bin/sensu-install'
+    case init_strategy
+    when 'init.d'
+      t.include_software('sensu_init')
+      t.files << '/etc/init.d/sensu-service'
+      t.files << '/etc/init.d/sensu-api'
+      t.files << '/etc/init.d/sensu-client'
+      t.files << '/etc/init.d/sensu-server'
+    when 'systemd'
+      t.include_software('sensu_systemd')
+      t.files << '/usr/lib/systemd/system/sensu-api.service'
+      t.files << '/usr/lib/systemd/system/sensu-client.service'
+      t.files << '/usr/lib/systemd/system/sensu-server.service'
+      t.files << '/usr/lib/systemd/system/sensu-runsvdir.service'
+    end
 
     # need to enumerate config files for fpm
     # these are installed from recipe/sensu_configs.rake

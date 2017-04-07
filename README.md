@@ -1,6 +1,12 @@
 Sensu packages, build suite
 ===========================
 
+## IMPORTANT!
+
+**As of Sensu 0.27, circa February, 2017, this project is no longer used to build official Sensu packages.**
+
+**Please refer to the [sensu-omnibus](https://github.com/sensu/sensu-omnibus) project instead.**
+
 This repo contains the tool set needed to build Sensu packages for all
 currently supported platforms. The builds are 'omnibus' style packages
 that contain everything they need to run, including their own build of

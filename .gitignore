@@ -10,6 +10,8 @@ Attic
 *~
 tmp
 logs
+*.lock
+*.txz
 
 # YARD artifacts
 .yardoc

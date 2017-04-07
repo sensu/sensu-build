@@ -1,6 +1,6 @@
-gem 'systemu', '2.2.0'
+gem 'systemu', '2.6.5'
 gem 'ohai', '6.18.0'
-gem 'bunchr', '0.1.6'
+gem 'bunchr', '0.1.8'
 
 require 'bunchr'
 require 'fileutils'
@@ -29,6 +29,8 @@ Bunchr::Packages.new do |t|
   t.description = 'A monitoring framework that aims to be simple, malleable, and scalable.'
   t.maintainer = 'Sensu Helpdesk <helpdesk@sensuapp.com>'
 
+  os              = t.ohai.os
+  arch            = t.ohai.kernel["machine"]
   platform_family = t.ohai.platform_family
 
   case platform_family
@@ -51,6 +53,10 @@ Bunchr::Packages.new do |t|
       t.scripts[:after_install]  = 'pkg_scripts/rpm/post'
       t.scripts[:before_remove]  = 'pkg_scripts/rpm/preun'
       t.scripts[:after_remove]   = 'pkg_scripts/rpm/postun'
+    when 'freebsd'
+      t.scripts[:after_install]  = 'pkg_scripts/freebsd/postinst'
+      t.scripts[:before_remove]  = 'pkg_scripts/freebsd/prerm'
+      t.scripts[:after_remove]   = 'pkg_scripts/freebsd/postrm'
     end
 
     t.include_software('ruby')
@@ -61,28 +67,52 @@ Bunchr::Packages.new do |t|
     t.include_software('sensu_configs')
     t.include_software('sensu_bin_stubs')
 
+    etc_path = "/etc"
+    bin_path = "/usr/bin"
+    share_path = "/usr/share"
+    log_path = "/var/log"
+
+    if os == "freebsd"
+      etc_path = "/usr/local/etc"
+      bin_path = "/usr/local/bin"
+      share_path = "/usr/local/share"
+    end
+
     t.files << Bunchr.install_dir
-    t.files << '/usr/share/sensu'
-    t.files << '/var/log/sensu'
-    t.files << '/etc/sensu/plugins'
-    t.files << '/etc/sensu/mutators'
-    t.files << '/etc/sensu/handlers'
-    t.files << '/etc/sensu/extensions'
+    t.files << "#{share_path}/sensu"
+    t.files << "#{log_path}/sensu"
+    t.files << "#{etc_path}/sensu/plugins"
+    t.files << "#{etc_path}/sensu/mutators"
+    t.files << "#{etc_path}/sensu/handlers"
+    t.files << "#{etc_path}/sensu/extensions"
 
     # all linux platforms are currently using init.d
     # this may change in the future.
-    t.files << '/etc/init.d/sensu-service'
-    t.files << '/etc/init.d/sensu-api'
-    t.files << '/etc/init.d/sensu-client'
-    t.files << '/etc/init.d/sensu-server'
-    t.files << '/usr/bin/sensu-install'
+    if os == "linux"
+      t.files << "#{etc_path}/init.d/sensu-service"
+      t.files << "#{etc_path}/init.d/sensu-api"
+      t.files << "#{etc_path}/init.d/sensu-client"
+      t.files << "#{etc_path}/init.d/sensu-server"
+      t.files << "#{bin_path}/sensu-install"
+    end
+
+    if os == "freebsd"
+      t.files << "#{etc_path}/rc.d/sensu-service"
+      t.files << "#{etc_path}/rc.d/sensu-api"
+      t.files << "#{etc_path}/rc.d/sensu-client"
+      t.files << "#{etc_path}/rc.d/sensu-server"
+      t.files << "#{bin_path}/sensu-install"
+    end
 
     # need to enumerate config files for fpm
     # these are installed from recipe/sensu_configs.rake
-    t.config_files << '/etc/sensu/config.json.example'
-    t.config_files << '/etc/sensu/conf.d/README.md'
-    t.config_files << '/etc/logrotate.d/sensu'
-    t.config_files << '/etc/default/sensu'
+    t.config_files << "#{etc_path}/sensu/config.json.example"
+    t.config_files << "#{etc_path}/sensu/conf.d/README.md"
+    t.config_files << "#{etc_path}/default/sensu"
+
+    if os == "linux"
+      t.config_files << "#{etc_path}/logrotate.d/sensu"
+    end
   end
 end
 

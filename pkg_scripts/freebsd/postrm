@@ -1,0 +1,38 @@
+#!/bin/sh
+
+set -e
+
+sensu_services="sensu-client sensu-server sensu-api"
+
+purge_sensu_services() {
+    for service in $sensu_services; do
+        if [ -f "/usr/local/etc/rc.d/$service" ]; then
+            rm /usr/local/etc/rc.d/$service
+        fi
+    done
+}
+
+purge_sensu_files() {
+    if [ -d "/usr/local/share/sensu" ]; then
+        rm -r /usr/local/share/sensu
+    fi
+    if [ -d "/opt/sensu" ]; then
+        rm -r /opt/sensu
+    fi
+    rm -rf /tmp/sensu_*_loaded_files
+}
+
+purge_sensu_user_group() {
+    if getent passwd sensu >/dev/null; then
+        pw userdel sensu
+    fi
+    if getent group sensu >/dev/null; then
+        pw groupdel sensu
+    fi
+}
+
+purge_sensu_services
+purge_sensu_files
+purge_sensu_user_group
+
+exit 0

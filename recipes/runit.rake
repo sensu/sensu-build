@@ -12,14 +12,26 @@ Bunchr::Software.new do |t|
   gem_bin = File.join(install_prefix, 'bin', 'gem')
   scripts_dir = File.join(Dir.pwd,'runit_scripts')
 
-  t.download_commands << "curl -O http://smarden.org/runit/runit-#{t.version}.tar.gz"
-  t.download_commands << "test \"$(md5sum runit-#{t.version}.tar.gz|awk '{print $1}')\" = #{md5}"
-  t.download_commands << "tar zxvf runit-#{t.version}.tar.gz"
-
   os   = t.ohai['os']
   arch = t.ohai['kernel']['machine']
 
+  if os == "freebsd"
+    md5_command = "md5 -r"
+  else
+    md5_command = "md5sum"
+  end
+
+  t.download_commands << "curl -O http://smarden.org/runit/runit-#{t.version}.tar.gz"
+  t.download_commands << "test \"$(#{md5_command} runit-#{t.version}.tar.gz|awk '{print $1}')\" = #{md5}"
+  t.download_commands << "tar zxvf runit-#{t.version}.tar.gz"
+
+  if os == "freebsd"
+    t.download_commands << "curl -O https://raw.githubusercontent.com/freebsd/freebsd-ports/branches/RELENG_9_2_0/sysutils/runit/files/patch-utmpx"
+    t.download_commands << "patch -p1 -d admin/runit-#{t.version} < patch-utmpx"
+  end
+
   t.work_dir = "admin/runit-#{t.version}/src"
+
   t.build_commands << 'sed -i -e "s|^char\ \*varservice\ \=\"/service/\";$|char\ \*varservice\ \=\"' + service_path + '/\";|" sv.c'
   t.build_commands << 'sed -i -e s:-static:: Makefile'
   t.build_commands << "make"

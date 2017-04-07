@@ -1,0 +1,38 @@
+#!/bin/sh
+
+set -e
+
+create_sensu_user_group() {
+    # create sensu group
+    if ! getent group sensu >/dev/null; then
+        pw groupadd sensu
+    fi
+
+    # create sensu user
+    if ! getent passwd sensu >/dev/null; then
+        pw adduser sensu -g sensu -d /nonexistent \
+           -s /usr/sbin/nologin -c "Sensu Monitoring Framework"
+    fi
+}
+
+make_sensu_dirs() {
+    mkdir -p /var/run/sensu
+}
+
+chown_sensu_dirs() {
+    chown -R sensu:sensu /usr/local/etc/sensu
+    chown -R sensu:sensu /var/log/sensu
+    chown -R sensu:sensu /opt/sensu/sv
+    chown -R sensu:sensu /var/run/sensu
+}
+
+chmod_sensu_files() {
+    chmod +x /usr/local/bin/sensu-install
+}
+
+create_sensu_user_group
+make_sensu_dirs
+chown_sensu_dirs
+chmod_sensu_files
+
+exit 0

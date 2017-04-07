@@ -26,9 +26,6 @@ PID_DIR=/var/run/sensu
 USER=sensu
 SERVICE_MAX_WAIT=10
 
-if [ -f /etc/default/sensu ]; then
-    . /etc/default/sensu
-fi
 
 system=unknown
 if [ -f /etc/redhat-release ]; then
@@ -145,6 +142,9 @@ if [ "$system" = "suse" ]; then
     }
 fi
 
+if [ -f /etc/default/sensu ]; then
+    . /etc/default/sensu
+fi
 cd /opt/sensu
 
 exec=/opt/sensu/bin/$sensu_service

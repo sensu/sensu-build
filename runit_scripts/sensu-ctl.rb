@@ -135,7 +135,11 @@ def configure
   ohai.require_plugin("platform")
   case ohai.platform
   when "ubuntu"
-    setup_runsvdir_upstart
+    if ohai.platform_version >= '16.04'
+      setup_runsvdir_systemd
+    else ohai.platform_version < '16.04'
+      setup_runsvdir_upstart
+    end
   when "redhat", "centos", "rhel", "scientific"
     if ohai.platform_version =~ /^6/
       setup_runsvdir_upstart

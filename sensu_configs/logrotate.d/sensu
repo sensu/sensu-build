@@ -1,6 +1,7 @@
 /var/log/sensu/sensu-client.log {
     rotate 7
     daily
+    size 200M
     missingok
     notifempty
     sharedscripts

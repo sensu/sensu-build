@@ -34,7 +34,7 @@ GEM
       yajl-ruby
     rake (10.4.2)
     systemu (2.2.0)
-    yajl-ruby (1.2.1)
+    yajl-ruby (1.4.1)
 
 PLATFORMS
   ruby
